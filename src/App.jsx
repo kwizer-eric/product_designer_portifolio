@@ -2,9 +2,8 @@ import { useEffect } from 'react';
 import Lenis from '@studio-freight/lenis';
 import Hero from './components/Hero';
 import About from './components/About';
+import ProjectBento from './components/ProjectBento';
 import Skills from './components/Skills';
-import ProjectGrid from './components/ProjectGrid';
-import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
@@ -37,9 +36,8 @@ function App() {
     <div className="app">
       <Hero />
       <About />
+      <ProjectBento />
       <Skills />
-      <ProjectGrid />
-      <Testimonials />
       <Contact />
       <Footer />
     </div>

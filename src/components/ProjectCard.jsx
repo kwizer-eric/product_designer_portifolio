@@ -12,12 +12,20 @@ export default function ProjectCard({ project, index }) {
   const yImage = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
 
   return (
-    <div ref={cardRef} className="project-card">
+    <div ref={cardRef} className={`project-card ${index % 2 === 1 ? 'even' : ''}`}>
       {/* 1. Hero Image (Big & Confident) */}
       <div className="card-hero-wrapper">
         <motion.div style={{ y: yImage, height: "110%" }} className="card-hero-inner">
-          <div className="placeholder-img" style={{ backgroundColor: project.heroColor }}>
-            {project.title}
+          <div
+            className="placeholder-img"
+            style={{
+              backgroundColor: project.heroColor,
+              backgroundImage: `url(${project.heroImg})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          >
+            {/* Title overlay hidden if image loads, but useful for accessibility/loading */}
           </div>
         </motion.div>
       </div>
@@ -40,12 +48,29 @@ export default function ProjectCard({ project, index }) {
         <span className="section-label">Transformation</span>
         <div className="before-after-grid">
           <div className="ba-panel before-panel">
-            <div className="ba-label">Before</div>
-            <div className="placeholder-img" style={{ backgroundColor: project.beforeColor, fontSize: '2rem' }}>Legacy</div>
+            <div className="ba-label">Before / Legacy</div>
+            <div
+              className="placeholder-img"
+              style={{
+                backgroundColor: project.beforeColor,
+                backgroundImage: `url(${project.beforeImg})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                filter: 'grayscale(100%) contrast(120%)' // Grayscale for "Before"
+              }}
+            />
           </div>
           <div className="ba-panel after-panel">
-            <div className="ba-label" style={{ backgroundColor: project.color }}>After</div>
-            <div className="placeholder-img" style={{ backgroundColor: project.afterColor, fontSize: '2rem' }}>Redesign</div>
+            <div className="ba-label" style={{ backgroundColor: project.color }}>After / Redesign</div>
+            <div
+              className="placeholder-img"
+              style={{
+                backgroundColor: project.afterColor,
+                backgroundImage: `url(${project.afterImg})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+              }}
+            />
           </div>
         </div>
       </div>
@@ -54,9 +79,19 @@ export default function ProjectCard({ project, index }) {
       <div className="gallery-section">
         <span className="section-label">System Visuals</span>
         <div className="gallery-grid">
-          <div className="gallery-item"><div className="placeholder-img" style={{ backgroundColor: project.heroColor, opacity: 0.8 }} /></div>
-          <div className="gallery-item"><div className="placeholder-img" style={{ backgroundColor: project.heroColor, opacity: 0.6 }} /></div>
-          <div className="gallery-item"><div className="placeholder-img" style={{ backgroundColor: project.heroColor, opacity: 0.4 }} /></div>
+          {project.finalImgs.map((img, i) => (
+            <div key={i} className="gallery-item">
+              <div
+                className="placeholder-img"
+                style={{
+                  backgroundColor: project.heroColor,
+                  backgroundImage: `url(${img})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center'
+                }}
+              />
+            </div>
+          ))}
         </div>
       </div>
 

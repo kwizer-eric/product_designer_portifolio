@@ -1,223 +1,261 @@
 import { useRef, useState } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
-import './About.css';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 
-// --- Visual Components (Refined & Ethereal) ---
-
-const ProfileVisual = () => (
+const CyberSigil = () => (
   <motion.div
-    className="visual-card profile-visual"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 0.8, ease: "easeInOut" }}
+    className="cyber-sigil"
+    animate={{ rotate: 360 }}
+    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
   >
-    <div className="scanline" />
-    <div className="visual-inner">
-      <div className="abstract-shape"></div>
-    </div>
-    <div className="visual-caption">
-      <span>Erick</span>
-      <span>San Francisco</span>
-    </div>
+    <svg viewBox="0 0 100 100" fill="none" stroke="currentColor">
+      <circle cx="50" cy="50" r="45" strokeWidth="1" strokeDasharray="4 4" />
+      <circle cx="50" cy="50" r="30" strokeWidth="1" />
+      <path d="M50 5 L50 95 M5 50 L95 50" strokeWidth="0.5" />
+      <rect x="35" y="35" width="30" height="30" strokeWidth="1" transform="rotate(45 50 50)" />
+    </svg>
   </motion.div>
 );
 
-const PortalVisual = ({ mouseX, mouseY }) => (
-  <motion.div
-    className="visual-card portal-visual"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0, scale: 0.95, filter: "blur(20px)" }}
-    transition={{ duration: 1, ease: "easeInOut" }}
-  >
-    <motion.div style={{ x: mouseX, y: mouseY }} className="orb-core" />
-    <motion.div style={{ x: mouseX * -0.5, y: mouseY * -0.5 }} className="orb-glow" />
-  </motion.div>
+const GlitchHeader = ({ text }) => (
+  <div className="glitch-header-wrapper">
+    <h2 className="glitch-header" data-text={text}>{text}</h2>
+  </div>
 );
-
-const ConstructVisual = ({ mouseX, mouseY }) => (
-  <motion.div
-    className="visual-card construct-visual"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 0.8 }}
-  >
-    {/* Soft Glass Layers - Wrappers handle parallax, Inner divs handle CSS float/tilt */}
-    <motion.div style={{ x: mouseX, y: mouseY }} className="pane-wrapper pane-1-wrap">
-      <div className="glass-pane pane-1" />
-    </motion.div>
-    <motion.div style={{ x: mouseX * -0.5, y: mouseY * -0.5 }} className="pane-wrapper pane-2-wrap">
-      <div className="glass-pane pane-2" />
-    </motion.div>
-    <motion.div style={{ x: mouseX * 0.2, y: mouseY * 0.2 }} className="pane-wrapper pane-3-wrap">
-      <div className="glass-pane pane-3" />
-    </motion.div>
-  </motion.div>
-);
-
-const NetworkVisual = () => (
-  <motion.div
-    className="visual-card network-visual"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 1 }}
-  >
-    <div className="network-glow" />
-    {[...Array(30)].map((_, i) => (
-      <motion.div
-        key={i}
-        className="star-node"
-        animate={{
-          opacity: [0.2, 0.8, 0.2],
-          scale: [1, 1.5, 1],
-        }}
-        transition={{ duration: 3 + Math.random() * 5, repeat: Infinity, ease: "easeInOut", delay: Math.random() * 5 }}
-        style={{
-          left: `${Math.random() * 100}%`,
-          top: `${Math.random() * 100}%`
-        }}
-      />
-    ))}
-  </motion.div>
-)
 
 export default function About() {
   const containerRef = useRef(null);
-  const [activeSection, setActiveSection] = useState(0);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end end"]
+    offset: ["start end", "end start"]
   });
 
-  const yText = useTransform(scrollYProgress, [0, 1], ["0%", "-10%"]);
-
-  // Mouse Parallax Logic
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 40, damping: 30 });
-  const springY = useSpring(y, { stiffness: 40, damping: 30 });
-
-  function handleMouseMove({ clientX, clientY, currentTarget }) {
-    const { width, height, left, top } = currentTarget.getBoundingClientRect();
-    const centerX = left + width / 2;
-    const centerY = top + height / 2;
-    x.set((clientX - centerX) / 40);
-    y.set((clientY - centerY) / 40);
-  }
+  const yParallax = useTransform(scrollYProgress, [0, 1], ["0%", "-20%"]);
+  const rotateSlight = useTransform(scrollYProgress, [0, 1], [2, -2]);
 
   return (
-    <section
-      ref={containerRef}
-      className="about-section"
-      onMouseMove={handleMouseMove}
-    >
+    <section ref={containerRef} className="about-section">
       <div className="container">
-        <div className="about-layout">
 
-          {/* Left Column: Dynamic Sticky Visual */}
-          <div className="about-sticky-col">
-            <div className="about-sticky-wrapper">
-              <AnimatePresence mode="popLayout" custom={activeSection}>
-                {activeSection === 0 && <ProfileVisual key="profile" />}
-                {activeSection === 1 && <PortalVisual key="portal" mouseX={springX} mouseY={springY} />}
-                {activeSection === 2 && <ConstructVisual key="construct" mouseX={springX} mouseY={springY} />}
-                {activeSection === 3 && <NetworkVisual key="network" />}
-              </AnimatePresence>
+        <div className="about-grid">
+          {/* Left Column: Fixed/Sticky Visuals */}
+          <div className="about-visual-col">
+            <div className="sticky-visuals">
+              <CyberSigil />
+              <div className="profile-frame">
+                <div className="noise-overlay" />
+                <div className="profile-glow" />
+                <div className="profile-label">
+                  <span>OPERATOR: ERICK</span>
+                  <span>STATUS: ONLINE</span>
+                  <span>LOC: SF_CA</span>
+                </div>
+              </div>
             </div>
           </div>
 
           {/* Right Column: Scrolling Manifesto */}
-          <motion.div style={{ y: yText }} className="about-scroll-col">
-            {/* 0. Intro */}
-            <motion.div
-              className="manifesto-block"
-              onViewportEnter={() => setActiveSection(0)}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ margin: "-30% 0px -30% 0px", once: true }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-            >
-              <span className="manifesto-label">00 / Introduction</span>
-              <h2 className="manifesto-text">
-                Hi, I'm <span className="highlight">Erick</span>. A multidisciplinary designer obsessed with the space between function and beauty.
-              </h2>
-              <p className="manifesto-p">
-                I craft digital experiences that solve complex problems with clarity and emotion. My work bridges the gap between strategic thinking and pixel-perfect execution.
+          <motion.div style={{ y: yParallax, rotate: rotateSlight }} className="about-content-col">
+
+            <div className="content-block">
+              <span className="block-idx">01</span>
+              <GlitchHeader text="THE ARCHITECT" />
+              <p className="manifesto-text">
+                I don't just design interfaces; I engineer <span className="highlight">digital realities</span>.
+                Obsessed with the friction between human intuition and machine logic.
               </p>
-              <a href="/resume.pdf" className="resume-btn" target="_blank" rel="noopener noreferrer">
-                View Resume <span className="arrow">→</span>
-              </a>
-            </motion.div>
+            </div>
 
-            {/* 1. Vision */}
-            <motion.div
-              className="manifesto-block offset"
-              onViewportEnter={() => setActiveSection(1)}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ margin: "-30% 0px -30% 0px", once: true }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-            >
-              <span className="manifesto-label">01 / The Vision</span>
-              <h2 className="manifesto-text">
-                Digital products should feel <span className="highlight">inevitable</span>.
-                Like they've always existed, waiting to be discovered.
-              </h2>
-            </motion.div>
-
-            {/* 2. Approach */}
-            <motion.div
-              className="manifesto-block offset"
-              onViewportEnter={() => setActiveSection(2)}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ margin: "-30% 0px -30% 0px", once: true }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-            >
-              <span className="manifesto-label">02 / The Approach</span>
-              <h2 className="manifesto-text">
-                I bridge the gap between <span className="highlight">system</span> and <span className="highlight">soul</span>.
-                Crafting interfaces that are rigidly functional yet emotionally resonant.
-              </h2>
-            </motion.div>
-
-            {/* 3. Experience */}
-            <motion.div
-              className="manifesto-block"
-              onViewportEnter={() => setActiveSection(3)}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ margin: "-30% 0px -30% 0px", once: true }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-            >
-              <span className="manifesto-label">03 / The Experience</span>
-              <p className="manifesto-p">
-                With over 8 years of experience, I've defined visual languages for global brands.
-                My work is rooted in the belief that every pixel serves a purpose, and every interaction tells a story.
+            <div className="content-block offset-right">
+              <span className="block-idx">02</span>
+              <GlitchHeader text="METHODOLOGY" />
+              <p className="manifesto-text">
+                Systematic chaos. Bridging the gap between <span className="highlight">raw data</span> and
+                <span className="highlight">visceral emotion</span>. Every pixel is a calculated decision.
               </p>
-              <div className="stats-row">
-                <div className="stat">
-                  <span className="stat-num">8+</span>
-                  <span className="stat-label">Years Exp.</span>
+            </div>
+
+            <div className="content-block">
+              <span className="block-idx">03</span>
+              <GlitchHeader text="CAPABILITIES" />
+              <div className="stats-grid">
+                <div className="stat-item">
+                  <h3>8+</h3>
+                  <p>Years in Field</p>
                 </div>
-                <div className="stat">
-                  <span className="stat-num">40+</span>
-                  <span className="stat-label">Projects</span>
+                <div className="stat-item">
+                  <h3>40+</h3>
+                  <p>Systems Shipped</p>
                 </div>
-                <div className="stat">
-                  <span className="stat-num">Global</span>
-                  <span className="stat-label">Reach</span>
+                <div className="stat-item">
+                  <h3>∞</h3>
+                  <p>Iterations</p>
                 </div>
               </div>
-            </motion.div>
+              <a href="/resume.pdf" className="cyber-btn" target="_blank">
+                INITIATE DOWNLOAD <span className="arrow">↗</span>
+              </a>
+            </div>
 
           </motion.div>
-
         </div>
+
       </div>
+
+      <style>{`
+        .about-section {
+            background-color: #050505;
+            color: #fff;
+            padding: 10rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        /* Left Column */
+        .about-visual-col {
+            position: relative;
+            height: 100%;
+        }
+
+        .sticky-visuals {
+            position: sticky;
+            top: 20vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .cyber-sigil {
+            width: 300px;
+            height: 300px;
+            color: rgba(59, 91, 219, 0.2);
+        }
+
+        .profile-frame {
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            background: rgba(10, 10, 10, 0.5);
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .profile-label {
+            display: flex;
+            justify-content: space-between;
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #555;
+            letter-spacing: 0.1em;
+        }
+
+        /* Right Column */
+        .about-content-col {
+            padding-top: 10vh;
+            display: flex;
+            flex-direction: column;
+            gap: 15vh;
+        }
+
+        .content-block {
+            position: relative;
+        }
+
+        .block-idx {
+            font-family: monospace;
+            font-size: 1rem;
+            color: #3b5bdb;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .glitch-header {
+            font-size: clamp(3rem, 6vw, 6rem);
+            font-weight: 800;
+            line-height: 0.9;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            position: relative;
+            color: #fff;
+        }
+
+        .manifesto-text {
+            font-size: 1.5rem;
+            line-height: 1.4;
+            color: #aaa;
+            max-width: 600px;
+        }
+
+        .highlight {
+            color: #fff;
+            text-decoration: underline;
+            text-decoration-color: #3b5bdb;
+            text-underline-offset: 4px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 3rem 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+        }
+
+        .stat-item h3 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #3b5bdb;
+        }
+
+        .stat-item p {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #666;
+        }
+
+        .cyber-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            background: #fff;
+            color: #000;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+        }
+
+        .cyber-btn:hover {
+            background: #3b5bdb;
+            color: #fff;
+        }
+
+        @media (max-width: 900px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            .sticky-visuals {
+                position: relative;
+                top: 0;
+                margin-bottom: 4rem;
+            }
+        }
+      `}</style>
     </section>
   );
 }

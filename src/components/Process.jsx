@@ -3,224 +3,292 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 
 const steps = [
     {
-        icon: (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="step-svg">
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
-                <path d="M15 9h.01" />
-                <path d="M9 9h.01" />
-            </svg>
-        ),
-        title: "DISCOVERY",
-        description: "Deep dive into vision and user needs.",
-        color: "#ffffff"
+        id: "01",
+        title: "Discovery",
+        description: "We dive deep into your vision, understanding user needs and market gaps.",
+        image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop" // Abstract Tech/Globe
     },
     {
-        icon: (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="step-svg">
-                <path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-            </svg>
-        ),
-        title: "DESIGN",
-        description: "High-fidelity prototypes and systems.",
-        color: "#ffffff"
+        id: "02",
+        title: "Strategy",
+        description: "Crafting a roadmap that aligns business goals with user-centric design.",
+        image: "https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=800&auto=format&fit=crop" // Abstract Nodes
     },
     {
-        icon: (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="step-svg">
-                <polyline points="16 18 22 12 16 6" />
-                <polyline points="8 6 2 12 8 18" />
-            </svg>
-        ),
-        title: "DEVELOPMENT",
-        description: "Robust, scalable engineering.",
-        color: "#ffffff"
+        id: "03",
+        title: "Design",
+        description: "Visualizing the solution with high-fidelity prototypes and systems.",
+        image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800&auto=format&fit=crop" // Abstract Fluid/Neon
     },
     {
-        icon: (
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="step-svg">
-                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
-                <path d="M18 9h1.5a2.5 2.5 0 0 1 0-5H18" />
-                <path d="M4 22h16" />
-                <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" />
-                <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" />
-                <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" />
-            </svg>
-        ),
-        title: "LAUNCH",
-        description: "Deploy, monitor, and scale.",
-        color: "#a3e635" // Green
+        id: "04",
+        title: "Development",
+        description: "Building robust, scalable solutions with pixel-perfect precision.",
+        image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop" // Code
     }
 ];
 
-const ProcessCard = ({ step, index }) => {
-    const isLast = index === steps.length - 1;
-    const accentColor = isLast ? "#a3e635" : "#ffffff";
+const ProcessCard = ({ step, index, total, scrollYProgress }) => {
+    // Calculate start and end points for this card's animation based on total steps
+    const stepSize = 1 / total;
+    const start = stepSize * index;
+    const end = start + stepSize;
+
+    // Animate Y position: starts lower (100% of height) and moves to 0
+    const y = useTransform(
+        scrollYProgress,
+        [start, end],
+        ['100%', '0%']
+    );
+
+    // Animate Opacity: fade in as it moves up
+    const opacity = useTransform(
+        scrollYProgress,
+        [start, start + (stepSize * 0.5)], // Fades in quickly
+        [0, 1]
+    );
 
     return (
-        <div className="process-card-container">
-            <motion.div
-                className="process-card"
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ margin: "-10%" }}
-                transition={{ duration: 0.5 }}
-            >
-                {/* Bracket Corners */}
-                <div className="bracket tl" style={{ borderColor: accentColor }} />
-                <div className="bracket tr" style={{ borderColor: accentColor }} />
-                <div className="bracket bl" style={{ borderColor: accentColor }} />
-                <div className="bracket br" style={{ borderColor: accentColor }} />
+        <motion.div
+            className="process-card"
+            style={{ y, opacity }}
+        >
+            <div className="card-image-wrapper">
+                <img src={step.image} alt={step.title} className="card-image" />
+                <div className="card-overlay" />
+            </div>
 
-                <div className="card-content">
-                    <div className="icon-wrapper" style={{ color: accentColor }}>
-                        {step.icon}
-                    </div>
-                    <h3 className="step-title" style={{ color: isLast ? accentColor : '#fff' }}>{step.title}</h3>
-                    <p className="step-desc">{step.description}</p>
+            <div className="card-content">
+                <span className="step-id">{step.id}</span>
+                <div className="text-group">
+                    <h3 className="card-title">{step.title}</h3>
+                    <p className="card-desc">{step.description}</p>
                 </div>
-
-            </motion.div>
-        </div>
+            </div>
+        </motion.div>
     );
 };
 
 export default function Process() {
     const containerRef = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end end"]
+    });
 
     return (
         <section ref={containerRef} className="process-section">
-            <div className="container">
-
-                <div className="process-header">
-                    <span className="sub-label">HOW IT WORKS</span>
-                    <h2 className="title">FROM IDEA TO LAUNCH</h2>
-                    <p className="subtitle">Crafting your next-gen digital success path</p>
+            <div className="sticky-wrapper">
+                <div className="header-content">
+                    <span className="label">THE JOURNEY</span>
+                    <h2 className="title">Process</h2>
                 </div>
 
-                <div className="cards-stack-wrapper">
+                <div className="cards-container">
                     {steps.map((step, i) => (
-                        <ProcessCard key={i} step={step} index={i} />
+                        <ProcessCard
+                            key={i}
+                            step={step}
+                            index={i}
+                            total={steps.length}
+                            scrollYProgress={scrollYProgress}
+                        />
                     ))}
                 </div>
-
             </div>
 
             <style>{`
-        .process-section {
-            background-color: #000;
-            color: #fff;
-            padding: 10rem 2rem;
-            position: relative;
-        }
+                .process-section {
+                    height: 300vh; /* Scrollytelling length */
+                    background-color: var(--color-bg);
+                    color: var(--color-text);
+                    position: relative;
+                }
 
-        .container {
-            max-width: 600px; /* Keep it focused */
-            margin: 0 auto;
-        }
+                .sticky-wrapper {
+                    position: sticky;
+                    top: 0;
+                    height: 100vh;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    overflow: hidden;
+                    padding: 0 5vw;
+                }
 
-        .process-header {
-            text-align: center;
-            margin-bottom: 6rem;
-        }
+                .header-content {
+                    text-align: center;
+                    margin-bottom: 4vh;
+                    position: absolute;
+                    top: 10vh;
+                    width: 100%;
+                    left: 0;
+                    z-index: 10;
+                    pointer-events: none;
+                }
 
-        .sub-label {
-            color: #a3e635; /* Neon Green */
-            font-family: monospace;
-            font-size: 0.9rem;
-            letter-spacing: 0.2em;
-            display: block;
-            margin-bottom: 1rem;
-        }
+                .label {
+                    color: var(--color-accent);
+                    font-size: 0.8rem;
+                    letter-spacing: 0.2em;
+                    text-transform: uppercase;
+                    display: block;
+                    margin-bottom: 1rem;
+                    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+                }
 
-        .title {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            line-height: 1;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-        }
+                .title {
+                    font-family: var(--font-main);
+                    font-size: clamp(3rem, 5vw, 6rem);
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    line-height: 1;
+                    margin: 0;
+                    text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+                }
 
-        .subtitle {
-            font-size: 0.9rem;
-            color: #666;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-        }
+                .cards-container {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-end; /* Align bottom */
+                    gap: 1.5rem;
+                    width: 100%;
+                    height: 65vh; /* Area for cards */
+                    max-width: var(--container-width);
+                    margin: 0 auto;
+                    position: relative;
+                    top: 5vh;
+                }
 
-        .cards-stack-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 15vh;
-            padding-bottom: 10vh;
-        }
+                .process-card {
+                    flex: 1;
+                    height: 100%;
+                    max-height: 600px;
+                    border-radius: 16px;
+                    overflow: hidden;
+                    position: relative;
+                    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+                    border: 1px solid rgba(255,255,255,0.1);
+                    transform-origin: bottom center;
+                }
 
-        .process-card-container {
-            position: sticky;
-            top: 25vh;
-            height: 350px;
-            display: flex;
-            justify-content: center;
-        }
+                .card-image-wrapper {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 1;
+                }
 
-        .process-card {
-            width: 100%;
-            height: 100%;
-            background: #030303;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
-        }
+                .card-image {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: transform 0.7s ease;
+                }
 
-        /* Brackets */
-        .bracket {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border-style: solid;
-            border-width: 2px;
-            pointer-events: none;
-            transition: all 0.3s ease;
-        }
+                .process-card:hover .card-image {
+                    transform: scale(1.1);
+                }
 
-        .tl { top: 0; left: 0; border-right: none; border-bottom: none; }
-        .tr { top: 0; right: 0; border-left: none; border-bottom: none; }
-        .bl { bottom: 0; left: 0; border-right: none; border-top: none; }
-        .br { bottom: 0; right: 0; border-left: none; border-top: none; }
+                .card-overlay {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(
+                        to top,
+                        rgba(0,0,0,0.95) 0%,
+                        rgba(0,0,0,0.6) 50%,
+                        rgba(0,0,0,0.2) 100%
+                    );
+                    z-index: 2;
+                }
 
-        .card-content {
-            text-align: center;
-            padding: 2rem;
-        }
+                .card-content {
+                    position: relative;
+                    z-index: 3;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-end;
+                    padding: 2rem;
+                }
 
-        .icon-wrapper {
-            font-size: 4rem;
-            margin-bottom: 2rem;
-            display: flex;
-            justify-content: center;
-        }
-        
-        .step-svg {
-            width: 80px;
-            height: 80px;
-        }
+                .step-id {
+                    font-size: 5rem;
+                    font-weight: 800;
+                    color: transparent;
+                    -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+                    line-height: 1;
+                    margin-bottom: auto; /* Pushes number to top */
+                    padding-top: 1rem;
+                }
 
-        .step-title {
-            font-size: 2rem;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            margin-bottom: 1rem;
-        }
+                .text-group {
+                    transform: translateY(0);
+                    transition: transform 0.3s ease;
+                }
 
-        .step-desc {
-            font-size: 1rem;
-            color: #888;
-            font-family: monospace;
-            max-width: 300px;
-            margin: 0 auto;
-        }
-      `}</style>
+                .card-title {
+                    font-size: 1.8rem;
+                    font-weight: 700;
+                    margin-bottom: 0.5rem;
+                    color: #fff;
+                    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+                }
+
+                .card-desc {
+                    font-size: 1rem;
+                    line-height: 1.5;
+                    color: #ccc;
+                    text-shadow: 0 1px 5px rgba(0,0,0,0.8);
+                }
+
+                @media (max-width: 1024px) {
+                    .cards-container {
+                        gap: 1rem;
+                    }
+                    .step-id {
+                        font-size: 3rem;
+                    }
+                    .card-content {
+                        padding: 1.5rem;
+                    }
+                }
+
+                @media (max-width: 768px) {
+                    .process-section {
+                        height: auto;
+                    }
+                    .sticky-wrapper {
+                        position: relative;
+                        height: auto;
+                        padding: 4rem 1.5rem;
+                        display: block;
+                    }
+                    .header-content {
+                        position: relative;
+                        top: 0;
+                        margin-bottom: 3rem;
+                    }
+                    .cards-container {
+                        flex-direction: column;
+                        height: auto;
+                        gap: 2rem;
+                        align-items: stretch;
+                        top: 0;
+                    }
+                    .process-card {
+                        opacity: 1 !important;
+                        transform: none !important;
+                        height: 400px;
+                        max-height: none;
+                    }
+                }
+            `}</style>
         </section>
     );
 }

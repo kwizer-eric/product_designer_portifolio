@@ -5,6 +5,7 @@ import Story from './components/Story';
 import Services from './components/Services';
 import Process from './components/Process';
 import Work from './components/Work';
+import Gallery from './components/Gallery';
 import About from './components/About';
 import Skills from './components/Skills';
 import ProjectGrid from './components/ProjectGrid';
@@ -44,6 +45,7 @@ function App() {
       <Services />
       <Process />
       <Work />
+      <Gallery />
       <About />
       <Skills />
       <Testimonials />

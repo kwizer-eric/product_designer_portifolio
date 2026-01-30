@@ -86,7 +86,7 @@ export default function Gallery() {
                             viewport={{ once: true, margin: "-50px" }}
                             transition={{ delay: index * 0.05 }}
                         >
-                            <div className="gallery-img-container">
+                            <div className="gallery-img-box">
                                 <img src={item.image} alt={item.title} />
                                 <div className="corner corner-tl" />
                                 <div className="corner corner-br" />
@@ -158,24 +158,25 @@ export default function Gallery() {
                     cursor: pointer;
                 }
 
-                .gallery-img-container {
+                /* Renamed class to force style update */
+                .gallery-img-box {
                     width: 100%;
-                    height: 600px; /* Significantly increased height */
+                    height: 75vh !important; /* Forces a very tall, dramatic vertical card */
                     background: #0a0a0a;
                     position: relative;
                     overflow: hidden;
                     border: 1px solid rgba(255,255,255,0.05);
                 }
 
-                .gallery-img-container img {
+                .gallery-img-box img {
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
-                    transition: transform 0.5s ease;
+                    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
                 }
 
-                .gallery-item:hover .gallery-img-container img {
-                    transform: scale(1.05);
+                .gallery-item:hover .gallery-img-box img {
+                    transform: scale(1.03);
                 }
 
                 .corner {

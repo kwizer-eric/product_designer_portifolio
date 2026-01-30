@@ -1,6 +1,11 @@
 import { useEffect } from 'react';
 import Lenis from '@studio-freight/lenis';
 import Hero from './components/Hero';
+import Story from './components/Story';
+import Services from './components/Services';
+import Process from './components/Process';
+import Work from './components/Work';
+import Gallery from './components/Gallery';
 import About from './components/About';
 import ProjectBento from './components/ProjectBento';
 import Skills from './components/Skills';
@@ -35,9 +40,15 @@ function App() {
   return (
     <div className="app">
       <Hero />
+      <Story />
+      <Services />
+      <Process />
+      <Work />
+      <Gallery />
       <About />
       <ProjectBento />
       <Skills />
+      <Testimonials />
       <Contact />
       <Footer />
     </div>

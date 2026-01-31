@@ -6,10 +6,7 @@ import Services from './components/Services';
 import Process from './components/Process';
 import Work from './components/Work';
 import Gallery from './components/Gallery';
-import About from './components/About';
-import ProjectBento from './components/ProjectBento';
-import Skills from './components/Skills';
-import Contact from './components/Contact';
+import Testimonials from './components/Testimonials';
 import Footer from './components/Footer';
 
 function App() {
@@ -45,11 +42,7 @@ function App() {
       <Process />
       <Work />
       <Gallery />
-      <About />
-      <ProjectBento />
-      <Skills />
       <Testimonials />
-      <Contact />
       <Footer />
     </div>
   );

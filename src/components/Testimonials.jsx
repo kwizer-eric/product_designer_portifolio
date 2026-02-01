@@ -33,89 +33,153 @@ export default function Testimonials() {
     setActiveIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
 
+  // Staggered text animation variants
+  const quoteVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.02,
+        delayChildren: 0.1
+      }
+    },
+    exit: {
+      opacity: 0,
+      transition: { duration: 0.3 }
+    }
+  };
+
+  const wordVariants = {
+    hidden: { opacity: 0, y: 20, filter: 'blur(10px)' },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      transition: { duration: 0.4, ease: [0.2, 0.65, 0.3, 0.9] }
+    }
+  };
+
   return (
     <section className="testimonials-section">
       <div className="container">
-        <div className="testimonials-layout">
+        <motion.div
+          initial={{ opacity: 0, y: 100 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="testimonials-layout"
+        >
 
           {/* Left Column: Content */}
           <div className="content-col">
-            <div className="quote-icon">“</div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 0.5, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, delay: 0.2 }}
+              className="quote-icon"
+            >
+              “
+            </motion.div>
 
-            <div className="quote-slider">
+            <div className="quote-wrapper">
               <AnimatePresence mode='wait'>
                 <motion.div
                   key={activeIndex}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.5 }}
+                  variants={quoteVariants}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
                   className="active-quote-block"
                 >
                   <p className="quote-text">
-                    {testimonials[activeIndex].quote}
+                    {testimonials[activeIndex].quote.split(" ").map((word, i) => (
+                      <motion.span key={i} variants={wordVariants} className="word">
+                        {word}{"\u00A0"}
+                      </motion.span>
+                    ))}
                   </p>
 
-                  <div className="author-block">
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.5, duration: 0.5 }}
+                    className="author-block"
+                  >
                     <div className="author-line" />
                     <div className="author-info">
                       <span className="name">{testimonials[activeIndex].author}</span>
                       <span className="role">{testimonials[activeIndex].role}</span>
                     </div>
-                  </div>
+                  </motion.div>
                 </motion.div>
               </AnimatePresence>
             </div>
 
             <div className="nav-buttons">
-              <button onClick={prevTestimonial} className="nav-btn prev">
+              <motion.button
+                whileHover={{ scale: 1.1, backgroundColor: "#fff", color: "#000" }}
+                whileTap={{ scale: 0.95 }}
+                onClick={prevTestimonial}
+                className="nav-btn prev"
+              >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M15 18l-6-6 6-6" />
                 </svg>
-              </button>
-              <button onClick={nextTestimonial} className="nav-btn next">
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.1, backgroundColor: "#fff", color: "#000" }}
+                whileTap={{ scale: 0.95 }}
+                onClick={nextTestimonial}
+                className="nav-btn next"
+              >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M9 18l6-6-6-6" />
                 </svg>
-              </button>
+              </motion.button>
             </div>
           </div>
 
           {/* Right Column: Image */}
           <div className="image-col">
             <div className="image-frame">
-              {/* Corner Markers */}
-              <div className="corner c-tl" />
-              <div className="corner c-tr" />
-              <div className="corner c-bl" />
-              <div className="corner c-br" />
+              {/* Corner Markers with Pulse */}
+              <motion.div animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 2, repeat: Infinity }} className="corner c-tl" />
+              <motion.div animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 2, repeat: Infinity, delay: 0.5 }} className="corner c-tr" />
+              <motion.div animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 2, repeat: Infinity, delay: 1.0 }} className="corner c-bl" />
+              <motion.div animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 2, repeat: Infinity, delay: 1.5 }} className="corner c-br" />
 
               <AnimatePresence mode='wait'>
-                <motion.img
+                <motion.div
                   key={activeIndex}
-                  src={testimonials[activeIndex].image}
-                  alt={testimonials[activeIndex].author}
-                  className="testimonial-image"
-                  initial={{ opacity: 0, scale: 1.05 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.6 }}
-                />
+                  className="image-reveal-mask"
+                  initial={{ clipPath: 'inset(0 100% 0 0)' }}
+                  animate={{ clipPath: 'inset(0 0% 0 0)' }}
+                  exit={{ clipPath: 'inset(0 0% 0 100%)' }}
+                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <img
+                    src={testimonials[activeIndex].image}
+                    alt={testimonials[activeIndex].author}
+                    className="testimonial-image"
+                  />
+                </motion.div>
               </AnimatePresence>
             </div>
           </div>
 
-        </div>
+        </motion.div>
       </div>
 
       <style>{`
                 .testimonials-section {
-                    background-color: #000;
+                    background-color: #050505;
                     color: #fff;
                     padding: 10vh 5vw;
                     min-height: 80vh;
                     display: flex;
                     align-items: center;
+                    overflow: hidden;
                 }
 
                 .container {
@@ -134,6 +198,7 @@ export default function Testimonials() {
                 /* Left Column */
                 .content-col {
                     position: relative;
+                    z-index: 10;
                 }
 
                 .quote-icon {
@@ -143,13 +208,25 @@ export default function Testimonials() {
                     font-family: serif;
                     margin-bottom: 2rem;
                     opacity: 0.5;
+                    pointer-events: none;
+                }
+
+                .quote-wrapper {
+                    min-height: 300px; /* Prevent layout shift */
                 }
 
                 .quote-text {
-                    font-size: clamp(2rem, 3vw, 2.5rem);
+                    font-size: clamp(2rem, 3vw, 2.8rem);
                     line-height: 1.2;
                     margin-bottom: 4rem;
-                    font-weight: 400;
+                    font-weight: 300;
+                    letter-spacing: -0.02em;
+                    display: flex;
+                    flex-wrap: wrap;
+                }
+                
+                .word {
+                    display: inline-block;
                 }
 
                 .author-block {
@@ -172,38 +249,36 @@ export default function Testimonials() {
 
                 .name {
                     font-size: 1.2rem;
-                    font-weight: 500;
+                    font-weight: 600;
+                    letter-spacing: 0.5px;
                 }
 
                 .role {
                     color: #888;
-                    font-size: 1rem;
+                    font-size: 0.9rem;
+                    font-family: monospace;
+                    text-transform: uppercase;
+                    letter-spacing: 0.1em;
                 }
 
                 .nav-buttons {
                     margin-top: 4rem;
                     display: flex;
-                    gap: 1rem;
+                    gap: 1.5rem;
                 }
 
                 .nav-btn {
-                    width: 50px;
-                    height: 50px;
+                    width: 60px;
+                    height: 60px;
                     border-radius: 50%;
-                    background: #222;
-                    border: 1px solid #333;
+                    background: transparent;
+                    border: 1px solid rgba(255,255,255,0.2);
                     color: #fff;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     cursor: pointer;
-                    transition: all 0.3s ease;
-                }
-
-                .nav-btn:hover {
-                    background: #fff;
-                    color: #000;
-                    border-color: #fff;
+                    outline: none;
                 }
 
                 /* Right Column */
@@ -218,12 +293,16 @@ export default function Testimonials() {
                     padding: 20px;
                 }
 
+                .image-reveal-mask {
+                    width: 100%;
+                    height: 100%;
+                }
+
                 .testimonial-image {
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
-                    background: #111;
-                    filter: grayscale(100%);
+                    filter: grayscale(100%) contrast(1.1);
                 }
 
                 .corner {
@@ -231,7 +310,7 @@ export default function Testimonials() {
                     width: 30px;
                     height: 30px;
                     border: 2px solid #fff;
-                    z-index: 10;
+                    z-index: 20;
                 }
 
                 .c-tl { top: 0; left: 0; border-right: none; border-bottom: none; }
@@ -242,19 +321,24 @@ export default function Testimonials() {
                 @media (max-width: 900px) {
                     .testimonials-layout {
                         grid-template-columns: 1fr;
-                        gap: 4rem;
+                        gap: 2rem;
                     }
                     .testimonials-section {
-                        padding: 5rem 2rem;
+                        padding: 5rem 5vw;
+                    }
+                    .quote-wrapper {
+                        min-height: auto;
+                        margin-bottom: 2rem;
                     }
                     .quote-text {
-                        font-size: 1.5rem;
+                        font-size: 1.8rem;
                     }
                     .image-frame {
                         aspect-ratio: 16/9;
+                        padding: 10px;
                     }
                 }
             `}</style>
-    </section>
+    </section >
   );
 }

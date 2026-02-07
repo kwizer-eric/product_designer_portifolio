@@ -137,7 +137,7 @@ export default function Testimonials() {
         .testimonials-section {
             background-color: #050505;
             color: #fff;
-            padding: 10rem 0;
+            padding: 4rem 0;
             min-height: 100vh;
             display: flex;
             align-items: center;

@@ -93,34 +93,34 @@ export default function Gallery() {
     return (
         <section ref={containerRef} className="gallery-section">
             <div className="container">
+
+                {/* INDUSTRIAL HEADER */}
                 <div className="gallery-header">
-                    <motion.span
-                        className="gallery-overline"
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                    >
-                        GALLERY
-                    </motion.span>
-                    <motion.h2
-                        className="gallery-title"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.1, duration: 0.8 }}
-                    >
-                        PHYSICAL ARTIFACTS
-                    </motion.h2>
-                    <motion.p
-                        className="gallery-desc"
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.2, duration: 0.8 }}
-                    >
-                        A CURATED COLLECTION OF INDUSTRIAL DESIGN WORK.<br />
-                        EXPLORING FORM, MATERIALITY, AND USER INTERACTION.
-                    </motion.p>
+                    <div className="header-meta">
+                        <span className="meta-label">ARCHIVE // 001</span>
+                        <div className="meta-line" />
+                        <span className="meta-label">SYS.READY</span>
+                    </div>
+
+                    <div className="header-main">
+                        <motion.h2
+                            className="gallery-title"
+                            initial={{ opacity: 0, x: -50 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                        >
+                            SELECTED<br />ARTIFACTS
+                        </motion.h2>
+                        <motion.p
+                            className="gallery-desc"
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            transition={{ delay: 0.2 }}
+                        >
+                            INDEX OF INDUSTRIAL DESIGN WORKS.<br />
+                            CLASSIFIED BY FORM FACTOR AND MATERIAL COMPOSITION.
+                        </motion.p>
+                    </div>
                 </div>
 
                 <motion.div
@@ -133,8 +133,8 @@ export default function Gallery() {
                             layoutId={`card-${item.id}`}
                             className={`gallery-item size-${item.size} material-${item.material}`}
                             onClick={() => setSelectedId(item.id)}
-                            whileHover={{ scale: 0.98 }}
-                            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                            whileHover="hover"
+                            initial="initial"
                         >
                             <div className="gallery-img-box">
                                 <motion.img
@@ -142,16 +142,56 @@ export default function Gallery() {
                                     alt={item.title}
                                     className="bg-image"
                                 />
-                                {/* Material Sheen Overlay */}
                                 <div className="material-sheen" />
-
                                 <div className="overlay-gradient" />
+
+                                {/* HUD OVERLAY */}
+                                <div className="hud-overlay">
+                                    <div className="hud-corner tl" />
+                                    <div className="hud-corner tr" />
+                                    <div className="hud-corner bl" />
+                                    <div className="hud-corner br" />
+
+                                    <motion.div
+                                        className="hud-crosshair"
+                                        variants={{
+                                            initial: { opacity: 0, scale: 0 },
+                                            hover: { opacity: 1, scale: 1 }
+                                        }}
+                                    />
+
+                                    <div className="hud-data top-right">
+                                        <span>ID: {item.id.toUpperCase()}</span>
+                                    </div>
+
+                                    <div className="hud-data bottom-right">
+                                        <span>MAT: {item.material.toUpperCase()}</span>
+                                    </div>
+                                </div>
+
                                 <div className="item-content">
-                                    <h3 className="item-title">{item.title}</h3>
+                                    <motion.h3
+                                        className="item-title"
+                                        variants={{
+                                            initial: { x: 0 },
+                                            hover: { x: 10 }
+                                        }}
+                                    >
+                                        {item.title}
+                                    </motion.h3>
                                     <p className="item-category">{item.category}</p>
                                 </div>
-                                <div className="corner corner-tl" />
-                                <div className="corner corner-br" />
+
+                                <motion.div
+                                    className="scan-line"
+                                    variants={{
+                                        initial: { top: '-100%' },
+                                        hover: {
+                                            top: '200%',
+                                            transition: { repeat: Infinity, duration: 1.5, ease: "linear" }
+                                        }
+                                    }}
+                                />
                             </div>
                         </motion.div>
                     ))}
@@ -177,20 +217,43 @@ export default function Gallery() {
                                 const item = galleryItems.find(p => p.id === selectedId);
                                 return (
                                     <>
-                                        <button className="close-btn" onClick={(e) => { e.stopPropagation(); setSelectedId(null); }}>×</button>
+                                        <button className="close-btn" onClick={(e) => { e.stopPropagation(); setSelectedId(null); }}>
+                                            <span className="close-text">CLOSE</span> <span className="close-icon">×</span>
+                                        </button>
+
+                                        {/* EXPANDED IMAGE (LEFT) */}
                                         <div className="expanded-image-container">
                                             <motion.img
                                                 src={item.image}
                                                 alt={item.title}
                                                 className="expanded-image"
                                             />
+                                            <div className="img-overlay-tech">
+                                                <span>IMG_sequence_001.raw</span>
+                                            </div>
+                                            {/* Decorative Grid on Image */}
+                                            <div className="img-grid-overlay" />
                                         </div>
+
+                                        {/* EXPANDED DETAILS (RIGHT COLUMN) */}
                                         <div className="expanded-details">
+                                            <div className="details-bg-pattern" />
+
+                                            <div className="details-header">
+                                                <motion.span className="category-tag">
+                                                    // {item.category}
+                                                </motion.span>
+                                                <div className="header-dots">
+                                                    <span className="dot" /> <span className="dot" /> <span className="dot" />
+                                                </div>
+                                            </div>
+
                                             <motion.h2 className="title-large">{item.title}</motion.h2>
-                                            <motion.span className="category-tag">{item.category}</motion.span>
+
                                             <motion.p className="description-text">
                                                 {item.description}
                                             </motion.p>
+
                                             <div className="specs-grid">
                                                 <div className="spec-item">
                                                     <span className="spec-label">Material</span>
@@ -199,6 +262,10 @@ export default function Gallery() {
                                                 <div className="spec-item">
                                                     <span className="spec-label">Year</span>
                                                     <span className="spec-value">2024</span>
+                                                </div>
+                                                <div className="spec-item">
+                                                    <span className="spec-label">Status</span>
+                                                    <span className="spec-value active-status">PROTOTYPE</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -212,65 +279,78 @@ export default function Gallery() {
 
             <style>{`
                 .gallery-section {
-                    padding: 10rem 0;
+                    padding: 4rem 0;
                     background-color: #050505;
                     color: #fff;
-                    overflow: hidden; /* Prevent scrollbar issues with transform */
+                    overflow: hidden;
+                    position: relative;
                 }
 
+                /* --- HEADER --- */
                 .gallery-header {
-                    text-align: center;
-                    margin-bottom: 8rem;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
+                    margin-bottom: 3rem;
+                    padding: 0 4vw;
                 }
 
-                .gallery-overline {
-                    font-family: 'Inter', sans-serif;
-                    color: #a3ff12; 
-                    font-size: 0.8rem;
-                    letter-spacing: 0.4em;
-                    margin-bottom: 1.5rem;
-                    font-weight: 600;
+                .header-meta {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    margin-bottom: 2rem;
+                    color: #a3ff12;
+                    font-family: monospace;
+                    font-size: 0.7rem;
+                    letter-spacing: 0.2em;
+                }
+
+                .meta-line {
+                    height: 1px;
+                    background: rgba(163, 255, 18, 0.3);
+                    width: 50px;
+                }
+
+                .header-main {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    align-items: end;
+                    border-bottom: 1px solid rgba(255,255,255,0.1);
+                    padding-bottom: 2rem;
                 }
 
                 .gallery-title {
-                    font-family: 'Inter', sans-serif;
-                    font-size: 6rem;
-                    font-weight: 300;
-                    margin-bottom: 2rem;
-                    letter-spacing: -0.04em;
+                    font-family: 'Inter', sans-serif; /* Industrial sans */
+                    font-size: 5rem;
+                    font-weight: 700;
                     line-height: 0.9;
+                    letter-spacing: -0.05em;
+                    color: #fff;
                 }
 
                 .gallery-desc {
-                    font-family: 'Inter', sans-serif;
-                    font-size: 1rem;
-                    color: rgba(255, 255, 255, 0.5);
-                    line-height: 1.5;
-                    max-width: 700px;
-                    letter-spacing: 0.1em;
-                    text-transform: uppercase;
+                    font-family: monospace;
+                    font-size: 0.8rem;
+                    color: #888;
+                    line-height: 1.6;
+                    text-align: right;
+                    max-width: 400px;
+                    justify-self: end;
                 }
 
-                /* GRID LAYOUT */
+                /* --- GRID --- */
                 .gallery-grid {
                     display: grid;
                     grid-template-columns: repeat(4, 1fr);
                     grid-auto-rows: 350px;
-                    gap: 30px; /* Increased gap for better material separation */
+                    gap: 20px;
                     padding: 0 4vw;
                 }
 
                 .gallery-item {
                     position: relative;
                     cursor: pointer;
-                    border-radius: 20px; /* Rounded corners like ProjectBento */
-                    overflow: hidden;
                     background: #111;
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Base shadow */
-                    transition: transform 0.3s;
+                    overflow: hidden;
+                    border: 1px solid rgba(255,255,255,0.05);
                 }
 
                 /* Size Modifiers */
@@ -278,41 +358,7 @@ export default function Gallery() {
                 .size-large { grid-column: span 2; grid-row: span 1; }
                 .size-tall  { grid-column: span 1; grid-row: span 2; }
 
-                /* MATERIAL AESTHETICS */
-                
-                /* ALUMINUM */
-                .material-aluminum {
-                    background: linear-gradient(135deg, #2b2b2b 0%, #1a1a1a 100%);
-                    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1), 0 15px 40px rgba(0,0,0,0.6);
-                }
-                .material-aluminum .material-sheen {
-                    position: absolute;
-                    inset: 0;
-                    background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.05) 50%, transparent 60%);
-                    z-index: 2;
-                    pointer-events: none;
-                }
-
-                /* CLAY */
-                .material-clay {
-                    background: #1e1e1e;
-                    box-shadow: 20px 20px 60px #131313, -20px -20px 60px #292929;
-                    border: none;
-                }
-
-                /* CHROME */
-                .material-chrome {
-                    background: #000;
-                    border: 1px solid #333;
-                }
-                .material-chrome .bg-image {
-                    filter: contrast(1.2) saturate(0) grayscale(100%);
-                }
-                .material-chrome:hover .bg-image {
-                    filter: contrast(1.4) saturate(0) brightness(1.2) grayscale(100%);
-                }
-
-                
+                /* Inner Content */
                 .gallery-img-box {
                     width: 100%;
                     height: 100%;
@@ -325,61 +371,117 @@ export default function Gallery() {
                     object-fit: cover;
                     opacity: 0.6;
                     transition: opacity 0.5s ease;
-                    mix-blend-mode: overlay; /* Blend with material background */
+                    filter: grayscale(100%);
                 }
 
                 .gallery-item:hover .bg-image {
-                    opacity: 0.8;
+                    opacity: 0.3; /* Darken on hover to show HUD */
                 }
 
                 .overlay-gradient {
                     position: absolute;
                     inset: 0;
-                    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%);
+                    background: linear-gradient(to top, #000 0%, transparent 50%);
                     z-index: 1;
                 }
 
+                /* --- HUD ELEMENTS --- */
+                .hud-overlay {
+                    position: absolute;
+                    inset: 10px;
+                    border: 1px solid rgba(255,255,255,0.1);
+                    z-index: 5;
+                    pointer-events: none;
+                }
+                
+                .gallery-item:hover .hud-overlay {
+                    border-color: rgba(163, 255, 18, 0.3);
+                }
+
+                .hud-corner {
+                    position: absolute;
+                    width: 10px;
+                    height: 10px;
+                    border: 2px solid transparent;
+                    transition: all 0.3s;
+                }
+
+                .gallery-item:hover .hud-corner {
+                    border-color: #a3ff12;
+                }
+
+                .tl { top: -1px; left: -1px; border-top: 2px solid transparent; border-left: 2px solid transparent; }
+                .tr { top: -1px; right: -1px; border-top: 2px solid transparent; border-right: 2px solid transparent; }
+                .bl { bottom: -1px; left: -1px; border-bottom: 2px solid transparent; border-left: 2px solid transparent; }
+                .br { bottom: -1px; right: -1px; border-bottom: 2px solid transparent; border-right: 2px solid transparent; }
+
+                .hud-crosshair {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    width: 20px;
+                    height: 20px;
+                    margin-left: -10px;
+                    margin-top: -10px;
+                }
+                .hud-crosshair::before, .hud-crosshair::after {
+                    content: '';
+                    position: absolute;
+                    background: #a3ff12;
+                }
+                .hud-crosshair::before { top: 9px; left: 0; width: 100%; height: 2px; }
+                .hud-crosshair::after { left: 9px; top: 0; height: 100%; width: 2px; }
+
+                .hud-data {
+                    position: absolute;
+                    font-family: monospace;
+                    font-size: 0.6rem;
+                    color: #a3ff12;
+                    letter-spacing: 0.1em;
+                    opacity: 0;
+                    transition: opacity 0.3s;
+                }
+                
+                .gallery-item:hover .hud-data { opacity: 1; }
+                .top-right { top: 10px; right: 10px; }
+                .bottom-right { bottom: 10px; right: 10px; text-align: right; }
+
+                .scan-line {
+                    position: absolute;
+                    left: 0;
+                    width: 100%;
+                    height: 2px;
+                    background: rgba(163, 255, 18, 0.5);
+                    box-shadow: 0 0 10px #a3ff12;
+                    z-index: 10;
+                    pointer-events: none;
+                }
+
+                /* --- CONTENT --- */
                 .item-content {
                     position: absolute;
-                    bottom: 25px;
-                    left: 25px;
-                    z-index: 3;
+                    bottom: 20px;
+                    left: 20px;
+                    z-index: 20;
                 }
 
                 .item-title {
                     font-family: 'Inter', sans-serif;
                     font-size: 1.5rem;
-                    font-weight: 600;
-                    margin-bottom: 5px;
-                    letter-spacing: -0.02em;
+                    font-weight: 500;
+                    margin: 0;
                     color: #fff;
+                    letter-spacing: -0.02em;
                 }
 
                 .item-category {
-                    font-family: 'Inter', sans-serif;
-                    font-size: 0.75rem;
-                    color: #a3ff12;
-                    letter-spacing: 0.15em;
-                    text-transform: uppercase;
+                    font-family: monospace;
+                    font-size: 0.7rem;
+                    color: #888;
+                    margin-top: 5px;
                 }
 
-                .corner {
-                    position: absolute;
-                    width: 15px;
-                    height: 15px;
-                    border: 1px solid rgba(255, 255, 255, 0.3);
-                    z-index: 5;
-                    transition: all 0.3s ease;
-                }
-
-                .corner-tl { top: 15px; left: 15px; border-right: 0; border-bottom: 0; }
-                .corner-br { bottom: 15px; right: 15px; border-left: 0; border-top: 0; }
-
-                .gallery-item:hover .corner-tl { top: 10px; left: 10px; border-color: #a3ff12; }
-                .gallery-item:hover .corner-br { bottom: 10px; right: 10px; border-color: #a3ff12; }
-
-
-                /* EXPANDED VIEW */
+                /* --- EXPANDED CARD --- */
                 .expanded-overlay-container {
                     position: fixed;
                     inset: 0;
@@ -387,125 +489,205 @@ export default function Gallery() {
                     display: flex;
                     align-items: center;
                     justify-content: center;
+                    perspective: 1000px;
                 }
 
                 .overlay-backdrop {
                     position: absolute;
                     inset: 0;
-                    background: rgba(0,0,0,0.85);
-                    backdrop-filter: blur(15px);
+                    background: rgba(0,0,0,0.9);
+                    backdrop-filter: blur(5px);
                 }
 
                 .expanded-card {
-                    width: 80vw;
-                    max-width: 1200px;
-                    height: 80vh;
-                    background: #111;
-                    border: 1px solid rgba(255,255,255,0.1);
-                    border-radius: 30px; /* Match item radius */
+                    width: 85vw;
+                    max-width: 1400px;
+                    height: 85vh;
+                    background: #0a0a0a;
+                    border: 1px solid #333;
                     position: relative;
                     z-index: 10000;
                     display: flex;
-                    overflow: hidden;
-                    box-shadow: 0 50px 100px rgba(0,0,0,0.7);
+                    box-shadow: 0 0 50px rgba(0,0,0,0.8);
                 }
 
                 .expanded-image-container {
                     flex: 1.5;
                     position: relative;
-                    overflow: hidden;
+                    border-right: 1px solid rgba(255,255,255,0.05);
                 }
 
                 .expanded-image {
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
+                    /* slight desaturation for industrial feel */
+                    filter: saturate(0.8); 
                 }
 
+                .img-overlay-tech {
+                    position: absolute;
+                    top: 20px;
+                    left: 20px;
+                    font-family: monospace;
+                    font-size: 0.6rem;
+                    color: #fff;
+                    background: rgba(0,0,0,0.7);
+                    padding: 4px 8px;
+                    border: 1px solid rgba(255,255,255,0.1);
+                }
+
+                .img-grid-overlay {
+                    position: absolute;
+                    inset: 0;
+                    background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                                    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+                    background-size: 100px 100px;
+                    pointer-events: none;
+                }
+
+                /* RIGHT COLUMN POLISH */
                 .expanded-details {
                     flex: 1;
                     padding: 4rem;
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
-                    background: #111;
+                    background: linear-gradient(to bottom, #0d0d0d, #050505);
+                    position: relative;
+                    overflow: hidden;
                 }
 
-                .title-large {
-                    font-size: 4rem;
-                    line-height: 1;
-                    margin-bottom: 1rem;
-                    letter-spacing: -0.03em;
+                .details-bg-pattern {
+                    position: absolute;
+                    inset: 0;
+                    background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+                    background-size: 20px 20px;
+                    pointer-events: none;
+                }
+
+                .details-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 3rem;
+                    border-bottom: 1px solid rgba(255,255,255,0.1);
+                    padding-bottom: 1rem;
+                    position: relative;
+                    z-index: 2;
                 }
 
                 .category-tag {
+                    font-family: monospace;
                     color: #a3ff12;
-                    letter-spacing: 0.2em;
-                    text-transform: uppercase;
-                    font-size: 0.85rem;
-                    margin-bottom: 3rem;
-                    display: block;
+                    font-size: 0.8rem;
+                }
+
+                .header-dots .dot {
+                    display: inline-block;
+                    width: 4px;
+                    height: 4px;
+                    background: #444;
+                    border-radius: 50%;
+                    margin-left: 6px;
+                }
+
+                .title-large {
+                    font-family: 'Playfair Display', serif;
+                    font-size: 4rem;
+                    line-height: 1;
+                    margin-bottom: 2rem;
+                    color: #fff;
+                    position: relative;
+                    z-index: 2;
                 }
 
                 .description-text {
-                    font-size: 1.1rem;
+                    font-family: 'Inter', sans-serif;
+                    font-size: 1rem;
                     line-height: 1.6;
                     color: #aaa;
-                    margin-bottom: 4rem;
+                    margin-bottom: auto;
+                    position: relative;
+                    z-index: 2;
                 }
 
                 .specs-grid {
                     display: grid;
-                    grid-template-columns: 1fr 1fr;
-                    gap: 2rem;
+                    grid-template-columns: 1fr 1fr 1fr;
+                    gap: 1rem;
                     border-top: 1px solid rgba(255,255,255,0.1);
                     padding-top: 2rem;
-                }
-
-                .spec-item {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 0.5rem;
+                    position: relative;
+                    z-index: 2;
                 }
 
                 .spec-label {
+                    display: block;
+                    font-family: monospace;
+                    font-size: 0.6rem;
                     color: #555;
-                    text-transform: uppercase;
-                    font-size: 0.75rem;
-                    letter-spacing: 0.1em;
+                    margin-bottom: 4px;
                 }
 
                 .spec-value {
-                    color: #fff;
-                    font-size: 1rem;
+                    font-family: 'Inter', sans-serif;
+                    font-size: 0.9rem;
+                    font-weight: 500;
+                }
+                
+                .active-status {
+                    color: #a3ff12;
                 }
 
                 .close-btn {
                     position: absolute;
                     top: 2rem;
                     right: 2rem;
-                    background: rgba(0,0,0,0.5);
+                    background: none;
+                    border: 1px solid rgba(255,255,255,0.1);
                     color: #fff;
-                    border: none;
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 50%;
-                    font-size: 1.5rem;
+                    padding: 0.5rem 1rem;
                     cursor: pointer;
-                    z-index: 10;
+                    z-index: 20;
                     display: flex;
                     align-items: center;
-                    justify-content: center;
-                    transition: background 0.3s;
+                    gap: 0.5rem;
+                    transition: all 0.3s;
+                }
+                
+                .close-text {
+                    font-family: monospace;
+                    font-size: 0.7rem;
+                    letter-spacing: 0.1em;
+                }
+                
+                .close-icon {
+                    font-size: 1.2rem;
+                    line-height: 0.8;
                 }
 
                 .close-btn:hover {
                     background: #fff;
                     color: #000;
+                    border-color: #fff;
                 }
 
                 /* RESPONSIVE */
                 @media (max-width: 1024px) {
+                    .gallery-header {
+                        margin-bottom: 4rem;
+                    }
+                    .header-main {
+                        grid-template-columns: 1fr;
+                        gap: 2rem;
+                    }
+                    .gallery-desc {
+                        text-align: left;
+                        justify-self: start;
+                    }
+                    .gallery-title { font-size: 3rem; }
+                    
                     .gallery-grid {
                         grid-template-columns: repeat(2, 1fr);
                     }
@@ -514,19 +696,12 @@ export default function Gallery() {
                     
                     .expanded-card {
                         flex-direction: column;
-                        width: 90vw;
+                        width: 95vw;
                         height: 90vh;
-                        overflow-y: auto;
+                        overflow-y: scroll;
                     }
-                    .expanded-image-container {
-                        flex: 1;
-                        min-height: 40vh;
-                    }
-                    .expanded-details {
-                        flex: 1;
-                        padding: 2rem;
-                    }
-                    .title-large { font-size: 3rem; }
+                    .expanded-image-container { flex: none; height: 40vh; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+                    .expanded-details { padding: 2rem; }
                 }
 
                 @media (max-width: 600px) {
@@ -538,9 +713,7 @@ export default function Gallery() {
                         grid-column: span 1;
                         grid-row: span 1;
                     }
-                    .gallery-title { font-size: 3rem; }
-                    .expanded-details { padding: 1.5rem; }
-                    .title-large { font-size: 2.5rem; }
+                    .gallery-title { font-size: 2.5rem; }
                 }
             `}</style>
         </section>

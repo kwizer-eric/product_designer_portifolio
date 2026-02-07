@@ -279,7 +279,7 @@ export default function Gallery() {
 
             <style>{`
                 .gallery-section {
-                    padding: 4rem 0;
+                    padding: 2rem 0;
                     background-color: #050505;
                     color: #fff;
                     overflow: hidden;
@@ -288,7 +288,7 @@ export default function Gallery() {
 
                 /* --- HEADER --- */
                 .gallery-header {
-                    margin-bottom: 3rem;
+                    margin-bottom: 2rem;
                     padding: 0 4vw;
                 }
 

@@ -137,10 +137,8 @@ export default function Testimonials() {
         .testimonials-section {
             background-color: #050505;
             color: #fff;
-            padding: 4rem 0;
-            min-height: 100vh;
+            padding: 2rem 0;
             display: flex;
-            align-items: center;
             overflow: hidden;
         }
 
@@ -148,7 +146,7 @@ export default function Testimonials() {
             display: flex;
             align-items: center;
             gap: 20px;
-            margin-bottom: 4rem;
+            margin-bottom: 2rem;
             opacity: 0.5;
         }
 
@@ -168,8 +166,8 @@ export default function Testimonials() {
 
         .content-grid {
             display: grid;
-            grid-template-columns: 0.8fr 1.2fr;
-            gap: 6rem;
+            grid-template-columns: 300px 1fr;
+            gap: 4rem;
             align-items: center;
         }
 
@@ -177,13 +175,14 @@ export default function Testimonials() {
         .image-column {
             display: flex;
             flex-direction: column;
-            gap: 2rem;
+            gap: 1.5rem;
+            max-width: 100%;
         }
 
         .image-frame {
             position: relative;
             width: 100%;
-            aspect-ratio: 3/4;
+            aspect-ratio: 3/4; /* Reverted to portrait */
             background: #111;
             overflow: hidden;
             border: 1px solid rgba(255,255,255,0.1);
@@ -246,14 +245,14 @@ export default function Testimonials() {
         .controls {
             display: flex;
             align-items: center;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         .control-btn {
             background: none;
             border: 1px solid rgba(255,255,255,0.2);
             color: #fff;
-            padding: 1rem 1.5rem;
+            padding: 0.75rem 1.25rem;
             cursor: pointer;
             font-family: inherit;
             font-size: 0.75rem;
@@ -291,18 +290,18 @@ export default function Testimonials() {
 
         .quote-icon {
             font-family: serif;
-            font-size: 10rem;
+            font-size: 6rem;
             color: #222;
             line-height: 0.5;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
             margin-left: -0.5rem;
         }
 
         .quote-text {
             font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            line-height: 1.1;
-            margin-bottom: 4rem;
+            font-size: 2.5rem;
+            line-height: 1.2;
+            margin-bottom: 2rem;
             font-weight: 500;
         }
 
@@ -311,7 +310,7 @@ export default function Testimonials() {
             grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
             border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 2rem;
+            padding-top: 1.5rem;
         }
 
         .detail-row {
@@ -339,14 +338,14 @@ export default function Testimonials() {
         @media (max-width: 1024px) {
             .content-grid {
                 grid-template-columns: 1fr;
-                gap: 4rem;
+                gap: 3rem;
             }
             .image-frame {
                 aspect-ratio: 16/9;
                 max-height: 50vh;
             }
             .quote-text {
-                font-size: 2.5rem;
+                font-size: 2rem;
             }
             .author-details {
                 grid-template-columns: 1fr;

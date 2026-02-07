@@ -6,6 +6,7 @@ const galleryItems = [
         id: 'wearable',
         title: "WEARABLE",
         category: "PERSONAL AUDIO",
+        material: "aluminum",
         image: "https://images.unsplash.com/photo-1558002038-1055907df827?q=80&w=1000&auto=format&fit=crop",
         size: "large", // spans 2 cols
         description: "Next-generation personal audio with adaptive noise cancellation and biometric sensing."
@@ -14,6 +15,7 @@ const galleryItems = [
         id: 'controller',
         title: "CONTROLLER",
         category: "GAMING",
+        material: "clay",
         image: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?q=80&w=1000&auto=format&fit=crop",
         size: "small",
         description: "Precision input device designed for e-sports performance with tactile feedback."
@@ -22,6 +24,7 @@ const galleryItems = [
         id: 'speaker',
         title: "SMART SPEAKER",
         category: "HOME AUDIO",
+        material: "chrome",
         image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?q=80&w=1000&auto=format&fit=crop",
         size: "tall", // spans 2 rows
         description: "360-degree high-fidelity sound architecture in a seamless aluminum enclosure."
@@ -30,6 +33,7 @@ const galleryItems = [
         id: 'watch',
         title: "WRISTWATCH",
         category: "HARDWARE",
+        material: "aluminum",
         image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?q=80&w=1000&auto=format&fit=crop",
         size: "small",
         description: "Minimalist timekeeping with integrated health monitoring and sapphire crystal glass."
@@ -38,6 +42,7 @@ const galleryItems = [
         id: 'earbuds',
         title: "EARBUDS",
         category: "PERSONAL AUDIO",
+        material: "clay",
         image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=1000&auto=format&fit=crop",
         size: "small",
         description: "Ultra-compact wireless audio with pro-grade drivers and ergonomic fit."
@@ -46,6 +51,7 @@ const galleryItems = [
         id: 'headphones',
         title: "HEADPHONES",
         category: "AUDIO DEVICE",
+        material: "chrome",
         image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000&auto=format&fit=crop",
         size: "large",
         description: "Studio-reference over-ear headphones constructed from premium leather and steel."
@@ -54,6 +60,7 @@ const galleryItems = [
         id: 'vr',
         title: "VR HEADSET",
         category: "HARDWARE",
+        material: "aluminum",
         image: "https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?q=80&w=1000&auto=format&fit=crop",
         size: "small",
         description: "Immersive virtual reality system with high-resolution displays and inside-out tracking."
@@ -62,6 +69,7 @@ const galleryItems = [
         id: 'laptop',
         title: "LAPTOP",
         category: "HARDWARE",
+        material: "clay",
         image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=1000&auto=format&fit=crop",
         size: "tall",
         description: "Unibody machined performance workstation for creative professionals."
@@ -123,9 +131,9 @@ export default function Gallery() {
                         <motion.div
                             key={item.id}
                             layoutId={`card-${item.id}`}
-                            className={`gallery-item size-${item.size}`}
+                            className={`gallery-item size-${item.size} material-${item.material}`}
                             onClick={() => setSelectedId(item.id)}
-                            whileHover={{ scale: 0.98, filter: "brightness(1.1)" }}
+                            whileHover={{ scale: 0.98 }}
                             transition={{ type: "spring", stiffness: 200, damping: 20 }}
                         >
                             <div className="gallery-img-box">
@@ -134,6 +142,9 @@ export default function Gallery() {
                                     alt={item.title}
                                     className="bg-image"
                                 />
+                                {/* Material Sheen Overlay */}
+                                <div className="material-sheen" />
+
                                 <div className="overlay-gradient" />
                                 <div className="item-content">
                                     <h3 className="item-title">{item.title}</h3>
@@ -183,7 +194,7 @@ export default function Gallery() {
                                             <div className="specs-grid">
                                                 <div className="spec-item">
                                                     <span className="spec-label">Material</span>
-                                                    <span className="spec-value">Aluminum / Glass</span>
+                                                    <span className="spec-value">{item.material.toUpperCase()}</span>
                                                 </div>
                                                 <div className="spec-item">
                                                     <span className="spec-label">Year</span>
@@ -248,16 +259,18 @@ export default function Gallery() {
                     display: grid;
                     grid-template-columns: repeat(4, 1fr);
                     grid-auto-rows: 350px;
-                    gap: 20px;
-                    padding: 0 2vw;
+                    gap: 30px; /* Increased gap for better material separation */
+                    padding: 0 4vw;
                 }
 
                 .gallery-item {
                     position: relative;
                     cursor: pointer;
-                    border-radius: 4px;
+                    border-radius: 20px; /* Rounded corners like ProjectBento */
                     overflow: hidden;
                     background: #111;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Base shadow */
+                    transition: transform 0.3s;
                 }
 
                 /* Size Modifiers */
@@ -265,6 +278,41 @@ export default function Gallery() {
                 .size-large { grid-column: span 2; grid-row: span 1; }
                 .size-tall  { grid-column: span 1; grid-row: span 2; }
 
+                /* MATERIAL AESTHETICS */
+                
+                /* ALUMINUM */
+                .material-aluminum {
+                    background: linear-gradient(135deg, #2b2b2b 0%, #1a1a1a 100%);
+                    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1), 0 15px 40px rgba(0,0,0,0.6);
+                }
+                .material-aluminum .material-sheen {
+                    position: absolute;
+                    inset: 0;
+                    background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.05) 50%, transparent 60%);
+                    z-index: 2;
+                    pointer-events: none;
+                }
+
+                /* CLAY */
+                .material-clay {
+                    background: #1e1e1e;
+                    box-shadow: 20px 20px 60px #131313, -20px -20px 60px #292929;
+                    border: none;
+                }
+
+                /* CHROME */
+                .material-chrome {
+                    background: #000;
+                    border: 1px solid #333;
+                }
+                .material-chrome .bg-image {
+                    filter: contrast(1.2) saturate(0) grayscale(100%);
+                }
+                .material-chrome:hover .bg-image {
+                    filter: contrast(1.4) saturate(0) brightness(1.2) grayscale(100%);
+                }
+
+                
                 .gallery-img-box {
                     width: 100%;
                     height: 100%;
@@ -275,25 +323,27 @@ export default function Gallery() {
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
-                    opacity: 0.7;
+                    opacity: 0.6;
                     transition: opacity 0.5s ease;
+                    mix-blend-mode: overlay; /* Blend with material background */
                 }
 
                 .gallery-item:hover .bg-image {
-                    opacity: 0.5;
+                    opacity: 0.8;
                 }
 
                 .overlay-gradient {
                     position: absolute;
                     inset: 0;
                     background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%);
+                    z-index: 1;
                 }
 
                 .item-content {
                     position: absolute;
                     bottom: 25px;
                     left: 25px;
-                    z-index: 2;
+                    z-index: 3;
                 }
 
                 .item-title {
@@ -343,7 +393,7 @@ export default function Gallery() {
                     position: absolute;
                     inset: 0;
                     background: rgba(0,0,0,0.85);
-                    backdrop-filter: blur(10px);
+                    backdrop-filter: blur(15px);
                 }
 
                 .expanded-card {
@@ -352,11 +402,12 @@ export default function Gallery() {
                     height: 80vh;
                     background: #111;
                     border: 1px solid rgba(255,255,255,0.1);
+                    border-radius: 30px; /* Match item radius */
                     position: relative;
                     z-index: 10000;
                     display: flex;
                     overflow: hidden;
-                    box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+                    box-shadow: 0 50px 100px rgba(0,0,0,0.7);
                 }
 
                 .expanded-image-container {

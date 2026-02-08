@@ -4,18 +4,64 @@
     position: relative;
     background: #050505;
     color: #fff;
+    /* Ensure no overflow issues from parent */
+    width: 100%;
+    overflow: visible;
 }
 
 .sticky-wrapper {
     position: sticky;
     top: 0;
     height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    /* Hide the horizontal overflow */
+    background: #050505;
     display: flex;
     align-items: center;
-    overflow: hidden;
-    background: #050505;
 }
 
+.services-track {
+    display: flex;
+    width: 400vw;
+    /* Explicitly 400vw for 4 items */
+    height: 100%;
+    will-change: transform;
+}
+
+/* CARD STYLES */
+.service-card {
+    width: 100vw;
+    /* Each card is full viewport width */
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 10vw;
+    align-items: center;
+    gap: 6rem;
+    flex-shrink: 0;
+    /* CRITICAL: Prevent shrinking */
+    position: relative;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    box-sizing: border-box;
+    /* Ensure padding doesn't add to width */
+}
+
+/* BACKGROUND & VISUALS - Keeping the Industrial Theme */
+.card-bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(163, 255, 18, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(163, 255, 18, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    z-index: 0;
+    /* Optional: Subtle pulse if desired, but removed purely to simplify for now */
+}
+
+/* HUD Header */
 .section-hud-top {
     position: absolute;
     top: 2rem;
@@ -46,53 +92,6 @@
     box-shadow: 0 0 10px #a3ff12;
 }
 
-.services-track {
-    display: flex;
-    width: 400vw;
-    min-width: 400vw;
-    height: 100%;
-    flex-shrink: 0;
-    will-change: transform;
-}
-
-/* CARD STYLES */
-.service-card {
-    width: 100vw;
-    height: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 10vw;
-    align-items: center;
-    gap: 6rem;
-    flex-shrink: 0;
-    position: relative;
-    border-right: 1px solid rgba(255, 255, 255, 0.05);
-    overflow: hidden;
-}
-
-.card-bg-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-        linear-gradient(rgba(163, 255, 18, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(163, 255, 18, 0.03) 1px, transparent 1px);
-    background-size: 50px 50px;
-    pointer-events: none;
-    z-index: 0;
-    mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
-    animation: scan-grid 20s linear infinite;
-}
-
-@keyframes scan-grid {
-    0% {
-        transform: translateY(0);
-    }
-
-    100% {
-        transform: translateY(50px);
-    }
-}
-
 /* CONTENT SIDE */
 .service-content {
     position: relative;
@@ -109,12 +108,9 @@
 
 .service-num {
     font-family: 'Playfair Display', serif;
-    /* Changed to match title */
     font-size: 4rem;
-    /* Much larger */
     color: transparent;
     -webkit-text-stroke: 1px #a3ff12;
-    /* Hollow effect */
     opacity: 0.5;
     font-weight: 700;
     line-height: 1;
@@ -138,7 +134,6 @@
 .service-title {
     font-family: 'Playfair Display', serif;
     font-size: clamp(3rem, 6vw, 7rem);
-    /* Slightly larger */
     line-height: 0.9;
     margin-bottom: 3rem;
     font-weight: 500;
@@ -183,7 +178,6 @@
 .check-icon {
     color: #a3ff12;
     text-shadow: 0 0 5px rgba(163, 255, 18, 0.5);
-    /* Glow effect */
 }
 
 /* VISUAL SIDE */
@@ -512,12 +506,15 @@
         position: relative;
         height: auto;
         display: block;
+        overflow: visible;
     }
 
     .services-track {
         width: 100%;
         flex-direction: column;
         height: auto;
+        min-width: 0;
+        transform: none !important;
     }
 
     .service-card {

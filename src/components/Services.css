@@ -30,9 +30,9 @@
 }
 
 /* CARD STYLES */
+/* CARD STYLES */
 .service-card {
     width: 100vw;
-    /* Each card is full viewport width */
     height: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -40,25 +40,38 @@
     align-items: center;
     gap: 6rem;
     flex-shrink: 0;
-    /* CRITICAL: Prevent shrinking */
     position: relative;
     border-right: 1px solid rgba(255, 255, 255, 0.05);
     overflow: hidden;
     box-sizing: border-box;
-    /* Ensure padding doesn't add to width */
+    /* Spotlight Setup */
+    --mouse-x: 50%;
+    --mouse-y: 50%;
 }
 
-/* BACKGROUND & VISUALS - Keeping the Industrial Theme */
+/* Spotlight Effect */
+.card-spotlight {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y),
+            rgba(163, 255, 18, 0.06),
+            transparent 40%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* BACKGROUND & VISUALS */
 .card-bg-grid {
     position: absolute;
     inset: 0;
     background-image:
-        linear-gradient(rgba(163, 255, 18, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(163, 255, 18, 0.03) 1px, transparent 1px);
+        linear-gradient(rgba(163, 255, 18, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(163, 255, 18, 0.02) 1px, transparent 1px);
     background-size: 50px 50px;
     pointer-events: none;
     z-index: 0;
-    /* Optional: Subtle pulse if desired, but removed purely to simplify for now */
+    opacity: 0.6;
+    /* More subtle */
 }
 
 /* HUD Header */

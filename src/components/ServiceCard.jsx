@@ -1,41 +1,89 @@
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import './Services.css';
 
 const ServiceCard = ({ number, title, description, features, visualType }) => {
+    const cardRef = useRef(null);
+
+    const handleMouseMove = (e) => {
+        if (!cardRef.current) return;
+        const rect = cardRef.current.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        cardRef.current.style.setProperty('--mouse-x', `${x}px`);
+        cardRef.current.style.setProperty('--mouse-y', `${y}px`);
+    };
+
     return (
-        <div className="service-card">
+        <div
+            className="service-card"
+            ref={cardRef}
+            onMouseMove={handleMouseMove}
+        >
             {/* BACKGROUND GRID */}
             <div className="card-bg-grid" />
 
+            {/* SPOTLIGHT EFFECT */}
+            <div className="card-spotlight" />
+
             <div className="service-content">
-                <div className="service-header-row">
+                <motion.div
+                    className="service-header-row"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: 0.1 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                >
                     <span className="service-num">0{number}</span>
                     <div className="header-line" />
                     <span className="service-label">CAPABILITY_INDEX // SEC-{number}</span>
-                </div>
+                </motion.div>
 
-                <motion.h2 className="service-title">
+                <motion.h2
+                    className="service-title"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                >
                     {title}
                 </motion.h2>
 
-                <p className="service-desc">
+                <motion.p
+                    className="service-desc"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                >
                     {description}
-                </p>
+                </motion.p>
 
                 <ul className="service-features">
                     {features.map((feature, i) => (
-                        <li key={i}>
+                        <motion.li
+                            key={i}
+                            initial={{ opacity: 0, x: -10 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.4, delay: 0.4 + (i * 0.1) }}
+                            viewport={{ once: true, amount: 0.2 }}
+                        >
                             <span className="check-icon">[x]</span>
                             {feature}
-                        </li>
+                        </motion.li>
                     ))}
                 </ul>
             </div>
 
             <div className="service-visual">
-                <div className="visual-frame">
+                <motion.div
+                    className="visual-frame"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                >
                     <div className="corner-marker tl" />
                     <div className="corner-marker tr" />
                     <div className="corner-marker bl" />
@@ -107,7 +155,7 @@ const ServiceCard = ({ number, title, description, features, visualType }) => {
                     <div className="tech-readout">
                         <span>SYS_VISUALizer_v2.0</span>
                     </div>
-                </div>
+                </motion.div>
             </div>
 
             <style>{`

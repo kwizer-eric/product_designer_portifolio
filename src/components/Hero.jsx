@@ -43,8 +43,8 @@ export default function Hero() {
                         style={{ y: yName, x: useTransform(springX, v => v * -1) }}
                     >
                         <div className="name-row">
-                            <span className="outline">ER</span>
-                            <span className="filled">ICK</span>
+                            <span className="outline">AHI</span>
+                            <span className="filled">RWE</span>
                         </div>
                         <div className="name-decoration">
                             <span className="coordinate">37°46'N</span>

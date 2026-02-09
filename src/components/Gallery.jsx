@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
 
 const galleryItems = [
@@ -9,7 +9,17 @@ const galleryItems = [
         material: "aluminum",
         image: "https://images.unsplash.com/photo-1558002038-1055907df827?q=80&w=1000&auto=format&fit=crop",
         size: "large", // spans 2 cols
-        description: "Next-generation personal audio with adaptive noise cancellation and biometric sensing."
+        description: "Next-generation personal audio with adaptive noise cancellation and biometric sensing.",
+        client: "SONIC_LABS",
+        role: "Industrial Design, CMF",
+        year: "2024",
+        challenge: "Create a wearable audio device that feels like a natural extension of the body while delivering audiophile-grade sound isolation in a crowded urban environment. The thermal management of the active processing unit was a significant constraint.",
+        solution: "We utilized a unibody aluminum chassis that acts as a heatsink, coupled with memory foam ear cushions that adapt to user physiology. The aesthetic is stripped back to expose the functional elegance of the materials.",
+        galleryImages: [
+            "https://images.unsplash.com/photo-1618413346543-c7827e4466b5?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1629367494173-c78a56567877?q=80&w=800&auto=format&fit=crop"
+        ]
     },
     {
         id: 'controller',
@@ -18,7 +28,16 @@ const galleryItems = [
         material: "clay",
         image: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?q=80&w=1000&auto=format&fit=crop",
         size: "small",
-        description: "Precision input device designed for e-sports performance with tactile feedback."
+        description: "Precision input device designed for e-sports performance with tactile feedback.",
+        client: "NEXUS_PERIPHERALS",
+        role: "Ergonomics, Prototyping",
+        year: "2023",
+        challenge: "Professional gamers require zero-latency input and a grip that remains comfortable after 12+ hours of use. Standard controllers cause fatigue and hand strain over long sessions.",
+        solution: "Through iteration with pro players, we developed a 'sculpted' clay-like form factor that fits 95% of hand sizes. The textured surface ensures grip even when hands are sweaty during intense competition.",
+        galleryImages: [
+            "https://images.unsplash.com/photo-1600080972464-8cb002c91960?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1592840496073-f66e754d9c77?q=80&w=800&auto=format&fit=crop"
+        ]
     },
     {
         id: 'speaker',
@@ -27,7 +46,17 @@ const galleryItems = [
         material: "chrome",
         image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?q=80&w=1000&auto=format&fit=crop",
         size: "tall", // spans 2 rows
-        description: "360-degree high-fidelity sound architecture in a seamless aluminum enclosure."
+        description: "360-degree high-fidelity sound architecture in a seamless aluminum enclosure.",
+        client: "AURA_HOME",
+        role: "Product Design",
+        year: "2025",
+        challenge: "Integrating a high-output subwoofer and tweeter array into a compact, monolithic form without vibration coloring the sound.",
+        solution: "An internal decoupled skeleton isolates the drivers from the outer chrome shell. The result is pure sound and a visual object that disappears into the modern home aesthetic.",
+        galleryImages: [
+            "https://images.unsplash.com/photo-1589003077984-894e133dabab?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1615563821037-cc5432c668b5?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1512499617640-c74ae3a79d37?q=80&w=800&auto=format&fit=crop"
+        ]
     },
     {
         id: 'watch',
@@ -36,7 +65,16 @@ const galleryItems = [
         material: "aluminum",
         image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?q=80&w=1000&auto=format&fit=crop",
         size: "small",
-        description: "Minimalist timekeeping with integrated health monitoring and sapphire crystal glass."
+        description: "Minimalist timekeeping with integrated health monitoring and sapphire crystal glass.",
+        client: "CHRONOS_TECH",
+        role: "Industrial Design",
+        year: "2024",
+        challenge: "Balancing the tradition of horology with modern health sensors. Users want the data but not the 'gadget' look of typical smartwatches.",
+        solution: "We hid the sensors within the case back and strap lugs. The face is a high-contrast OLED that mimics analog hands, activated only when the wrist turns.",
+        galleryImages: [
+            "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=800&auto=format&fit=crop"
+        ]
     },
     {
         id: 'earbuds',
@@ -45,7 +83,15 @@ const galleryItems = [
         material: "clay",
         image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=1000&auto=format&fit=crop",
         size: "small",
-        description: "Ultra-compact wireless audio with pro-grade drivers and ergonomic fit."
+        description: "Ultra-compact wireless audio with pro-grade drivers and ergonomic fit.",
+        client: "SONIC_LABS",
+        role: "CMF",
+        year: "2023",
+        challenge: "Making earbuds that stay in during vigorous movement without using uncomfortable 'wing' tips.",
+        solution: "A weighted balance distribution keeps the center of gravity inside the ear canal. The 'clay' matte finish provides just enough friction to stay secure without irritation.",
+        galleryImages: [
+            "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=800&auto=format&fit=crop"
+        ]
     },
     {
         id: 'headphones',
@@ -54,7 +100,16 @@ const galleryItems = [
         material: "chrome",
         image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000&auto=format&fit=crop",
         size: "large",
-        description: "Studio-reference over-ear headphones constructed from premium leather and steel."
+        description: "Studio-reference over-ear headphones constructed from premium leather and steel.",
+        client: "PRO_AUDIO",
+        role: "Lead Designer",
+        year: "2022",
+        challenge: "Creating a timeless aesthetic that appeals to both audiophiles and fashion-conscious consumers.",
+        solution: "Exposed structural elements in polished chrome contrast with soft, hand-stitched leather. Every touchpoint feels mechanical and precise.",
+        galleryImages: [
+            "https://images.unsplash.com/photo-1484704849700-f032a568e944?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1546435770-a3e426bf472b?q=80&w=800&auto=format&fit=crop"
+        ]
     },
     {
         id: 'vr',
@@ -63,7 +118,15 @@ const galleryItems = [
         material: "aluminum",
         image: "https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?q=80&w=1000&auto=format&fit=crop",
         size: "small",
-        description: "Immersive virtual reality system with high-resolution displays and inside-out tracking."
+        description: "Immersive virtual reality system with high-resolution displays and inside-out tracking.",
+        client: "VIRTUAL_X",
+        role: "Industrial Design",
+        year: "2025",
+        challenge: "Reducing the front-heavy weight that causes neck strain in typical VR headsets.",
+        solution: "We moved the battery and compute unit to the back of the strap, creating a perfect 50/50 weight balance. The front visor is merely the display and sensors.",
+        galleryImages: [
+            "https://images.unsplash.com/photo-1535905557558-afc4877a26fc?q=80&w=800&auto=format&fit=crop"
+        ]
     },
     {
         id: 'laptop',
@@ -72,13 +135,32 @@ const galleryItems = [
         material: "clay",
         image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=1000&auto=format&fit=crop",
         size: "tall",
-        description: "Unibody machined performance workstation for creative professionals."
+        description: "Unibody machined performance workstation for creative professionals.",
+        client: "COMPUTE_CORP",
+        role: "Industrial Design",
+        year: "2024",
+        challenge: "Cooling a high-performance GPU in a chassis less than 18mm thick.",
+        solution: "A vapor chamber cooling system spreads heat across the entire bottom surface, which is micro-textured to increase surface area without looking like a heatsink.",
+        galleryImages: [
+            "https://images.unsplash.com/photo-1517336714731-489689fd1ca4?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=800&auto=format&fit=crop"
+        ]
     }
 ];
 
 export default function Gallery() {
     const [selectedId, setSelectedId] = useState(null);
     const containerRef = useRef(null);
+
+    // Lock body scroll when popup is open
+    useEffect(() => {
+        if (selectedId) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => { document.body.style.overflow = 'unset'; };
+    }, [selectedId]);
 
     // Subtle breathing/parallax effect
     const { scrollYProgress } = useScroll({
@@ -198,75 +280,132 @@ export default function Gallery() {
                 </motion.div>
             </div>
 
-            {/* EXPANDED VIEW OVERLAY */}
+            {/* EXPANDED PROJECT VIEWER */}
             <AnimatePresence>
                 {selectedId && (
-                    <div className="expanded-overlay-container">
+                    <div className="project-viewer-portal">
                         <motion.div
-                            className="overlay-backdrop"
+                            className="viewer-backdrop"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={() => setSelectedId(null)}
                         />
                         <motion.div
-                            className="expanded-card"
+                            className="viewer-container"
                             layoutId={`card-${selectedId}`}
                         >
                             {(() => {
                                 const item = galleryItems.find(p => p.id === selectedId);
                                 return (
                                     <>
-                                        <button className="close-btn" onClick={(e) => { e.stopPropagation(); setSelectedId(null); }}>
-                                            <span className="close-text">CLOSE</span> <span className="close-icon">×</span>
+                                        <button className="viewer-close-btn" onClick={(e) => { e.stopPropagation(); setSelectedId(null); }}>
+                                            <span className="close-text">CLOSE PROJECT</span> <span className="close-icon">×</span>
                                         </button>
 
-                                        {/* EXPANDED IMAGE (LEFT) */}
-                                        <div className="expanded-image-container">
-                                            <motion.img
-                                                src={item.image}
-                                                alt={item.title}
-                                                className="expanded-image"
-                                            />
-                                            <div className="img-overlay-tech">
-                                                <span>IMG_sequence_001.raw</span>
-                                            </div>
-                                            {/* Decorative Grid on Image */}
-                                            <div className="img-grid-overlay" />
-                                        </div>
+                                        <div className="viewer-content">
+                                            {/* HERO HEADER */}
+                                            <div className="viewer-hero">
+                                                <div className="viewer-hero-image-wrapper">
+                                                    <motion.img
+                                                        src={item.image}
+                                                        alt={item.title}
+                                                        className="viewer-hero-image"
+                                                    />
+                                                    <div className="viewer-overlay-grid" />
+                                                    <div className="viewer-tech-ui">
+                                                        <span>IMG_sequence_001.raw</span>
+                                                    </div>
+                                                </div>
 
-                                        {/* EXPANDED DETAILS (RIGHT COLUMN) */}
-                                        <div className="expanded-details">
-                                            <div className="details-bg-pattern" />
+                                                <div className="viewer-hero-content">
+                                                    <motion.div
+                                                        initial={{ opacity: 0, y: 20 }}
+                                                        animate={{ opacity: 1, y: 0 }}
+                                                        transition={{ delay: 0.2 }}
+                                                    >
+                                                        <span className="viewer-category">// {item.category}</span>
+                                                        <h1 className="viewer-title">{item.title}</h1>
+                                                        <p className="viewer-description">{item.description}</p>
+                                                    </motion.div>
 
-                                            <div className="details-header">
-                                                <motion.span className="category-tag">
-                                                    // {item.category}
-                                                </motion.span>
-                                                <div className="header-dots">
-                                                    <span className="dot" /> <span className="dot" /> <span className="dot" />
+                                                    <motion.div
+                                                        className="viewer-meta-grid"
+                                                        initial={{ opacity: 0 }}
+                                                        animate={{ opacity: 1 }}
+                                                        transition={{ delay: 0.3 }}
+                                                    >
+                                                        <div className="meta-item">
+                                                            <span className="meta-label">CLIENT</span>
+                                                            <span className="meta-value">{item.client}</span>
+                                                        </div>
+                                                        <div className="meta-item">
+                                                            <span className="meta-label">ROLE</span>
+                                                            <span className="meta-value">{item.role}</span>
+                                                        </div>
+                                                        <div className="meta-item">
+                                                            <span className="meta-label">YEAR</span>
+                                                            <span className="meta-value">{item.year}</span>
+                                                        </div>
+                                                        <div className="meta-item">
+                                                            <span className="meta-label">MATERIAL</span>
+                                                            <span className="meta-value">{item.material.toUpperCase()}</span>
+                                                        </div>
+                                                    </motion.div>
                                                 </div>
                                             </div>
 
-                                            <motion.h2 className="title-large">{item.title}</motion.h2>
+                                            {/* RICH CONTENT SECTIONS */}
+                                            <div className="viewer-body">
+                                                <div className="viewer-section">
+                                                    <div className="section-label">01 // THE CHALLENGE</div>
+                                                    <motion.p
+                                                        className="section-text"
+                                                        initial={{ opacity: 0, y: 20 }}
+                                                        whileInView={{ opacity: 1, y: 0 }}
+                                                        viewport={{ once: true }}
+                                                    >
+                                                        {item.challenge}
+                                                    </motion.p>
+                                                </div>
 
-                                            <motion.p className="description-text">
-                                                {item.description}
-                                            </motion.p>
+                                                <div className="viewer-section">
+                                                    <div className="section-label">02 // THE SOLUTION</div>
+                                                    <motion.p
+                                                        className="section-text"
+                                                        initial={{ opacity: 0, y: 20 }}
+                                                        whileInView={{ opacity: 1, y: 0 }}
+                                                        viewport={{ once: true }}
+                                                    >
+                                                        {item.solution}
+                                                    </motion.p>
+                                                </div>
 
-                                            <div className="specs-grid">
-                                                <div className="spec-item">
-                                                    <span className="spec-label">Material</span>
-                                                    <span className="spec-value">{item.material.toUpperCase()}</span>
-                                                </div>
-                                                <div className="spec-item">
-                                                    <span className="spec-label">Year</span>
-                                                    <span className="spec-value">2024</span>
-                                                </div>
-                                                <div className="spec-item">
-                                                    <span className="spec-label">Status</span>
-                                                    <span className="spec-value active-status">PROTOTYPE</span>
-                                                </div>
+                                                {/* ADDITIONAL GALLERY */}
+                                                {item.galleryImages && item.galleryImages.length > 0 && (
+                                                    <div className="viewer-gallery">
+                                                        <div className="section-label">03 // VISUAL ARTIFACTS</div>
+                                                        <div className="project-images-grid">
+                                                            {item.galleryImages.map((img, index) => (
+                                                                <motion.div
+                                                                    key={index}
+                                                                    className="project-image-item"
+                                                                    initial={{ opacity: 0, scale: 0.95 }}
+                                                                    whileInView={{ opacity: 1, scale: 1 }}
+                                                                    viewport={{ once: true }}
+                                                                    transition={{ delay: index * 0.1 }}
+                                                                >
+                                                                    <img src={img} alt={`Detail ${index + 1}`} />
+                                                                </motion.div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
+
+                                            <div className="viewer-footer">
+                                                <div className="footer-line" />
+                                                <span className="footer-end">END OF FILE</span>
                                             </div>
                                         </div>
                                     </>
@@ -282,7 +421,6 @@ export default function Gallery() {
                     padding: 2rem 0;
                     background-color: #050505;
                     color: #fff;
-                    overflow: hidden;
                     position: relative;
                 }
 
@@ -318,7 +456,7 @@ export default function Gallery() {
                 }
 
                 .gallery-title {
-                    font-family: 'Inter', sans-serif; /* Industrial sans */
+                    font-family: 'Inter', sans-serif;
                     font-size: 5rem;
                     font-weight: 700;
                     line-height: 0.9;
@@ -353,12 +491,10 @@ export default function Gallery() {
                     border: 1px solid rgba(255,255,255,0.05);
                 }
 
-                /* Size Modifiers */
                 .size-small { grid-column: span 1; grid-row: span 1; }
                 .size-large { grid-column: span 2; grid-row: span 1; }
                 .size-tall  { grid-column: span 1; grid-row: span 2; }
 
-                /* Inner Content */
                 .gallery-img-box {
                     width: 100%;
                     height: 100%;
@@ -375,7 +511,7 @@ export default function Gallery() {
                 }
 
                 .gallery-item:hover .bg-image {
-                    opacity: 0.3; /* Darken on hover to show HUD */
+                    opacity: 0.3;
                 }
 
                 .overlay-gradient {
@@ -385,7 +521,7 @@ export default function Gallery() {
                     z-index: 1;
                 }
 
-                /* --- HUD ELEMENTS --- */
+                /* HUD Elements */
                 .hud-overlay {
                     position: absolute;
                     inset: 10px;
@@ -457,7 +593,6 @@ export default function Gallery() {
                     pointer-events: none;
                 }
 
-                /* --- CONTENT --- */
                 .item-content {
                     position: absolute;
                     bottom: 20px;
@@ -481,239 +616,279 @@ export default function Gallery() {
                     margin-top: 5px;
                 }
 
-                /* --- EXPANDED CARD --- */
-                .expanded-overlay-container {
+                /* --- PROJECT VIEWER (Full Screen Popup) --- */
+                .project-viewer-portal {
                     position: fixed;
                     inset: 0;
                     z-index: 9999;
                     display: flex;
-                    align-items: center;
                     justify-content: center;
-                    perspective: 1000px;
+                    align-items: flex-start;
+                    overflow-y: auto;
+                    padding-top: 0;
                 }
 
-                .overlay-backdrop {
-                    position: absolute;
+                .viewer-backdrop {
+                    position: fixed;
                     inset: 0;
-                    background: rgba(0,0,0,0.9);
-                    backdrop-filter: blur(5px);
+                    background: rgba(0,0,0,0.95);
+                    backdrop-filter: blur(10px);
+                    z-index: 1;
                 }
 
-                .expanded-card {
-                    width: 85vw;
-                    max-width: 1400px;
-                    height: 85vh;
-                    background: #0a0a0a;
-                    border: 1px solid #333;
+                .viewer-container {
                     position: relative;
-                    z-index: 10000;
-                    display: flex;
-                    box-shadow: 0 0 50px rgba(0,0,0,0.8);
-                }
-
-                .expanded-image-container {
-                    flex: 1.5;
-                    position: relative;
-                    border-right: 1px solid rgba(255,255,255,0.05);
-                }
-
-                .expanded-image {
+                    z-index: 2;
                     width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    /* slight desaturation for industrial feel */
-                    filter: saturate(0.8); 
+                    max-width: 1600px;
+                    background: #0a0a0a;
+                    min-height: 100vh;
+                    border-left: 1px solid #222;
+                    border-right: 1px solid #222;
                 }
 
-                .img-overlay-tech {
-                    position: absolute;
-                    top: 20px;
-                    left: 20px;
-                    font-family: monospace;
-                    font-size: 0.6rem;
-                    color: #fff;
-                    background: rgba(0,0,0,0.7);
-                    padding: 4px 8px;
-                    border: 1px solid rgba(255,255,255,0.1);
-                }
-
-                .img-grid-overlay {
-                    position: absolute;
-                    inset: 0;
-                    background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
-                                    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
-                    background-size: 100px 100px;
-                    pointer-events: none;
-                }
-
-                /* RIGHT COLUMN POLISH */
-                .expanded-details {
-                    flex: 1;
-                    padding: 4rem;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    background: linear-gradient(to bottom, #0d0d0d, #050505);
-                    position: relative;
-                    overflow: hidden;
-                }
-
-                .details-bg-pattern {
-                    position: absolute;
-                    inset: 0;
-                    background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-                    background-size: 20px 20px;
-                    pointer-events: none;
-                }
-
-                .details-header {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin-bottom: 3rem;
-                    border-bottom: 1px solid rgba(255,255,255,0.1);
-                    padding-bottom: 1rem;
-                    position: relative;
-                    z-index: 2;
-                }
-
-                .category-tag {
-                    font-family: monospace;
-                    color: #a3ff12;
-                    font-size: 0.8rem;
-                }
-
-                .header-dots .dot {
-                    display: inline-block;
-                    width: 4px;
-                    height: 4px;
-                    background: #444;
-                    border-radius: 50%;
-                    margin-left: 6px;
-                }
-
-                .title-large {
-                    font-family: 'Playfair Display', serif;
-                    font-size: 4rem;
-                    line-height: 1;
-                    margin-bottom: 2rem;
-                    color: #fff;
-                    position: relative;
-                    z-index: 2;
-                }
-
-                .description-text {
-                    font-family: 'Inter', sans-serif;
-                    font-size: 1rem;
-                    line-height: 1.6;
-                    color: #aaa;
-                    margin-bottom: auto;
-                    position: relative;
-                    z-index: 2;
-                }
-
-                .specs-grid {
-                    display: grid;
-                    grid-template-columns: 1fr 1fr 1fr;
-                    gap: 1rem;
-                    border-top: 1px solid rgba(255,255,255,0.1);
-                    padding-top: 2rem;
-                    position: relative;
-                    z-index: 2;
-                }
-
-                .spec-label {
-                    display: block;
-                    font-family: monospace;
-                    font-size: 0.6rem;
-                    color: #555;
-                    margin-bottom: 4px;
-                }
-
-                .spec-value {
-                    font-family: 'Inter', sans-serif;
-                    font-size: 0.9rem;
-                    font-weight: 500;
-                }
-                
-                .active-status {
-                    color: #a3ff12;
-                }
-
-                .close-btn {
-                    position: absolute;
+                .viewer-close-btn {
+                    position: fixed;
                     top: 2rem;
-                    right: 2rem;
-                    background: none;
-                    border: 1px solid rgba(255,255,255,0.1);
-                    color: #fff;
+                    right: 4vw;
+                    z-index: 100;
+                    background: #a3ff12;
+                    color: #000;
+                    border: none;
                     padding: 0.5rem 1rem;
-                    cursor: pointer;
-                    z-index: 20;
                     display: flex;
                     align-items: center;
                     gap: 0.5rem;
-                    transition: all 0.3s;
+                    cursor: pointer;
+                    font-weight: bold;
+                    transition: transform 0.2s;
                 }
-                
+                .viewer-close-btn:hover {
+                    transform: scale(1.05);
+                }
                 .close-text {
                     font-family: monospace;
                     font-size: 0.7rem;
                     letter-spacing: 0.1em;
                 }
-                
-                .close-icon {
-                    font-size: 1.2rem;
-                    line-height: 0.8;
+                .close-icon { font-size: 1.2rem; line-height: 0.8; }
+
+                /* Viewer Content */
+                .viewer-content {
+                    display: flex;
+                    flex-direction: column;
                 }
 
-                .close-btn:hover {
-                    background: #fff;
-                    color: #000;
-                    border-color: #fff;
+                .viewer-hero {
+                    display: grid;
+                    grid-template-columns: 1.2fr 1fr;
+                    border-bottom: 1px solid #222;
+                    min-height: 80vh;
+                }
+
+                .viewer-hero-image-wrapper {
+                    position: relative;
+                    border-right: 1px solid #222;
+                    overflow: hidden;
+                }
+
+                .viewer-hero-image {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    /* Slight raw look */
+                    filter: contrast(1.1) saturate(0.9);
+                }
+
+                .viewer-overlay-grid {
+                    position: absolute;
+                    inset: 0;
+                    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                                    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+                    background-size: 40px 40px;
+                    pointer-events: none;
+                }
+
+                .viewer-tech-ui {
+                    position: absolute;
+                    bottom: 2rem;
+                    left: 2rem;
+                    font-family: monospace;
+                    background: rgba(0,0,0,0.8);
+                    color: #fff;
+                    padding: 4px 8px;
+                    font-size: 0.7rem;
+                    border: 1px solid rgba(255,255,255,0.2);
+                }
+
+                .viewer-hero-content {
+                    padding: 4rem;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    background: linear-gradient(to bottom, #0e0e0e, #050505);
+                }
+
+                .viewer-category {
+                    display: block;
+                    font-family: monospace;
+                    color: #a3ff12;
+                    margin-bottom: 1rem;
+                }
+
+                .viewer-title {
+                    font-family: 'Playfair Display', serif;
+                    font-size: 5rem;
+                    font-weight: 400;
+                    line-height: 0.95;
+                    margin-bottom: 2rem;
+                    color: #fff;
+                }
+
+                .viewer-description {
+                    font-family: 'Inter', sans-serif;
+                    font-size: 1.1rem;
+                    line-height: 1.6;
+                    color: #aaa;
+                    max-width: 600px;
+                    margin-bottom: 4rem;
+                }
+
+                .viewer-meta-grid {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 2rem;
+                    border-top: 1px solid #222;
+                    padding-top: 2rem;
+                }
+
+                .meta-item {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .meta-label {
+                    font-family: monospace;
+                    font-size: 0.6rem;
+                    color: #555;
+                    margin-bottom: 0.5rem;
+                }
+
+                .meta-value {
+                    font-family: 'Inter', sans-serif;
+                    font-size: 1rem;
+                    color: #fff;
+                }
+
+                /* Viewer Body (Challenge/Solution) */
+                .viewer-body {
+                    padding: 0;
+                }
+
+                .viewer-section {
+                    padding: 6rem 4rem;
+                    border-bottom: 1px solid #222;
+                    display: grid;
+                    grid-template-columns: 300px 1fr;
+                    gap: 2rem;
+                }
+
+                .section-label {
+                    font-family: monospace;
+                    font-size: 0.8rem;
+                    color: #a3ff12;
+                    letter-spacing: 0.1em;
+                }
+
+                .section-text {
+                    font-family: 'Inter', sans-serif;
+                    font-size: 1.5rem;
+                    line-height: 1.5;
+                    color: #ddd;
+                    max-width: 800px;
+                }
+
+                /* Additional Gallery Grid */
+                .viewer-gallery {
+                    padding: 6rem 4rem;
+                }
+
+                .project-images-grid {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 2rem;
+                    margin-top: 2rem;
+                }
+
+                .project-image-item {
+                    width: 100%;
+                    aspect-ratio: 16/9;
+                    background: #111;
+                    overflow: hidden;
+                }
+
+                .project-image-item img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    filter: grayscale(100%);
+                    transition: filter 0.5s;
+                }
+                
+                .project-image-item:hover img {
+                    filter: grayscale(0%);
+                }
+                
+                .viewer-footer {
+                    padding: 4rem;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                }
+                
+                .footer-line {
+                    width: 2px;
+                    height: 50px;
+                    background: #333;
+                    margin-bottom: 1rem;
+                }
+                
+                .footer-end {
+                    font-family: monospace;
+                    color: #333;
+                    font-size: 0.8rem;
                 }
 
                 /* RESPONSIVE */
                 @media (max-width: 1024px) {
-                    .gallery-header {
-                        margin-bottom: 4rem;
-                    }
-                    .header-main {
-                        grid-template-columns: 1fr;
-                        gap: 2rem;
-                    }
-                    .gallery-desc {
-                        text-align: left;
-                        justify-self: start;
-                    }
+                    .gallery-header { margin-bottom: 4rem; }
+                    .header-main { grid-template-columns: 1fr; gap: 2rem; }
+                    .gallery-desc { text-align: left; justify-self: start; }
                     .gallery-title { font-size: 3rem; }
-                    
-                    .gallery-grid {
-                        grid-template-columns: repeat(2, 1fr);
-                    }
+                    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
                     .size-large { grid-column: span 2; }
                     .size-tall { grid-column: span 1; }
                     
-                    .expanded-card {
-                        flex-direction: column;
-                        width: 95vw;
-                        height: 90vh;
-                        overflow-y: scroll;
-                    }
-                    .expanded-image-container { flex: none; height: 40vh; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
-                    .expanded-details { padding: 2rem; }
+                    /* Viewer Mobile */
+                    .viewer-hero { grid-template-columns: 1fr; }
+                    .viewer-hero-image-wrapper { height: 50vh; border-right: none; border-bottom: 1px solid #222; }
+                    .viewer-hero-content { padding: 2rem; }
+                    .viewer-title { font-size: 3rem; }
+                    .viewer-section { grid-template-columns: 1fr; padding: 3rem 2rem; gap: 1rem; }
+                    .section-text { font-size: 1.1rem; }
+                    .project-images-grid { grid-template-columns: 1fr; }
+                    
+                    .viewer-close-btn { right: 1rem; top: 1rem; }
                 }
 
                 @media (max-width: 600px) {
-                    .gallery-grid {
-                        grid-template-columns: 1fr;
-                        grid-auto-rows: 400px;
-                    }
-                    .size-large, .size-tall, .size-small {
-                        grid-column: span 1;
-                        grid-row: span 1;
-                    }
+                    .gallery-grid { grid-template-columns: 1fr; }
+                    .size-large, .size-tall, .size-small { grid-column: span 1; grid-row: span 1; }
                     .gallery-title { font-size: 2.5rem; }
+                    
+                    .viewer-title { font-size: 2.5rem; }
+                    .viewer-meta-grid { grid-template-columns: 1fr; gap: 1rem; }
                 }
             `}</style>
         </section>

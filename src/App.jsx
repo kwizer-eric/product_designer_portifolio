@@ -5,6 +5,7 @@ import Story from './components/Story';
 import Process from './components/Process';
 import Work from './components/Work';
 import Gallery from './components/Gallery';
+import Services from './components/Services';
 import Testimonials from './components/Testimonials';
 import Footer from './components/Footer';
 
@@ -37,6 +38,7 @@ function App() {
     <div className="app">
       <Hero />
       <Story />
+      <Services />
       <Process />
       <Work />
       <Gallery />

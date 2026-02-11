@@ -1,7 +1,9 @@
 
 import { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
 import './Services.css';
+
+import ServiceDetailOverlay from './ServiceDetailOverlay';
 
 const services = [
     {
@@ -38,7 +40,7 @@ const services = [
     }
 ];
 
-const ServiceItem = ({ service, setFocusedService }) => {
+const ServiceItem = ({ service, setFocusedService, onOpenDetail }) => {
     const ref = useRef(null);
     const isInView = useInView(ref, { margin: "-50% 0px -50% 0px" });
 
@@ -47,13 +49,6 @@ const ServiceItem = ({ service, setFocusedService }) => {
             setFocusedService(service);
         }
     }, [isInView, service, setFocusedService]);
-
-    const handleViewWork = () => {
-        const workSection = document.getElementById('work');
-        if (workSection) {
-            workSection.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
 
     return (
         <div ref={ref} className="service-list-item">
@@ -70,7 +65,7 @@ const ServiceItem = ({ service, setFocusedService }) => {
                     </li>
                 ))}
             </ul>
-            <button className="service-view-work-btn" onClick={handleViewWork}>
+            <button className="service-view-work-btn" onClick={() => onOpenDetail(service)}>
                 VIEW SELECTED WORK <span className="arrow">→</span>
             </button>
         </div>
@@ -79,6 +74,7 @@ const ServiceItem = ({ service, setFocusedService }) => {
 
 export default function Services() {
     const [focusedService, setFocusedService] = useState(services[0]);
+    const [selectedServiceDetail, setSelectedServiceDetail] = useState(null);
 
     return (
         <section className="services-section-new">
@@ -95,6 +91,7 @@ export default function Services() {
                             key={service.id}
                             service={service}
                             setFocusedService={setFocusedService}
+                            onOpenDetail={setSelectedServiceDetail}
                         />
                     ))}
                     <div className="list-footer">
@@ -136,6 +133,15 @@ export default function Services() {
                 </div>
 
             </div>
+
+            <AnimatePresence>
+                {selectedServiceDetail && (
+                    <ServiceDetailOverlay
+                        service={selectedServiceDetail}
+                        onClose={() => setSelectedServiceDetail(null)}
+                    />
+                )}
+            </AnimatePresence>
         </section>
     );
 }

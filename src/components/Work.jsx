@@ -1,3 +1,4 @@
+
 import { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
 
@@ -7,42 +8,94 @@ const projects = [
         title: "Grido",
         category: "Visual Identity",
         image: "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=1000&auto=format&fit=crop",
+        year: "2024",
+        role: "Lead Designer",
+        challenge: "To create a visual identity for a modular furniture brand that needs to communicate flexibility without feeling chaotic.",
+        solution: "A grid-based dynamic logo system where the letters rearrange themselves based on the aspect ratio of the application, mirroring the furniture's modularity.",
+        gallery: [
+            "https://images.unsplash.com/photo-1505330622279-bf7d7fc918f4?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=800&auto=format&fit=crop"
+        ]
     },
     {
         id: "02",
         title: "Stickify",
         category: "Web Platform",
         image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000&auto=format&fit=crop",
+        year: "2023",
+        role: "Product Design",
+        challenge: "Streamlining the sticker creation process for non-designers while maintaining high production quality.",
+        solution: "An intuitive drag-and-drop editor with real-time print preview, ensuring that what users see on screen is exactly what they get in the mail.",
+        gallery: [
+            "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=800&auto=format&fit=crop"
+        ]
     },
     {
         id: "03",
         title: "Agentify",
         category: "AI Dashboard",
         image: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1000&auto=format&fit=crop",
+        year: "2025",
+        role: "UX Architect",
+        challenge: "Visualizing complex autonomous agent behaviors in a way that builds trust with human operators.",
+        solution: "A 'transparent brain' interface that shows the agent's decision-making logic in real-time, using node-based visualizations.",
+        gallery: [
+            "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop"
+        ]
     },
     {
         id: "04",
         title: "AI Nest",
         category: "Product Design",
         image: "https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=1000&auto=format&fit=crop",
+        year: "2024",
+        role: "Industrial Design",
+        challenge: "Designing a smart home hub that doesn't look like a piece of technology.",
+        solution: "Using ceramic materials and soft, organic shapes to blend the device into a home's decor, making it feel like a vase rather than a computer.",
+        gallery: [
+            "https://images.unsplash.com/photo-1558002038-1055907df827?q=80&w=800&auto=format&fit=crop"
+        ]
     },
     {
         id: "05",
         title: "Brandora",
         category: "Branding",
         image: "https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=1000&auto=format&fit=crop",
+        year: "2023",
+        role: "Art Direction",
+        challenge: "Rebranding a legacy financial institution to appeal to Gen Z without alienating older clients.",
+        solution: "A dual-tone color palette and a modern serif typography that bridges the gap between tradition and innovation.",
+        gallery: [
+            "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=800&auto=format&fit=crop"
+        ]
     },
     {
         id: "06",
         title: "Codify",
         category: "Dev Tools",
         image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1000&auto=format&fit=crop",
+        year: "2024",
+        role: "UI Design",
+        challenge: "Creating a code editor theme that reduces eye strain during long coding sessions.",
+        solution: "A high-contrast dark mode with syntax highlighting explicitly tuned for different types of color blindness.",
+        gallery: [
+            "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800&auto=format&fit=crop"
+        ]
     },
     {
         id: "07",
         title: "Dailyhub",
         category: "Mobile App",
         image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=1000&auto=format&fit=crop",
+        year: "2025",
+        role: "Product Design",
+        challenge: "Breaking the 'doomscrolling' habit in a news aggregation app.",
+        solution: "A 'digest' mode that summarizes the day's top stories in a finishable format, giving users a sense of completion rather than endless anxiety.",
+        gallery: [
+            "https://images.unsplash.com/photo-1512428559087-560fa0db79c5?q=80&w=800&auto=format&fit=crop"
+        ]
     }
 ];
 
@@ -52,8 +105,9 @@ const WorkItem = ({ project, isActive, onClick }) => {
             className={`work-item ${isActive ? 'active' : ''}`}
             onClick={onClick}
             animate={{
-                scale: isActive ? 1.2 : 0.7,
-                opacity: isActive ? 1 : 0.2,
+                scale: isActive ? 1.2 : 0.8,
+                opacity: isActive ? 1 : 0.3,
+                filter: isActive ? 'blur(0px)' : 'blur(2px)'
             }}
             transition={{
                 type: "spring",
@@ -70,6 +124,7 @@ const WorkItem = ({ project, isActive, onClick }) => {
 
 export default function Work() {
     const [activeIndex, setActiveIndex] = useState(0);
+    const [selectedProject, setSelectedProject] = useState(null);
     const containerRef = useRef(null);
 
     // Track scroll through the entire section height
@@ -89,15 +144,24 @@ export default function Work() {
         }
     });
 
-    // Move the list vertically as we scroll to keep the active item centered
-    // Start at 27.5vh (35vh center - 7.5vh half-item)
-    // End at -62.5vh (35vh center - 97.5vh last item center)
-    const yTransform = useTransform(scrollYProgress, [0, 1], ["27.5vh", "-62.5vh"]);
+    // Scroll Transform logic matches previous implementation
+    const yTransform = useTransform(scrollYProgress, [0, 1], ["30vh", "-70vh"]);
+
+    // Lock body scroll when modal is open
+    useEffect(() => {
+        if (selectedProject) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [selectedProject]);
 
     const handleProjectClick = (index) => {
         if (!containerRef.current) return;
         const totalHeight = containerRef.current.offsetHeight;
-        // Target the middle of the project's scroll range
         const progress = (index + 0.5) / projects.length;
         const targetScroll = containerRef.current.offsetTop + progress * (totalHeight - window.innerHeight);
 
@@ -108,83 +172,164 @@ export default function Work() {
     };
 
     return (
-        <div className="work-sticky-wrapper" ref={containerRef}>
-            <section className="work-reel-section">
-                <div className="container reel-container">
+        <>
+            <div id="work" className="work-sticky-wrapper" ref={containerRef}>
+                <section className="work-reel-section">
+                    <div className="container reel-container">
 
-                    {/* Left: Indicator */}
-                    <div className="reel-decor">
-                        <div className="sound-wave">
-                            {projects.map((_, i) => (
-                                <motion.div
-                                    key={i}
-                                    className={`bar ${i === activeIndex ? 'active' : ''}`}
-                                    animate={{
-                                        width: i === activeIndex ? 60 : 30,
-                                        height: i === activeIndex ? 4 : 2,
-                                        opacity: i === activeIndex ? 1 : 0.2,
-                                        backgroundColor: i === activeIndex ? '#fff' : '#444'
-                                    }}
-                                    transition={{ duration: 0.3 }}
-                                />
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Center: List (Controlled by page scroll) */}
-                    <div className="reel-list-container">
-                        <motion.div
-                            className="reel-list"
-                            style={{ y: yTransform }}
-                        >
-                            {projects.map((project, index) => (
-                                <WorkItem
-                                    key={project.id}
-                                    project={project}
-                                    isActive={index === activeIndex}
-                                    onClick={() => handleProjectClick(index)}
-                                />
-                            ))}
-                        </motion.div>
-                    </div>
-
-                    {/* Right: Preview */}
-                    <div className="reel-preview">
-                        <AnimatePresence mode='wait'>
-                            <motion.div
-                                key={activeIndex}
-                                className="preview-card"
-                                initial={{ opacity: 0, x: 20, scale: 0.95 }}
-                                animate={{ opacity: 1, x: 0, scale: 1 }}
-                                exit={{ opacity: 0, x: -20, scale: 1.05 }}
-                                transition={{ duration: 0.4, ease: "easeOut" }}
-                            >
-                                <div className="img-wrapper">
-                                    <motion.img
-                                        src={projects[activeIndex].image}
-                                        alt={projects[activeIndex].title}
-                                        initial={{ scale: 1.2 }}
-                                        animate={{ scale: 1 }}
-                                        transition={{ duration: 0.6 }}
+                        {/* Left: Indicator */}
+                        <div className="reel-decor">
+                            <div className="sound-wave">
+                                {projects.map((_, i) => (
+                                    <motion.div
+                                        key={i}
+                                        className={`bar ${i === activeIndex ? 'active' : ''}`}
+                                        animate={{
+                                            width: i === activeIndex ? 60 : 30,
+                                            height: i === activeIndex ? 4 : 2,
+                                            opacity: i === activeIndex ? 1 : 0.2,
+                                            backgroundColor: i === activeIndex ? '#fff' : '#444'
+                                        }}
+                                        transition={{ duration: 0.3 }}
                                     />
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Center: List */}
+                        <div className="reel-list-container">
+                            <motion.div
+                                className="reel-list"
+                                style={{ y: yTransform }}
+                            >
+                                {projects.map((project, index) => (
+                                    <WorkItem
+                                        key={project.id}
+                                        project={project}
+                                        isActive={index === activeIndex}
+                                        onClick={() => handleProjectClick(index)}
+                                    />
+                                ))}
+                            </motion.div>
+                        </div>
+
+                        {/* Right: Preview */}
+                        <div className="reel-preview">
+                            <AnimatePresence mode='wait'>
+                                <motion.div
+                                    key={activeIndex}
+                                    className="preview-card"
+                                    initial={{ opacity: 0, x: 20, scale: 0.95 }}
+                                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                                    exit={{ opacity: 0, x: -20, scale: 1.05 }}
+                                    transition={{ duration: 0.4, ease: "easeOut" }}
+                                >
+                                    <div className="img-wrapper">
+                                        <motion.img
+                                            src={projects[activeIndex].image}
+                                            alt={projects[activeIndex].title}
+                                            initial={{ scale: 1.2 }}
+                                            animate={{ scale: 1 }}
+                                            transition={{ duration: 0.6 }}
+                                        />
+                                    </div>
+
+                                    <motion.button
+                                        className="view-btn"
+                                        whileHover={{ x: 10 }}
+                                        onClick={() => setSelectedProject(projects[activeIndex])}
+                                        layoutId={`btn-${projects[activeIndex].id}`} // Shared layout ID for transition?
+                                    >
+                                        <span className="arrow-icon">→</span>
+                                        VIEW PROJECT
+                                    </motion.button>
+                                </motion.div>
+                            </AnimatePresence>
+                        </div>
+
+                    </div>
+                </section>
+            </div>
+
+            {/* PROJECT DETAIL OVERLAY */}
+            <AnimatePresence>
+                {selectedProject && (
+                    <motion.div
+                        className="project-modal-overlay"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                    >
+                        <motion.div
+                            className="project-modal-content"
+                            initial={{ y: "100%" }}
+                            animate={{ y: 0 }}
+                            exit={{ y: "100%" }}
+                            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+                        >
+                            <button className="modal-close-btn" onClick={() => setSelectedProject(null)}>
+                                CLOSE ×
+                            </button>
+
+                            <div className="modal-scroll-area" data-lenis-prevent>
+                                {/* Hero Section */}
+                                <div className="modal-hero">
+                                    <div className="modal-hero-img-box">
+                                        <img src={selectedProject.image} alt={selectedProject.title} />
+                                    </div>
+                                    <div className="modal-hero-text">
+                                        <span className="modal-subtitle">{selectedProject.category} — {selectedProject.year}</span>
+                                        <h1 className="modal-title">{selectedProject.title}</h1>
+                                    </div>
                                 </div>
 
-                                <motion.button
-                                    className="view-btn"
-                                    whileHover={{ x: 10 }}
-                                >
-                                    <span className="arrow-icon">→</span>
-                                    VIEW PROJECT
-                                </motion.button>
-                            </motion.div>
-                        </AnimatePresence>
-                    </div>
+                                {/* Content Grid */}
+                                <div className="modal-grid">
+                                    <div className="info-col">
+                                        <div className="info-block">
+                                            <h3>Role</h3>
+                                            <p>{selectedProject.role}</p>
+                                        </div>
+                                        <div className="info-block">
+                                            <h3>Year</h3>
+                                            <p>{selectedProject.year}</p>
+                                        </div>
+                                    </div>
 
-                </div>
+                                    <div className="context-col">
+                                        <div className="text-block">
+                                            <h3>The Challenge</h3>
+                                            <p>{selectedProject.challenge}</p>
+                                        </div>
+                                        <div className="text-block">
+                                            <h3>The Solution</h3>
+                                            <p>{selectedProject.solution}</p>
+                                        </div>
+                                    </div>
+                                </div>
 
-                <style>{`
+                                {/* Gallery */}
+                                {selectedProject.gallery && (
+                                    <div className="modal-gallery">
+                                        <h3>Artifacts</h3>
+                                        <div className="modal-gallery-grid">
+                                            {selectedProject.gallery.map((img, i) => (
+                                                <div key={i} className="gallery-img-item">
+                                                    <img src={img} alt="Detail" />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            <style>{`
         .work-sticky-wrapper {
-            height: 500vh; /* Control how long the section stays pinned */
+            height: 500vh;
             position: relative;
             background-color: #050505;
         }
@@ -211,7 +356,6 @@ export default function Work() {
             align-items: center;
         }
 
-        /* 1. Indicators */
         .reel-decor {
             display: flex;
             justify-content: flex-start;
@@ -231,7 +375,6 @@ export default function Work() {
             border-radius: 2px;
         }
 
-        /* 2. List - Page Scroll Controlled */
         .reel-list-container {
             height: 70vh;
             position: relative;
@@ -265,7 +408,7 @@ export default function Work() {
 
         .project-title {
             font-family: "Playfair Display", "Georgia", "Times New Roman", serif;
-            font-size: 6rem; 
+            font-size: 3.5rem; 
             margin: 0;
             line-height: .9;
             font-weight: 500;
@@ -279,11 +422,7 @@ export default function Work() {
             text-shadow: 0 0 30px rgba(255,255,255,0.2);
         }
 
-        @media (max-width: 1400px) {
-            .project-title { font-size: 4rem; }
-        }
-
-        /* 3. Preview */
+        /* Preview */
         .reel-preview {
             display: flex;
             justify-content: center;
@@ -351,6 +490,166 @@ export default function Work() {
         
         .arrow-icon { font-size: 1.2rem; }
 
+        /* --- MODAL OVERLAY --- */
+        .project-modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: flex-end; /* Slide up from bottom */
+        }
+
+        .project-modal-content {
+            width: 100%;
+            height: 95vh;
+            background: #0a0a0a;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 -20px 50px rgba(0,0,0,0.5);
+            border-top: 1px solid #333;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: #a3ff12;
+            color: #000;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            font-family: monospace;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 100;
+            border-radius: 2px;
+        }
+
+        .modal-scroll-area {
+            overflow-y: auto;
+            height: 100%;
+            padding: 0 0 4rem 0;
+            overscroll-behavior: contain;
+        }
+
+        .modal-hero {
+            position: relative;
+            width: 100%;
+            height: 60vh;
+        }
+
+        .modal-hero-img-box {
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-hero-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+        }
+
+        .modal-hero-text {
+            position: absolute;
+            bottom: 2rem;
+            left: 5vw;
+            width: 90%;
+        }
+
+        .modal-subtitle {
+            font-family: monospace;
+            color: #a3ff12;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            line-height: 0.9;
+            color: #fff;
+            margin: 0;
+        }
+
+        .modal-grid {
+            padding: 4rem 5vw;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 4rem;
+        }
+
+        .info-block {
+            margin-bottom: 2rem;
+        }
+
+        .info-block h3 {
+            font-family: monospace;
+            color: #666;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .info-block p {
+            font-family: 'Inter', sans-serif;
+            color: #fff;
+            font-size: 1.1rem;
+        }
+
+        .text-block {
+            margin-bottom: 3rem;
+        }
+
+        .text-block h3 {
+            font-family: monospace;
+            color: #a3ff12;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .text-block p {
+            font-family: 'Inter', sans-serif;
+            color: #ccc;
+            font-size: 1.25rem;
+            line-height: 1.6;
+            max-width: 800px;
+        }
+
+        .modal-gallery {
+            padding: 2rem 5vw;
+        }
+
+        .modal-gallery h3 {
+            font-family: monospace;
+            color: #555;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+
+        .modal-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .gallery-img-item {
+            width: 100%;
+            background: #111;
+        }
+
+        .gallery-img-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 4px;
+        }
+
         @media (max-width: 1024px) {
             .work-sticky-wrapper { height: auto; }
             .work-reel-section { position: relative; height: auto; padding: 4rem 1rem; }
@@ -364,13 +663,16 @@ export default function Work() {
                 height: auto;
                 mask-image: none;
             }
-            .reel-list { transform: none !important; }
-            .project-title { font-size: 3rem; }
+            .project-title { font-size: 2.5rem; }
             .reel-preview { height: auto; padding-top: 2rem; }
             .img-wrapper { aspect-ratio: 16/9; }
+
+            .modal-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .modal-title { font-size: 3rem; }
+            .modal-gallery-grid { grid-template-columns: 1fr; }
         }
+
       `}</style>
-            </section>
-        </div>
+        </>
     );
 }

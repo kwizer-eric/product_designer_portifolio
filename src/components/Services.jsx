@@ -6,34 +6,34 @@ import './Services.css';
 const services = [
     {
         id: "s1",
-        title: "Product Design",
+        title: "Branding",
         number: "01",
-        description: "From initial sketch to manufacturing-ready 3D models. We blend aesthetics with ergonomics to create physical objects that feel inevitable.",
-        features: ["Industrial Design", "Ergonomics", "CMF Strategy", "Prototyping"],
-        visualType: "product"
-    },
-    {
-        id: "s2",
-        title: "Digital Experience",
-        number: "02",
-        description: "Crafting immersive digital interfaces that carry the tactical weight of physical machinery. High-performance web and mobile applications.",
-        features: ["UI/UX Design", "Motion Design", "Frontend Dev", "Design Systems"],
-        visualType: "digital"
-    },
-    {
-        id: "s3",
-        title: "Brand Systems",
-        number: "03",
         description: "Building cohesive visual identities that scale across physical and digital touchpoints. A rigorous approach to typography, color, and layout.",
         features: ["Visual Identity", "Art Direction", "Brand Strategy", "Guidelines"],
         visualType: "brand"
     },
     {
+        id: "s2",
+        title: "Product Design",
+        number: "02",
+        description: "From initial sketch to manufacturing-ready 3D models. We blend aesthetics with ergonomics to create physical objects that feel inevitable.",
+        features: ["Industrial Design", "Ergonomics", "CMF Strategy", "Prototyping"],
+        visualType: "product"
+    },
+    {
+        id: "s3",
+        title: "Development",
+        number: "03",
+        description: "Crafting immersive digital interfaces. High-performance web and mobile applications with a focus on interaction and motion.",
+        features: ["UI/UX Design", "Frontend Dev", "Motion Design", "Creative Coding"],
+        visualType: "digital"
+    },
+    {
         id: "s4",
-        title: "Creative Direction",
+        title: "Visual Creation",
         number: "04",
-        description: "Guiding the visual narrative. We oversee the entire aesthetic output to ensure a singular, uncompromising vision.",
-        features: ["Concept Development", "Visual Storytelling", "Campaign Direction", "3D Visualization"],
+        description: "Guiding the visual narrative through lens and light. We oversee the entire aesthetic output to ensure a singular, uncompromising vision.",
+        features: ["Photography", "Videography", "3D Visualization", "Art Direction"],
         visualType: "creative"
     }
 ];
@@ -47,6 +47,13 @@ const ServiceItem = ({ service, setFocusedService }) => {
             setFocusedService(service);
         }
     }, [isInView, service, setFocusedService]);
+
+    const handleViewWork = () => {
+        const workSection = document.getElementById('work');
+        if (workSection) {
+            workSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
 
     return (
         <div ref={ref} className="service-list-item">
@@ -63,6 +70,9 @@ const ServiceItem = ({ service, setFocusedService }) => {
                     </li>
                 ))}
             </ul>
+            <button className="service-view-work-btn" onClick={handleViewWork}>
+                VIEW SELECTED WORK <span className="arrow">→</span>
+            </button>
         </div>
     );
 };

@@ -1,28 +1,35 @@
-import { useRef, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 
 export default function Hero() {
     const containerRef = useRef(null);
     const { scrollY } = useScroll();
 
-    // Parallax logic
-    const yImage = useTransform(scrollY, [0, 1000], [0, 400]);
-    const scaleImage = useTransform(scrollY, [0, 1000], [1, 1.2]);
-    const yText = useTransform(scrollY, [0, 1000], [0, 200]);
+    // Parallax & Tilt
+    const yHero = useTransform(scrollY, [0, 1000], [0, 200]);
+    const opacityHero = useTransform(scrollY, [0, 600], [1, 0]);
 
-    // Mouse movement for subtle tilt
+    // Mouse Tilt for Phone
     const x = useMotionValue(0);
     const y = useMotionValue(0);
     const mouseX = useSpring(x, { stiffness: 40, damping: 20 });
     const mouseY = useSpring(y, { stiffness: 40, damping: 20 });
 
     function handleMouseMove(e) {
-        const { innerWidth, innerHeight } = window;
-        const xPct = (e.clientX / innerWidth - 0.5) * 20;
-        const yPct = (e.clientY / innerHeight - 0.5) * 20;
+        const rect = containerRef.current.getBoundingClientRect();
+        const width = rect.width;
+        const height = rect.height;
+        const mouseXVal = e.clientX - rect.left;
+        const mouseYVal = e.clientY - rect.top;
+        const xPct = mouseXVal / width - 0.5;
+        const yPct = mouseYVal / height - 0.5;
         x.set(xPct);
         y.set(yPct);
     }
+
+    // Reverse tilt for 3D feel
+    const rotateX = useTransform(mouseY, [-0.5, 0.5], [10, -10]);
+    const rotateY = useTransform(mouseX, [-0.5, 0.5], [-10, 10]);
 
     return (
         <section
@@ -30,268 +37,478 @@ export default function Hero() {
             className="hero-section"
             onMouseMove={handleMouseMove}
         >
+            <div className="hero-bg-light" />
 
             <div className="container hero-container">
 
-                {/* 1. THE CORNER DATA (FRAME) */}
-                <div className="frame-data tl">
-                    <span className="mono">AHIRWE ERICK</span>
-                    <span className="mono dim">P.DESIGNER</span>
-                </div>
-                <div className="frame-data tr">
-                    <span className="mono">AVAILABLE</span>
-                    <div className="status-dot"></div>
-                </div>
-                <div className="frame-data bl">
-                    <span className="mono">KIGALI, RW</span>
-                    <span className="mono dim">LOCAL_TIME</span>
-                </div>
-                <div className="frame-data br">
-                    <span className="mono">SCROLL_DOWN</span>
-                </div>
-
-                {/* 2. THE SUBJECT (CENTER IMAGE) */}
-                <div className="hero-center-stage">
+                {/* LEFT: AUTHORITY CONTENT */}
+                <div className="hero-content">
                     <motion.div
-                        className="hero-image-crop"
-                        style={{
-                            y: yImage,
-                            scale: scaleImage,
-                            rotateX: useTransform(mouseY, (v) => v * -1),
-                            rotateY: useTransform(mouseX, (v) => v)
-                        }}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className="status-pill"
                     >
-                        <img
-                            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000&auto=format&fit=crop"
-                            alt="Portrait"
-                            className="hero-img-main"
-                        />
-                        <div className="hero-img-overlay"></div>
+                        <span className="dot"></span>
+                        <span>AVAILABLE FOR NEW PROJECTS</span>
+                    </motion.div>
+
+                    <motion.h1
+                        className="hero-title"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                    >
+                        Crafting Digital <br />
+                        <span className="highlight">Systems That Scale.</span>
+                    </motion.h1>
+
+                    <motion.p
+                        className="hero-desc"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.8, delay: 0.4 }}
+                    >
+                        I define the visual language and interaction patterns for complex products. Bridging the gap between brand vision and user utility.
+                    </motion.p>
+
+                    <motion.div
+                        className="hero-btns"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.6 }}
+                    >
+                        <button onClick={() => document.getElementById('work').scrollIntoView({ behavior: 'smooth' })} className="btn-solid">
+                            View Selected Work
+                        </button>
+                        <button className="btn-outline">
+                            Contact Me
+                        </button>
+                    </motion.div>
+
+                    <motion.div
+                        className="hero-stats"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.8, delay: 0.8 }}
+                    >
+                        <div className="stat">
+                            <span className="num">05+</span>
+                            <span className="lbl">Years Exp.</span>
+                        </div>
+                        <div className="div-line"></div>
+                        <div className="stat">
+                            <span className="num">42+</span>
+                            <span className="lbl">Projects</span>
+                        </div>
                     </motion.div>
                 </div>
 
-                {/* 3. THE STATEMENT (OVERLAPPING TEXT) */}
-                <div className="hero-typography-layer">
-                    <motion.h1 className="hero-title" style={{ y: yText }}>
-                        <div className="row top">
-                            <motion.span
-                                initial={{ x: "-100%" }}
-                                animate={{ x: 0 }}
-                                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                            >
-                                AHIRWE
-                            </motion.span>
-                        </div>
-                        <div className="row bottom">
-                            <motion.span
-                                initial={{ x: "100%" }}
-                                animate={{ x: 0 }}
-                                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-                            >
-                                ERICK
-                            </motion.span>
-                        </div>
-                    </motion.h1>
-                </div>
-
-                {/* 4. THE INTERFACE (FLOATING NAV PILL) */}
+                {/* RIGHT: VISUAL PROOF (REALISTIC PHONE) */}
                 <motion.div
-                    className="hero-nav-pill"
-                    initial={{ y: 100, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.8, duration: 0.8 }}
+                    className="hero-visual"
+                    style={{ y: yHero, opacity: opacityHero }}
                 >
-                    <button onClick={() => document.getElementById('work').scrollIntoView({ behavior: 'smooth' })}>
-                        Selected Work
-                    </button>
-                    <div className="pill-divider"></div>
-                    <button>Contact</button>
-                    <div className="pill-divider"></div>
-                    <button>About</button>
+                    <motion.div
+                        className="phone-container"
+                        style={{
+                            rotateX,
+                            rotateY,
+                            transformStyle: "preserve-3d"
+                        }}
+                    >
+                        {/* THE PHONE FRAME */}
+                        <div className="phone-mockup">
+                            <div className="phone-screen">
+
+                                {/* Header */}
+                                <div className="app-header">
+                                    <span className="time">9:41</span>
+                                    <div className="status-icons">
+                                        <div className="icon-wifi"></div>
+                                        <div className="icon-battery"></div>
+                                    </div>
+                                </div>
+
+                                {/* Content: Music Player / Gallery App */}
+                                <div className="app-content">
+                                    <div className="album-art">
+                                        <div className="art-inner-gradient"></div>
+                                        <div className="play-btn-overlay">▶</div>
+                                    </div>
+                                    <div className="track-info">
+                                        <div className="track-title-bar"></div>
+                                        <div className="track-artist-bar"></div>
+                                    </div>
+                                    <div className="waveform">
+                                        {[...Array(20)].map((_, i) => (
+                                            <div
+                                                key={i}
+                                                className="wave-bar"
+                                                style={{
+                                                    height: Math.random() * 100 + '%',
+                                                    animationDelay: i * 0.1 + 's'
+                                                }}
+                                            />
+                                        ))}
+                                    </div>
+                                    <div className="control-row">
+                                        <div className="c-btn"></div>
+                                        <div className="c-btn big"></div>
+                                        <div className="c-btn"></div>
+                                    </div>
+                                </div>
+
+                                {/* Bottom Nav */}
+                                <div className="app-nav">
+                                    <div className="nav-item active"></div>
+                                    <div className="nav-item"></div>
+                                    <div className="nav-item"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Floating Notification */}
+                        <motion.div
+                            className="floating-notif"
+                            animate={{ y: [0, -10, 0] }}
+                            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                        >
+                            <div className="notif-icon">✓</div>
+                            <div className="notif-text">
+                                <span className="n-title">Design System</span>
+                                <span className="n-desc">v2.0 Published</span>
+                            </div>
+                        </motion.div>
+
+                    </motion.div>
                 </motion.div>
 
             </div>
 
             <style>{`
                 .hero-section {
-                    height: 100vh;
+                    min-height: 100vh;
                     background-color: #050505;
                     color: #fff;
                     position: relative;
                     overflow: hidden;
                     display: flex;
                     align-items: center;
-                    justify-content: center;
-                    perspective: 1200px;
+                }
+
+                .hero-bg-light {
+                    position: absolute;
+                    top: -20%;
+                    right: -10%;
+                    width: 50vw;
+                    height: 50vw;
+                    background: radial-gradient(circle, rgba(163, 255, 18, 0.15) 0%, transparent 70%);
+                    filter: blur(100px);
+                    pointer-events: none;
+                    z-index: 0;
                 }
 
                 .hero-container {
                     width: 100%;
-                    height: 100%;
-                    padding: 2rem; /* The "Passe-Partout" frame */
-                    position: relative;
-                    display: flex;
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    padding: 4rem 5vw;
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 6rem;
                     align-items: center;
-                    justify-content: center;
-                }
-
-                /* FRAME CORNERS */
-                .frame-data {
-                    position: absolute;
-                    display: flex;
-                    flex-direction: column;
-                    gap: 0.5rem;
+                    position: relative;
                     z-index: 10;
                 }
-                .tl { top: 2rem; left: 2rem; align-items: flex-start; }
-                .tr { top: 2rem; right: 2rem; align-items: flex-end; }
-                .bl { bottom: 2rem; left: 2rem; align-items: flex-start; }
-                .br { bottom: 2rem; right: 2rem; align-items: flex-end; }
 
-                .mono {
-                    font-family: 'Inter', sans-serif; /* Using Inter for clean data look */
-                    font-size: 0.75rem;
-                    text-transform: uppercase;
-                    letter-spacing: 0.1em;
-                    font-weight: 500;
-                    color: #fff;
+                /* LEFT COLUMN */
+                .hero-content {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    z-index: 10;
                 }
-                .dim { color: #555; }
-                
-                .status-dot {
-                    width: 8px;
-                    height: 8px;
+
+                .status-pill {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    background: rgba(255,255,255,0.05);
+                    border: 1px solid rgba(255,255,255,0.1);
+                    padding: 0.5rem 1rem;
+                    border-radius: 50px;
+                    font-family: 'Inter', sans-serif;
+                    font-size: 0.75rem;
+                    color: #ccc;
+                    margin-bottom: 2rem;
+                    backdrop-filter: blur(5px);
+                }
+
+                .dot {
+                    width: 6px;
+                    height: 6px;
                     background: #a3ff12;
                     border-radius: 50%;
-                    box-shadow: 0 0 10px #a3ff12;
-                }
-
-                /* CENTER STAGE (IMAGE) */
-                .hero-center-stage {
-                    position: absolute;
-                    inset: 0;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    z-index: 1; /* Below text */
-                }
-
-                .hero-image-crop {
-                    width: 35vw;
-                    height: 65vh;
-                    position: relative;
-                    overflow: hidden;
-                    background: #111;
-                }
-
-                .hero-img-main {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    /* High contrast B&W base for blend mode to bite into */
-                    filter: grayscale(100%) contrast(1.2) brightness(0.9);
-                    transition: transform 0.5s;
-                }
-                
-                .hero-img-overlay {
-                    position: absolute;
-                    inset: 0;
-                    background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.5));
-                }
-
-                /* TYPOGRAPHY LAYER */
-                .hero-typography-layer {
-                    position: absolute;
-                    inset: 0;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    z-index: 2; /* ABOVE image */
-                    pointer-events: none; /* Let clicks pass through */
-                    mix-blend-mode: exclusion; /* THE SECRET SAUCE */
+                    box-shadow: 0 0 8px #a3ff12;
                 }
 
                 .hero-title {
                     font-family: 'Playfair Display', serif;
-                    font-size: 15vw; /* Massive */
-                    line-height: 0.8;
-                    font-weight: 400;
-                    font-style: italic;
-                    color: #fff;
-                    text-align: center;
+                    font-size: clamp(3rem, 4.5vw, 5rem);
+                    font-weight: 600;
+                    line-height: 1.1;
+                    margin-bottom: 1.5rem;
+                }
+
+                .highlight {
+                    background: linear-gradient(90deg, #fff 0%, #aaa 100%);
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                }
+
+                .hero-desc {
+                    font-family: 'Inter', sans-serif;
+                    font-size: 1.1rem;
+                    line-height: 1.6;
+                    color: #888;
+                    max-width: 500px;
+                    margin-bottom: 2.5rem;
+                }
+
+                .hero-btns {
                     display: flex;
-                    flex-direction: column;
+                    gap: 1.5rem;
+                    margin-bottom: 3rem;
+                }
+
+                .btn-solid {
+                    background: #fff;
+                    color: #000;
+                    border: none;
+                    padding: 1rem 2rem;
+                    font-family: 'Inter', sans-serif;
+                    font-weight: 600;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                }
+                .btn-solid:hover {
+                    background: #e0e0e0;
+                    transform: translateY(-2px);
+                }
+
+                .btn-outline {
+                    background: transparent;
+                    color: #fff;
+                    border: 1px solid rgba(255,255,255,0.3);
+                    padding: 1rem 2rem;
+                    font-family: 'Inter', sans-serif;
+                    font-weight: 500;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                }
+                .btn-outline:hover {
+                    border-color: #fff;
+                }
+
+                .hero-stats {
+                    display: flex;
                     align-items: center;
+                    gap: 2rem;
+                    border-top: 1px solid rgba(255,255,255,0.1);
+                    padding-top: 1.5rem;
                     width: 100%;
                 }
 
-                .row {
+                .stat .num {
                     display: block;
-                    overflow: hidden;
-                    white-space: nowrap;
+                    font-family: 'Inter', sans-serif;
+                    font-weight: 700;
+                    font-size: 1.25rem;
+                    color: #fff;
+                }
+
+                .stat .lbl {
+                    font-family: 'Inter', sans-serif;
+                    font-size: 0.75rem;
+                    color: #666;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                }
+
+                .div-line {
+                    width: 1px;
+                    height: 30px;
+                    background: rgba(255,255,255,0.1);
+                }
+
+                /* RIGHT COLUMN */
+                .hero-visual {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    perspective: 1500px;
+                    height: 600px;
                 }
                 
-                /* Layout offsets for dynamic feel */
-                .row.top { transform: translateX(-10vw); }
-                .row.bottom { transform: translateX(10vw); }
+                .phone-container {
+                    position: relative;
+                    width: 320px;
+                    height: 640px;
+                }
 
-                /* NAV PILL */
-                .hero-nav-pill {
+                .phone-mockup {
+                    width: 100%;
+                    height: 100%;
+                    background: #1a1a1a;
+                    border-radius: 40px;
+                    border: 8px solid #333;
+                    box-shadow: 
+                        0 0 0 2px #444,
+                        0 30px 60px rgba(0,0,0,0.5),
+                        inset 0 0 20px rgba(0,0,0,0.8);
+                    position: relative;
+                    overflow: hidden;
+                    transition: box-shadow 0.3s;
+                }
+
+                .phone-screen {
+                    background: linear-gradient(135deg, #111, #222);
+                    width: 100%;
+                    height: 100%;
+                    padding: 2rem 1.5rem;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                }
+
+                .app-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 2rem;
+                }
+
+                .time { font-family: 'Inter', sans-serif; font-size: 0.8em; font-weight: 600; }
+                .status-icons { display: flex; gap: 4px; }
+                .icon-wifi, .icon-battery { width: 14px; height: 10px; background: #fff; border-radius: 2px; opacity: 0.8; }
+
+                .app-content {
+                    flex-grow: 1;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 1.5rem;
+                    margin-top: 1rem;
+                }
+
+                .album-art {
+                    width: 220px;
+                    height: 220px;
+                    background: #333;
+                    border-radius: 12px;
+                    position: relative;
+                    overflow: hidden;
+                    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+                }
+                
+                .art-inner-gradient {
+                    width: 100%; height: 100%;
+                    background: linear-gradient(45deg, #a3ff12, #3b5bdb);
+                    opacity: 0.8;
+                }
+
+                .play-btn-overlay {
                     position: absolute;
-                    bottom: 4rem;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    background: rgba(255,255,255,0.1);
-                    backdrop-filter: blur(10px);
-                    border: 1px solid rgba(255,255,255,0.1);
-                    padding: 0.5rem 0.5rem;
-                    border-radius: 50px;
+                    inset: 0;
                     display: flex;
                     align-items: center;
+                    justify-content: center;
+                    font-size: 2rem;
+                    color: #fff;
+                    background: rgba(0,0,0,0.2);
+                }
+
+                .track-info { width: 100%; padding: 0 1rem; }
+                .track-title-bar { width: 60%; height: 12px; background: #fff; margin-bottom: 8px; border-radius: 4px; }
+                .track-artist-bar { width: 40%; height: 8px; background: #555; border-radius: 4px; }
+
+                .waveform {
+                    display: flex;
+                    align-items: center;
+                    gap: 3px;
+                    height: 40px;
+                    width: 100%;
+                    padding: 0 1rem;
+                }
+
+                .wave-bar {
+                    flex: 1;
+                    background: #a3ff12;
+                    border-radius: 2px;
+                    animation: bounce 1s infinite ease-in-out;
+                }
+                
+                @keyframes bounce { 0%, 100% { transform: scaleY(0.5); } 50% { transform: scaleY(1); } }
+
+                .control-row {
+                    display: flex;
+                    align-items: center;
+                    gap: 1.5rem;
+                    margin-top: 1rem;
+                }
+                
+                .c-btn { width: 30px; height: 30px; border-radius: 50%; background: #333; }
+                .c-btn.big { width: 50px; height: 50px; background: #fff; }
+
+                .app-nav {
+                    display: flex;
+                    justify-content: space-around;
+                    padding-top: 1.5rem;
+                    border-top: 1px solid #333;
+                }
+
+                .nav-item { width: 24px; height: 24px; background: #333; border-radius: 4px; }
+                .nav-item.active { background: #fff; }
+
+                /* NOTIFICATION */
+                .floating-notif {
+                    position: absolute;
+                    top: 100px;
+                    right: -40px;
+                    background: rgba(255,255,255,0.95);
+                    color: #000;
+                    padding: 0.8rem 1rem;
+                    border-radius: 12px;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                    display: flex;
+                    gap: 12px;
+                    align-items: center;
+                    width: 200px;
                     z-index: 20;
                 }
 
-                .hero-nav-pill button {
-                    background: none;
-                    border: none;
-                    color: #fff;
-                    font-family: 'Inter', sans-serif;
-                    font-size: 0.85rem;
-                    padding: 0.6rem 1.5rem;
-                    cursor: pointer;
-                    transition: background 0.3s, color 0.3s;
-                    border-radius: 40px;
+                .notif-icon {
+                    width: 30px; height: 30px;
+                    background: #a3ff12;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: bold;
+                    font-size: 0.8rem;
                 }
 
-                .hero-nav-pill button:hover {
-                    background: #fff;
-                    color: #000;
-                }
-
-                .pill-divider {
-                    width: 1px;
-                    height: 15px;
-                    background: rgba(255,255,255,0.2);
-                }
+                .notif-text { display: flex; flex-direction: column; }
+                .n-title { font-weight: 700; font-size: 0.8rem; font-family: 'Inter', sans-serif; }
+                .n-desc { font-size: 0.7rem; color: #555; }
 
                 @media (max-width: 1024px) {
-                    .hero-image-crop {
-                        width: 80vw;
-                        height: 60vh;
-                    }
-                    .hero-title {
-                        font-size: 18vw;
-                    }
-                    .row.top { transform: translateX(0); }
-                    .row.bottom { transform: translateX(0); }
-                    
-                    .hero-nav-pill {
-                        width: 90%;
-                        bottom: 2rem;
-                        justify-content: space-between;
-                    }
-                    
-                    .frame-data { display: none; } /* Hide corners on mobile to reduce clutter */
+                    .hero-container { grid-template-columns: 1fr; padding-top: 6rem; gap: 3rem; }
+                    .hero-visual { display: none; }
+                    .hero-title { font-size: 3rem; }
                 }
 
             `}</style>

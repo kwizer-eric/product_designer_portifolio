@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import Lenis from '@studio-freight/lenis';
+import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Story from './components/Story';
 import Process from './components/Process';
@@ -36,6 +37,7 @@ function App() {
 
   return (
     <div className="app">
+      <Navbar />
       <Hero />
       <Story />
       <Services />

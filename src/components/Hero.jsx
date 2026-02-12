@@ -5,359 +5,408 @@ export default function Hero() {
     const containerRef = useRef(null);
     const { scrollY } = useScroll();
 
-    // Mouse Parallax Logic
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
-    const springX = useSpring(mouseX, { stiffness: 25, damping: 25 });
-    const springY = useSpring(mouseY, { stiffness: 25, damping: 25 });
+    const y = useTransform(scrollY, [0, 1000], [0, 400]);
+    const opacity = useTransform(scrollY, [0, 500], [1, 0]);
 
-    function handleMouseMove({ clientX, clientY }) {
-        const { innerWidth, innerHeight } = window;
-        mouseX.set((clientX / innerWidth - 0.5) * 30);
-        mouseY.set((clientY / innerHeight - 0.5) * 30);
-    }
-
-    useEffect(() => {
-        window.addEventListener("mousemove", handleMouseMove);
-        return () => window.removeEventListener("mousemove", handleMouseMove);
-    }, []);
-
-    // Scroll Parallax
-    const yName = useTransform(scrollY, [0, 1000], [0, 400]);
-    const yBio = useTransform(scrollY, [0, 1000], [0, -200]);
-    const yImage = useTransform(scrollY, [0, 1000], [0, 100]);
+    // Split text for animation
+    const firstName = "AHI";
+    const lastName = "RWE";
 
     return (
         <section ref={containerRef} className="hero-section">
+            <div className="hero-bg-grid" />
 
-            {/* Background Ambience */}
-            <div className="ambience-spotlight" />
-            <div className="noise-grain" />
+            <div className="container hero-container">
 
-            <div className="container">
-                <div className="hero-layout">
+                {/* 1. TOP BAR */}
+                <header className="hero-header">
+                    <div className="header-left">
+                        <span className="dot"></span>
+                        <span className="location">KIGALI, RWANDA 19:42</span>
+                    </div>
+                    <div className="header-right">
+                        <span>SCROLL FOR PROJECTS</span>
+                    </div>
+                </header>
 
-                    {/* 1. OFF-CENTER GIANT NAME */}
-                    <motion.div
-                        className="name-layer"
-                        style={{ y: yName, x: useTransform(springX, v => v * -1) }}
-                    >
-                        <div className="name-row">
-                            <span className="outline">AHI</span>
-                            <span className="filled">RWE</span>
+                {/* 2. MAIN CONTENT GRID */}
+                <div className="hero-main">
+
+                    {/* LEFT COLUMN: TITLE & INTRO */}
+                    <div className="hero-col-left">
+                        <motion.div
+                            className="hero-role-badge"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.2 }}
+                        >
+                            <span className="role-text">PRODUCT DESIGNER</span>
+                            <div className="role-line" />
+                            <span className="role-year">©2026</span>
+                        </motion.div>
+
+                        <div className="hero-title-wrapper">
+                            <motion.h1
+                                className="hero-name"
+                                style={{ y }}
+                            >
+                                <span className="name-part">{firstName}</span>
+                                <span className="name-part outline">{lastName}</span>
+                            </motion.h1>
                         </div>
-                        <div className="name-decoration">
-                            <span className="coordinate">37°46'N</span>
-                            <div className="line" />
-                            <span className="coordinate">122°25'W</span>
-                        </div>
-                    </motion.div>
 
-                    {/* 2. CENTRAL VISUAL (The focus) */}
+                        <motion.p
+                            className="hero-bio"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.8, duration: 1 }}
+                        >
+                            Crafting digital ecosystems that bridge the gap between human intuition and machine logic.
+                        </motion.p>
+
+                        <motion.div
+                            className="hero-cta"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 1 }}
+                        >
+                            <button className="cta-btn primary" onClick={() => document.getElementById('work').scrollIntoView({ behavior: 'smooth' })}>
+                                VIEW WORK
+                            </button>
+                            <button className="cta-btn secondary">
+                                CONTACT
+                            </button>
+                        </motion.div>
+                    </div>
+
+                    {/* RIGHT COLUMN: VISUAL ABSTRACT */}
                     <motion.div
-                        className="visual-layer"
-                        style={{
-                            y: yImage,
-                            rotateX: useTransform(springY, v => v * 0.5),
-                            rotateY: useTransform(springX, v => v * 0.5)
-                        }}
+                        className="hero-col-right"
+                        style={{ opacity }}
                     >
-                        <div className="image-frame-tech">
-                            <div className="frame-corner c-tl" />
-                            <div className="frame-corner c-br" />
+                        <div className="hero-image-frame">
+                            <div className="frame-decor tl" />
+                            <div className="frame-decor tr" />
+                            <div className="frame-decor bl" />
+                            <div className="frame-decor br" />
 
                             <img
                                 src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000&auto=format&fit=crop"
-                                alt="Erick Profile"
-                                className="hero-img"
+                                alt="Profile"
+                                className="hero-profile-img"
                             />
 
-                            {/* Image Overlays */}
-                            <div className="scan-line" />
-                            <div className="img-gloss" />
-                        </div>
-                    </motion.div>
-
-                    {/* 3. FLOATING BIO CARD (Right aligned) */}
-                    <motion.div
-                        className="bio-layer"
-                        style={{ y: yBio }}
-                    >
-                        <div className="bio-card">
-                            <div className="bio-header">
-                                <div className="status-dot" />
-                                <span>AVAILABLE FOR WORK</span>
-                            </div>
-                            <h2 className="role-title">
-                                DIGITAL<br />ALCHEMIST
-                            </h2>
-                            <p className="bio-text">
-                                Constructing <b>digital ecosystems</b> that bridge the gap between human intuition and machine logic.
-                            </p>
-
-                            <div className="bio-actions">
-                                <button className="btn-primary">
-                                    PROJECTS <span className="arrow">↗</span>
-                                </button>
-                                <div className="social-links">
-                                    <a href="#">LN</a>
-                                    <a href="#">GH</a>
-                                    <a href="#">TW</a>
+                            <div className="hero-overlay-info">
+                                <div className="info-stat">
+                                    <span className="label">EXP</span>
+                                    <span className="val">5+ YRS</span>
+                                </div>
+                                <div className="info-stat">
+                                    <span className="label">PROJECTS</span>
+                                    <span className="val">42+</span>
                                 </div>
                             </div>
                         </div>
                     </motion.div>
 
                 </div>
+
+                {/* 3. FOOTER / DECOR */}
+                <div className="hero-footer">
+                    <div className="scroll-indicator">
+                        <div className="scroll-line">
+                            <motion.div
+                                className="scroll-scroller"
+                                animate={{ y: [0, 40, 0] }}
+                                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                            />
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <style>{`
-        .hero-section {
-            min-height: 100vh;
-            background-color: #030303;
-            color: #fff;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-        }
+                .hero-section {
+                    height: 100vh;
+                    background-color: #050505;
+                    color: #fff;
+                    position: relative;
+                    overflow: hidden;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                }
 
-        .container {
-            width: 100%;
-            max-width: 1600px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 10;
-            padding: 2rem;
-        }
+                .hero-bg-grid {
+                    position: absolute;
+                    inset: 0;
+                    background-image: 
+                        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+                    background-size: 100px 100px;
+                    pointer-events: none;
+                }
 
-        .ambience-spotlight {
-            position: absolute;
-            top: -20%;
-            left: 20%;
-            width: 80vw;
-            height: 80vw;
-            background: radial-gradient(circle, rgba(59,91,219,0.15) 0%, transparent 60%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
-            filter: blur(100px);
-        }
+                .hero-container {
+                    width: 100%;
+                    max-width: 1600px;
+                    margin: 0 auto;
+                    padding: 0 5vw;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    padding-top: 4vh;
+                    padding-bottom: 4vh;
+                    position: relative;
+                    z-index: 10;
+                }
 
-        .noise-grain {
-            position: absolute;
-            inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
-            z-index: 1;
-            pointer-events: none;
-        }
+                /* HEADER */
+                .hero-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    font-family: monospace;
+                    font-size: 0.75rem;
+                    color: #555;
+                    letter-spacing: 0.1em;
+                }
 
-        .hero-layout {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            align-items: center;
-            height: 80vh;
-        }
+                .header-left {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
 
-        /* 1. Name Layer */
-        .name-layer {
-            position: relative;
-            z-index: 2;
-        }
+                .dot {
+                    width: 6px;
+                    height: 6px;
+                    background: #a3ff12;
+                    border-radius: 50%;
+                    box-shadow: 0 0 10px #a3ff12;
+                }
 
-        .name-row {
-            font-size: clamp(6rem, 18vw, 20rem);
-            font-weight: 800;
-            line-height: 0.8;
-            letter-spacing: -0.05em;
-            display: flex;
-            flex-direction: column;
-        }
+                /* MAIN LAYOUT */
+                .hero-main {
+                    display: grid;
+                    grid-template-columns: 1.5fr 1fr;
+                    gap: 4rem;
+                    align-items: center;
+                    height: 70%;
+                }
 
-        .outline {
-            color: transparent;
-            -webkit-text-stroke: 2px rgba(255,255,255,0.3);
-        }
+                .hero-role-badge {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    font-family: monospace;
+                    color: #a3ff12;
+                    font-size: 0.9rem;
+                    margin-bottom: 2rem;
+                }
 
-        .filled {
-            color: #fff;
-            margin-left: 1rem;
-        }
+                .role-line {
+                    height: 1px;
+                    width: 40px;
+                    background: #a3ff12;
+                }
 
-        .name-decoration {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-top: 2rem;
-            font-family: monospace;
-            color: #555;
-            font-size: 0.9rem;
-        }
+                .hero-title-wrapper {
+                    overflow: hidden;
+                    margin-bottom: 2rem;
+                }
 
-        .line {
-            width: 60px;
-            height: 1px;
-            background: #555;
-        }
+                .hero-name {
+                    font-family: 'Playfair Display', serif;
+                    font-size: 10vw;
+                    line-height: 0.85;
+                    margin: 0;
+                    font-weight: 500;
+                    display: flex;
+                    flex-direction: column;
+                }
 
-        /* 2. Visual Layer */
-        .visual-layer {
-            display: flex;
-            justify-content: center;
-            perspective: 1000px;
-            z-index: 5;
-        }
+                .name-part {
+                    display: block;
+                }
 
-        .image-frame-tech {
-            position: relative;
-            width: 380px;
-            height: 520px;
-            background: #111;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
+                .name-part.outline {
+                    color: transparent;
+                    -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+                    margin-left: 2vw;
+                    transition: all 0.5s;
+                }
+                
+                .name-part.outline:hover {
+                    color: #fff;
+                    -webkit-text-stroke: 0;
+                    margin-left: 0;
+                }
 
-        .hero-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.8;
-            transition: opacity 0.5s;
-        }
-        
-        .image-frame-tech:hover .hero-img { opacity: 1; }
+                .hero-bio {
+                    font-family: 'Inter', sans-serif;
+                    font-size: 1.5rem;
+                    color: #aaa;
+                    max-width: 600px;
+                    line-height: 1.4;
+                    margin-bottom: 3rem;
+                }
 
-        .frame-corner {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #3b5bdb;
-            z-index: 10;
-        }
-        .c-tl { top: -2px; left: -2px; border-right: 0; border-bottom: 0; }
-        .c-br { bottom: -2px; right: -2px; border-left: 0; border-top: 0; }
+                .hero-cta {
+                    display: flex;
+                    gap: 1.5rem;
+                }
 
-        .scan-line {
-            position: absolute;
-            top: 0;
-            width: 100%;
-            height: 2px;
-            background: rgba(59, 91, 219, 0.5);
-            box-shadow: 0 0 10px #3b5bdb;
-            animation: scan 4s linear infinite;
-            opacity: 0.5;
-        }
+                .cta-btn {
+                    padding: 1rem 2.5rem;
+                    font-family: monospace;
+                    font-size: 0.9rem;
+                    cursor: pointer;
+                    text-transform: uppercase;
+                    letter-spacing: 0.1em;
+                    transition: all 0.3s;
+                }
 
-        @keyframes scan { 0% { top: 0; opacity: 0; } 50% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+                .cta-btn.primary {
+                    background: #fff;
+                    color: #000;
+                    border: 1px solid #fff;
+                    font-weight: 700;
+                }
 
-        /* 3. Bio Layer */
-        .bio-layer {
-            z-index: 10;
-            display: flex;
-            justify-content: flex-end;
-        }
+                .cta-btn.primary:hover {
+                    background: #a3ff12;
+                    border-color: #a3ff12;
+                    transform: translateY(-2px);
+                }
 
-        .bio-card {
-            background: rgba(20,20,20,0.6);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 2.5rem;
-            width: 360px;
-            position: relative;
-        }
-        
-        .bio-card::before {
-            content: "";
-            position: absolute;
-            left: 0; top: 20px; bottom: 20px;
-            width: 2px;
-            background: #3b5bdb;
-        }
+                .cta-btn.secondary {
+                    background: transparent;
+                    color: #fff;
+                    border: 1px solid rgba(255,255,255,0.3);
+                }
 
-        .bio-header {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-family: monospace;
-            font-size: 0.75rem;
-            color: #888;
-            margin-bottom: 1.5rem;
-            letter-spacing: 0.1em;
-        }
+                .cta-btn.secondary:hover {
+                    border-color: #fff;
+                }
 
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            background: #00ff88;
-            border-radius: 50%;
-            box-shadow: 0 0 8px #00ff88;
-        }
+                /* RIGHT COLUMN */
+                .hero-col-right {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100%;
+                }
 
-        .role-title {
-            font-size: 2.5rem;
-            line-height: 1;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.02em;
-        }
+                .hero-image-frame {
+                    position: relative;
+                    width: 100%;
+                    max-width: 450px;
+                    aspect-ratio: 3/4;
+                    border: 1px solid #222;
+                    padding: 1rem;
+                }
+                
+                .hero-image-frame::before {
+                    content: '';
+                    position: absolute;
+                    inset: 0;
+                    background: rgba(163, 255, 18, 0.03);
+                    pointer-events: none;
+                }
 
-        .bio-text {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #aaa;
-            margin-bottom: 2rem;
-        }
-        .bio-text b { color: #fff; }
+                .hero-profile-img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    filter: grayscale(100%) contrast(1.1);
+                    transition: filter 0.5s;
+                }
 
-        .bio-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+                .hero-image-frame:hover .hero-profile-img {
+                    filter: grayscale(0%) contrast(1);
+                }
 
-        .btn-primary {
-            background: #fff;
-            color: #000;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            font-family: monospace;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-        }
-        .btn-primary:hover {
-            background: #ccc;
-            transform: translateX(5px);
-        }
+                .frame-decor {
+                    position: absolute;
+                    width: 15px;
+                    height: 15px;
+                    border: 2px solid #a3ff12;
+                    z-index: 2;
+                }
 
-        .social-links {
-            display: flex;
-            gap: 1rem;
-        }
-        .social-links a {
-            color: #555;
-            text-decoration: none;
-            font-family: monospace;
-            font-size: 0.9rem;
-            transition: color 0.3s;
-        }
-        .social-links a:hover { color: #fff; }
+                .tl { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+                .tr { top: -1px; right: -1px; border-left: 0; border-bottom: 0; }
+                .bl { bottom: -1px; left: -1px; border-right: 0; border-top: 0; }
+                .br { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
 
-        @media (max-width: 1024px) {
-            .hero-layout {
-                grid-template-columns: 1fr;
-                height: auto;
-                gap: 4rem;
-                padding-top: 6rem;
-            }
-            .name-row { font-size: 20vw; flex-direction: row; }
-            .visual-layer { order: -1; } /* Image on top? or text on top? Let's keep name top for mobile */
-            .bio-layer { justify-content: flex-start; }
-            .bio-card { width: 100%; }
-        }
-      `}</style>
+                .hero-overlay-info {
+                    position: absolute;
+                    bottom: 2rem;
+                    right: -2rem;
+                    background: #000;
+                    border: 1px solid #333;
+                    padding: 1rem;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1rem;
+                }
+
+                .info-stat {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .info-stat .label {
+                    font-family: monospace;
+                    font-size: 0.6rem;
+                    color: #555;
+                }
+                
+                .info-stat .val {
+                    font-family: 'Playfair Display', serif;
+                    font-size: 1.5rem;
+                    color: #fff;
+                }
+
+                /* FOOTER */
+                .hero-footer {
+                    display: flex;
+                    justify-content: center;
+                }
+
+                .scroll-line {
+                    width: 1px;
+                    height: 80px;
+                    background: rgba(255,255,255,0.1);
+                    position: relative;
+                    overflow: hidden;
+                }
+
+                .scroll-scroller {
+                    width: 100%;
+                    height: 30%;
+                    background: #a3ff12;
+                    position: absolute;
+                    top: -30%;
+                }
+
+                @media (max-width: 1024px) {
+                    .hero-main {
+                        grid-template-columns: 1fr;
+                        height: auto;
+                        gap: 2rem;
+                    }
+                    .hero-col-right {
+                        display: none; /* Hide image on mobile for cleaner look or move to bottom? */
+                    }
+                    .hero-name {
+                        font-size: 18vw;
+                    }
+                }
+            `}</style>
         </section>
     );
 }

@@ -1,127 +1,95 @@
-import { useRef, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 
 export default function Hero() {
     const containerRef = useRef(null);
     const { scrollY } = useScroll();
 
-    const y = useTransform(scrollY, [0, 1000], [0, 400]);
-    const opacity = useTransform(scrollY, [0, 500], [1, 0]);
-
-    // Split text for animation
-    const firstName = "AHI";
-    const lastName = "RWE";
+    // Parallax logic
+    const yHero = useTransform(scrollY, [0, 1000], [0, 200]);
+    const opacityHero = useTransform(scrollY, [0, 800], [1, 0]);
+    const scaleImage = useTransform(scrollY, [0, 1000], [1, 1.1]);
 
     return (
         <section ref={containerRef} className="hero-section">
-            <div className="hero-bg-grid" />
 
             <div className="container hero-container">
 
-                {/* 1. TOP BAR */}
-                <header className="hero-header">
-                    <div className="header-left">
-                        <span className="dot"></span>
-                        <span className="location">KIGALI, RWANDA 19:42</span>
+                {/* 1. Header (Minimal) */}
+                <header className="hero-nav">
+                    <div className="nav-item left">
+                        <span>EST. 2021</span>
                     </div>
-                    <div className="header-right">
-                        <span>SCROLL FOR PROJECTS</span>
+                    <div className="nav-item right">
+                        <span>KIGALI — RWANDA</span>
                     </div>
                 </header>
 
-                {/* 2. MAIN CONTENT GRID */}
-                <div className="hero-main">
+                {/* 2. Main Visual */}
+                <div className="hero-content">
 
-                    {/* LEFT COLUMN: TITLE & INTRO */}
-                    <div className="hero-col-left">
+                    {/* Background/Main Image */}
+                    <motion.div
+                        className="hero-image-wrapper"
+                        style={{ scale: scaleImage, opacity: opacityHero }}
+                    >
+                        <img
+                            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000&auto=format&fit=crop"
+                            alt="Erick Profile"
+                            className="hero-img"
+                        />
+                        <div className="hero-noise"></div>
+                    </motion.div>
+
+                    {/* Text Overlay */}
+                    <motion.div
+                        className="hero-typography"
+                        style={{ y: yHero }}
+                    >
+                        <h1 className="hero-title">
+                            <span className="row">
+                                <motion.span
+                                    initial={{ y: 100, opacity: 0 }}
+                                    animate={{ y: 0, opacity: 1 }}
+                                    transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                                >
+                                    Ahirwe
+                                </motion.span>
+                            </span>
+                            <span className="row indent">
+                                <motion.span
+                                    initial={{ y: 100, opacity: 0 }}
+                                    animate={{ y: 0, opacity: 1 }}
+                                    transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                                >
+                                    Erick
+                                </motion.span>
+                            </span>
+                        </h1>
+
                         <motion.div
-                            className="hero-role-badge"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2 }}
-                        >
-                            <span className="role-text">PRODUCT DESIGNER</span>
-                            <div className="role-line" />
-                            <span className="role-year">©2026</span>
-                        </motion.div>
-
-                        <div className="hero-title-wrapper">
-                            <motion.h1
-                                className="hero-name"
-                                style={{ y }}
-                            >
-                                <span className="name-part">{firstName}</span>
-                                <span className="name-part outline">{lastName}</span>
-                            </motion.h1>
-                        </div>
-
-                        <motion.p
-                            className="hero-bio"
+                            className="hero-subtitle"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            transition={{ delay: 0.8, duration: 1 }}
+                            transition={{ duration: 1.5, delay: 0.5 }}
                         >
-                            Crafting digital ecosystems that bridge the gap between human intuition and machine logic.
-                        </motion.p>
-
-                        <motion.div
-                            className="hero-cta"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 1 }}
-                        >
-                            <button className="cta-btn primary" onClick={() => document.getElementById('work').scrollIntoView({ behavior: 'smooth' })}>
-                                VIEW WORK
-                            </button>
-                            <button className="cta-btn secondary">
-                                CONTACT
-                            </button>
+                            <span className="role">PRODUCT DESIGNER</span>
+                            <span className="separator">/</span>
+                            <span className="focus">DIGITAL EXPERIENCES</span>
                         </motion.div>
-                    </div>
-
-                    {/* RIGHT COLUMN: VISUAL ABSTRACT */}
-                    <motion.div
-                        className="hero-col-right"
-                        style={{ opacity }}
-                    >
-                        <div className="hero-image-frame">
-                            <div className="frame-decor tl" />
-                            <div className="frame-decor tr" />
-                            <div className="frame-decor bl" />
-                            <div className="frame-decor br" />
-
-                            <img
-                                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000&auto=format&fit=crop"
-                                alt="Profile"
-                                className="hero-profile-img"
-                            />
-
-                            <div className="hero-overlay-info">
-                                <div className="info-stat">
-                                    <span className="label">EXP</span>
-                                    <span className="val">5+ YRS</span>
-                                </div>
-                                <div className="info-stat">
-                                    <span className="label">PROJECTS</span>
-                                    <span className="val">42+</span>
-                                </div>
-                            </div>
-                        </div>
                     </motion.div>
 
                 </div>
 
-                {/* 3. FOOTER / DECOR */}
+                {/* 3. Footer */}
                 <div className="hero-footer">
-                    <div className="scroll-indicator">
-                        <div className="scroll-line">
-                            <motion.div
-                                className="scroll-scroller"
-                                animate={{ y: [0, 40, 0] }}
-                                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                            />
-                        </div>
-                    </div>
+                    <button
+                        className="scroll-btn"
+                        onClick={() => document.getElementById('work').scrollIntoView({ behavior: 'smooth' })}
+                    >
+                        <span className="label">SCROLL TO EXPLORE</span>
+                        <motion.div className="line" initial={{ height: 0 }} animate={{ height: 60 }} transition={{ duration: 1, delay: 0.8 }} />
+                    </button>
                 </div>
 
             </div>
@@ -133,277 +101,151 @@ export default function Hero() {
                     color: #fff;
                     position: relative;
                     overflow: hidden;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                }
-
-                .hero-bg-grid {
-                    position: absolute;
-                    inset: 0;
-                    background-image: 
-                        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-                    background-size: 100px 100px;
-                    pointer-events: none;
                 }
 
                 .hero-container {
                     width: 100%;
-                    max-width: 1600px;
-                    margin: 0 auto;
-                    padding: 0 5vw;
                     height: 100%;
+                    padding: 2rem 4vw;
                     display: flex;
                     flex-direction: column;
                     justify-content: space-between;
-                    padding-top: 4vh;
-                    padding-bottom: 4vh;
                     position: relative;
                     z-index: 10;
                 }
 
-                /* HEADER */
-                .hero-header {
+                .hero-nav {
                     display: flex;
                     justify-content: space-between;
-                    align-items: center;
-                    font-family: monospace;
+                    font-family: 'Inter', sans-serif;
                     font-size: 0.75rem;
-                    color: #555;
+                    text-transform: uppercase;
                     letter-spacing: 0.1em;
+                    color: rgba(255,255,255,0.6);
+                    z-index: 20;
                 }
 
-                .header-left {
+                .hero-content {
+                    position: absolute;
+                    inset: 0;
                     display: flex;
                     align-items: center;
-                    gap: 10px;
+                    justify-content: center;
                 }
 
-                .dot {
-                    width: 6px;
-                    height: 6px;
-                    background: #a3ff12;
-                    border-radius: 50%;
-                    box-shadow: 0 0 10px #a3ff12;
-                }
-
-                /* MAIN LAYOUT */
-                .hero-main {
-                    display: grid;
-                    grid-template-columns: 1.5fr 1fr;
-                    gap: 4rem;
-                    align-items: center;
-                    height: 70%;
-                }
-
-                .hero-role-badge {
-                    display: flex;
-                    align-items: center;
-                    gap: 1rem;
-                    font-family: monospace;
-                    color: #a3ff12;
-                    font-size: 0.9rem;
-                    margin-bottom: 2rem;
-                }
-
-                .role-line {
-                    height: 1px;
-                    width: 40px;
-                    background: #a3ff12;
-                }
-
-                .hero-title-wrapper {
+                .hero-image-wrapper {
+                    position: absolute;
+                    width: 35vw;
+                    height: 55vh;
+                    z-index: 1;
                     overflow: hidden;
-                    margin-bottom: 2rem;
                 }
 
-                .hero-name {
-                    font-family: 'Playfair Display', serif;
-                    font-size: 10vw;
-                    line-height: 0.85;
-                    margin: 0;
-                    font-weight: 500;
+                .hero-img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    filter: grayscale(100%) contrast(1.2) brightness(0.9);
+                    opacity: 0.8;
+                }
+
+                .hero-noise {
+                    position: absolute;
+                    inset: 0;
+                    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+                    pointer-events: none;
+                }
+
+                .hero-typography {
+                    position: relative;
+                    z-index: 2;
+                    text-align: center;
+                    mix-blend-mode: exclusion; /* LUXURY TRICK */
+                    color: #fff;
                     display: flex;
                     flex-direction: column;
+                    align-items: center;
                 }
 
-                .name-part {
+                .hero-title {
+                    font-family: 'Playfair Display', serif;
+                    font-style: italic;
+                    font-size: clamp(5rem, 13vw, 16rem);
+                    font-weight: 400;
+                    line-height: 0.8;
+                    letter-spacing: -0.04em;
+                    display: flex;
+                    flex-direction: column;
+                    margin-bottom: 2rem;
+                }
+
+                .row {
                     display: block;
+                    overflow: hidden;
                 }
 
-                .name-part.outline {
-                    color: transparent;
-                    -webkit-text-stroke: 1px rgba(255,255,255,0.3);
-                    margin-left: 2vw;
-                    transition: all 0.5s;
-                }
-                
-                .name-part.outline:hover {
-                    color: #fff;
-                    -webkit-text-stroke: 0;
-                    margin-left: 0;
+                .indent {
+                    margin-left: 20%;
                 }
 
-                .hero-bio {
+                .hero-subtitle {
                     font-family: 'Inter', sans-serif;
-                    font-size: 1.5rem;
-                    color: #aaa;
-                    max-width: 600px;
-                    line-height: 1.4;
-                    margin-bottom: 3rem;
-                }
-
-                .hero-cta {
+                    font-size: 0.85rem;
+                    letter-spacing: 0.25em;
+                    text-transform: uppercase;
+                    color: rgba(255,255,255,0.9);
                     display: flex;
                     gap: 1.5rem;
                 }
 
-                .cta-btn {
-                    padding: 1rem 2.5rem;
-                    font-family: monospace;
-                    font-size: 0.9rem;
-                    cursor: pointer;
-                    text-transform: uppercase;
-                    letter-spacing: 0.1em;
-                    transition: all 0.3s;
-                }
-
-                .cta-btn.primary {
-                    background: #fff;
-                    color: #000;
-                    border: 1px solid #fff;
-                    font-weight: 700;
-                }
-
-                .cta-btn.primary:hover {
-                    background: #a3ff12;
-                    border-color: #a3ff12;
-                    transform: translateY(-2px);
-                }
-
-                .cta-btn.secondary {
-                    background: transparent;
-                    color: #fff;
-                    border: 1px solid rgba(255,255,255,0.3);
-                }
-
-                .cta-btn.secondary:hover {
-                    border-color: #fff;
-                }
-
-                /* RIGHT COLUMN */
-                .hero-col-right {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    height: 100%;
-                }
-
-                .hero-image-frame {
-                    position: relative;
-                    width: 100%;
-                    max-width: 450px;
-                    aspect-ratio: 3/4;
-                    border: 1px solid #222;
-                    padding: 1rem;
-                }
-                
-                .hero-image-frame::before {
-                    content: '';
-                    position: absolute;
-                    inset: 0;
-                    background: rgba(163, 255, 18, 0.03);
-                    pointer-events: none;
-                }
-
-                .hero-profile-img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    filter: grayscale(100%) contrast(1.1);
-                    transition: filter 0.5s;
-                }
-
-                .hero-image-frame:hover .hero-profile-img {
-                    filter: grayscale(0%) contrast(1);
-                }
-
-                .frame-decor {
-                    position: absolute;
-                    width: 15px;
-                    height: 15px;
-                    border: 2px solid #a3ff12;
-                    z-index: 2;
-                }
-
-                .tl { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
-                .tr { top: -1px; right: -1px; border-left: 0; border-bottom: 0; }
-                .bl { bottom: -1px; left: -1px; border-right: 0; border-top: 0; }
-                .br { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
-
-                .hero-overlay-info {
-                    position: absolute;
-                    bottom: 2rem;
-                    right: -2rem;
-                    background: #000;
-                    border: 1px solid #333;
-                    padding: 1rem;
-                    display: flex;
-                    flex-direction: column;
-                    gap: 1rem;
-                }
-
-                .info-stat {
-                    display: flex;
-                    flex-direction: column;
-                }
-
-                .info-stat .label {
-                    font-family: monospace;
-                    font-size: 0.6rem;
-                    color: #555;
-                }
-                
-                .info-stat .val {
-                    font-family: 'Playfair Display', serif;
-                    font-size: 1.5rem;
-                    color: #fff;
-                }
-
-                /* FOOTER */
                 .hero-footer {
                     display: flex;
                     justify-content: center;
+                    z-index: 20;
+                    padding-bottom: 2vh;
                 }
 
-                .scroll-line {
+                .scroll-btn {
+                    background: none;
+                    border: none;
+                    color: #fff;
+                    cursor: pointer;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 1rem;
+                }
+
+                .scroll-btn .label {
+                    font-family: 'Inter', sans-serif;
+                    font-size: 0.7rem;
+                    letter-spacing: 0.2em;
+                    text-transform: uppercase;
+                    opacity: 0.7;
+                    transition: opacity 0.3s;
+                }
+                
+                .scroll-btn:hover .label { opacity: 1; }
+
+                .scroll-btn .line {
                     width: 1px;
-                    height: 80px;
-                    background: rgba(255,255,255,0.1);
-                    position: relative;
-                    overflow: hidden;
+                    background: #fff;
                 }
 
-                .scroll-scroller {
-                    width: 100%;
-                    height: 30%;
-                    background: #a3ff12;
-                    position: absolute;
-                    top: -30%;
-                }
-
-                @media (max-width: 1024px) {
-                    .hero-main {
-                        grid-template-columns: 1fr;
-                        height: auto;
-                        gap: 2rem;
+                @media (max-width: 768px) {
+                    .hero-image-wrapper {
+                        width: 70vw;
+                        height: 50vh;
                     }
-                    .hero-col-right {
-                        display: none; /* Hide image on mobile for cleaner look or move to bottom? */
+                    .hero-title {
+                        font-size: 20vw;
                     }
-                    .hero-name {
-                        font-size: 18vw;
+                    .hero-subtitle {
+                        font-size: 0.7rem;
+                        gap: 1rem;
+                    }
+                    .indent {
+                        margin-left: 0;
                     }
                 }
             `}</style>

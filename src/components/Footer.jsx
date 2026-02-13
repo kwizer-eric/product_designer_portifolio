@@ -10,7 +10,7 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer className="footer-section">
+    <footer id="contact" className="footer-section">
       <div className="container">
 
         {/* MASSIVE CTA AREA */}

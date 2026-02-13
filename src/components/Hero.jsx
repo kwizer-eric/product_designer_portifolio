@@ -1,517 +1,458 @@
 import { useRef } from 'react';
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Float, Stars, Environment, Torus, Sphere, Box } from '@react-three/drei';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import * as THREE from 'three';
 
-export default function Hero() {
-    const containerRef = useRef(null);
-    const { scrollY } = useScroll();
+// 3D hanging object + chain, inspired by a pendant / toy on a chain
+function HangingPendant() {
+    const groupRef = useRef();
+    const swingRef = useRef();
 
-    // Parallax & Tilt
-    const yHero = useTransform(scrollY, [0, 1000], [0, 200]);
-    const opacityHero = useTransform(scrollY, [0, 600], [1, 0]);
+    useFrame((state, delta) => {
+        const t = state.clock.getElapsedTime();
 
-    // Mouse Tilt for Phone
-    const x = useMotionValue(0);
-    const y = useMotionValue(0);
-    const mouseX = useSpring(x, { stiffness: 40, damping: 20 });
-    const mouseY = useSpring(y, { stiffness: 40, damping: 20 });
+        // Gentle pendulum swing
+        if (groupRef.current) {
+            groupRef.current.rotation.z = Math.sin(t * 0.6) * 0.18;
+            groupRef.current.position.y = Math.sin(t * 0.9) * 0.2;
+        }
 
-    function handleMouseMove(e) {
-        const rect = containerRef.current.getBoundingClientRect();
-        const width = rect.width;
-        const height = rect.height;
-        const mouseXVal = e.clientX - rect.left;
-        const mouseYVal = e.clientY - rect.top;
-        const xPct = mouseXVal / width - 0.5;
-        const yPct = mouseYVal / height - 0.5;
-        x.set(xPct);
-        y.set(yPct);
-    }
-
-    // Reverse tilt for 3D feel
-    const rotateX = useTransform(mouseY, [-0.5, 0.5], [10, -10]);
-    const rotateY = useTransform(mouseX, [-0.5, 0.5], [-10, 10]);
+        if (groupRef.current) {
+            groupRef.current.rotation.y = THREE.MathUtils.lerp(
+                groupRef.current.rotation.y,
+                state.mouse.x * 0.25,
+                0.05,
+            );
+            groupRef.current.rotation.x = THREE.MathUtils.lerp(
+                groupRef.current.rotation.x,
+                state.mouse.y * 0.2,
+                0.05,
+            );
+        }
+    });
 
     return (
-        <section
-            ref={containerRef}
-            className="hero-section"
-            onMouseMove={handleMouseMove}
-        >
-            <div className="hero-bg-light" />
-
-            <div className="container hero-container">
-
-                {/* LEFT: AUTHORITY CONTENT */}
-                <div className="hero-content">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        className="status-pill"
+        <group ref={groupRef} position={[2.4, 1.2, 0]} scale={1.2}>
+            {/* Chain going up */}
+            <group ref={swingRef} position={[0, 2.5, 0]}>
+                {Array.from({ length: 10 }).map((_, i) => (
+                    <Torus
+                        // eslint-disable-next-line react/no-array-index-key
+                        key={i}
+                        args={[0.18, 0.035, 8, 20]}
+                        position={[0, i * -0.34, 0]}
+                        rotation={[Math.PI / 2, i % 2 === 0 ? 0.4 : -0.4, 0]}
                     >
-                        <span className="dot"></span>
-                        <span>AVAILABLE FOR NEW PROJECTS</span>
-                    </motion.div>
+                        <meshStandardMaterial
+                            color="#e3e3e3"
+                            metalness={1}
+                            roughness={0.15}
+                            envMapIntensity={1.4}
+                        />
+                    </Torus>
+                ))}
+            </group>
 
-                    <motion.h1
-                        className="hero-title"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                    >
-                        Crafting Digital <br />
-                        <span className="highlight">Systems That Scale.</span>
-                    </motion.h1>
+            {/* Character / object */}
+            <Float speed={1.2} rotationIntensity={0.5} floatIntensity={0.5}>
+                <group position={[0, -1.4, 0]}>
+                    <Sphere args={[0.6, 32, 32]} position={[0, 1.1, 0]}>
+                        <meshPhysicalMaterial
+                            color="#f5f5f5"
+                            metalness={0.4}
+                            roughness={0.05}
+                            clearcoat={1}
+                            thickness={2}
+                        />
+                    </Sphere>
 
-                    <motion.p
-                        className="hero-desc"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.8, delay: 0.4 }}
-                    >
-                        I define the visual language and interaction patterns for complex products. Bridging the gap between brand vision and user utility.
-                    </motion.p>
+                    <Box args={[1.1, 1.3, 0.6]} position={[0, 0, 0]}>
+                        <meshStandardMaterial
+                            color="#c0c0c0"
+                            metalness={1}
+                            roughness={0.2}
+                            envMapIntensity={1.3}
+                        />
+                    </Box>
 
-                    <motion.div
-                        className="hero-btns"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.6 }}
-                    >
-                        <button onClick={() => document.getElementById('work').scrollIntoView({ behavior: 'smooth' })} className="btn-solid">
-                            View Selected Work
-                        </button>
-                        <button className="btn-outline">
-                            Contact Me
-                        </button>
-                    </motion.div>
+                    <Box args={[0.5, 0.8, 0.5]} position={[-0.6, -1.1, 0]}>
+                        <meshStandardMaterial
+                            color="#a3ff12"
+                            metalness={1}
+                            roughness={0.3}
+                        />
+                    </Box>
 
-                    <motion.div
-                        className="hero-stats"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.8, delay: 0.8 }}
-                    >
-                        <div className="stat">
-                            <span className="num">05+</span>
-                            <span className="lbl">Years Exp.</span>
-                        </div>
-                        <div className="div-line"></div>
-                        <div className="stat">
-                            <span className="num">42+</span>
-                            <span className="lbl">Projects</span>
-                        </div>
-                    </motion.div>
-                </div>
+                    <Box args={[0.5, 0.8, 0.5]} position={[0.6, -1.1, 0]}>
+                        <meshStandardMaterial
+                            color="#ffffff"
+                            metalness={1}
+                            roughness={0.3}
+                        />
+                    </Box>
+                </group>
+            </Float>
+        </group>
+    );
+}
 
-                {/* RIGHT: VISUAL PROOF (REALISTIC PHONE) */}
-                <motion.div
-                    className="hero-visual"
-                    style={{ y: yHero, opacity: opacityHero }}
-                >
-                    <motion.div
-                        className="phone-container"
-                        style={{
-                            rotateX,
-                            rotateY,
-                            transformStyle: "preserve-3d"
-                        }}
-                    >
-                        {/* THE PHONE FRAME */}
-                        <div className="phone-mockup">
-                            <div className="phone-screen">
+// MAIN HERO COMPONENT
+export default function Hero() {
+    const { scrollY } = useScroll();
 
-                                {/* Header */}
-                                <div className="app-header">
-                                    <span className="time">9:41</span>
-                                    <div className="status-icons">
-                                        <div className="icon-wifi"></div>
-                                        <div className="icon-battery"></div>
-                                    </div>
-                                </div>
+    const yContent = useTransform(scrollY, [0, 500], [0, 200]);
+    const opacityContent = useTransform(scrollY, [0, 400], [1, 0]);
 
-                                {/* Content: Music Player / Gallery App */}
-                                <div className="app-content">
-                                    <div className="album-art">
-                                        <div className="art-inner-gradient"></div>
-                                        <div className="play-btn-overlay">▶</div>
-                                    </div>
-                                    <div className="track-info">
-                                        <div className="track-title-bar"></div>
-                                        <div className="track-artist-bar"></div>
-                                    </div>
-                                    <div className="waveform">
-                                        {[...Array(20)].map((_, i) => (
-                                            <div
-                                                key={i}
-                                                className="wave-bar"
-                                                style={{
-                                                    height: Math.random() * 100 + '%',
-                                                    animationDelay: i * 0.1 + 's'
-                                                }}
-                                            />
-                                        ))}
-                                    </div>
-                                    <div className="control-row">
-                                        <div className="c-btn"></div>
-                                        <div className="c-btn big"></div>
-                                        <div className="c-btn"></div>
-                                    </div>
-                                </div>
+    return (
+        <section id="hero" className="hero-shell">
+            {/* 3D SCENE */}
+            <div className="hero-scene">
+                <div className="hero-electric-bg" />
+                <Canvas camera={{ position: [0, 0, 9], fov: 40 }} gl={{ antialias: true }}>
+                    <color attach="background" args={['#050505']} />
 
-                                {/* Bottom Nav */}
-                                <div className="app-nav">
-                                    <div className="nav-item active"></div>
-                                    <div className="nav-item"></div>
-                                    <div className="nav-item"></div>
-                                </div>
-                            </div>
-                        </div>
+                    <ambientLight intensity={0.6} />
+                    <spotLight
+                        position={[8, 12, 10]}
+                        angle={0.2}
+                        penumbra={1}
+                        intensity={1.1}
+                        color="#a3ff12"
+                    />
+                    <pointLight
+                        position={[-8, -10, -6]}
+                        intensity={0.9}
+                        color="#4c4cff"
+                    />
 
-                        {/* Floating Notification */}
-                        <motion.div
-                            className="floating-notif"
-                            animate={{ y: [0, -10, 0] }}
-                            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                        >
-                            <div className="notif-icon">✓</div>
-                            <div className="notif-text">
-                                <span className="n-title">Design System</span>
-                                <span className="n-desc">v2.0 Published</span>
-                            </div>
-                        </motion.div>
-
-                    </motion.div>
-                </motion.div>
-
+                    <Environment preset="city" />
+                    <HangingPendant />
+                    <Stars
+                        radius={80}
+                        depth={40}
+                        count={1200}
+                        factor={3}
+                        saturation={0}
+                        fade
+                        speed={0.4}
+                    />
+                </Canvas>
             </div>
 
+            {/* FOREGROUND CONTENT */}
+            <motion.div
+                className="hero-content"
+                style={{ y: yContent, opacity: opacityContent }}
+            >
+                <div className="hero-grid">
+                    <div className="hero-copy">
+                        <div className="hero-kicker-row">
+                            <span className="hero-kicker">PRODUCT & VISUAL DESIGNER</span>
+                            <span className="hero-location">Based in Kigali, working worldwide.</span>
+                        </div>
+
+                        <h1 className="hero-heading">
+                            Visual
+                            <span className="hero-heading-em">
+                                Engineer
+                                <span className="hero-heading-em-bar" />
+                            </span>
+
+                        </h1>
+
+                        <p className="hero-subcopy">
+
+                        </p>
+
+                        <div className="hero-ctas">
+                            <a href="#work" className="hero-primary-cta">
+                                View artcrafts
+                            </a>
+                            <a href="#services" className="hero-secondary-cta">
+                                What I Do
+                            </a>
+                        </div>
+
+                        <div className="hero-meta-row">
+                            <div className="hero-meta-block">
+                                <span className="hero-meta-label"></span>
+                                <span className="hero-meta-value"></span>
+                            </div>
+                            <div className="hero-meta-block">
+                                <span className="hero-meta-label"></span>
+                                <span className="hero-meta-value"></span>
+                            </div>
+                            <div className="hero-meta-block">
+                                <span className="hero-meta-label"></span>
+                                <span className="hero-meta-value"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="hero-scroll-indicator">
+                    <span className="hero-scroll-line" />
+                    <span className="hero-scroll-label">Scroll to explore</span>
+                </div>
+            </motion.div>
+
             <style>{`
-                .hero-section {
-                    min-height: 100vh;
-                    background-color: #050505;
-                    color: #fff;
-                    position: relative;
-                    overflow: hidden;
-                    display: flex;
-                    align-items: center;
-                }
+        .hero-shell {
+          position: relative;
+          width: 100%;
+          min-height: 100vh;
+          overflow: hidden;
+          background: #050505;
+        }
 
-                .hero-bg-light {
-                    position: absolute;
-                    top: -20%;
-                    right: -10%;
-                    width: 50vw;
-                    height: 50vw;
-                    background: radial-gradient(circle, rgba(163, 255, 18, 0.15) 0%, transparent 70%);
-                    filter: blur(100px);
-                    pointer-events: none;
-                    z-index: 0;
-                }
+        .hero-scene {
+          position: absolute;
+          inset: 0;
+          z-index: 0;
+        }
 
-                .hero-container {
-                    width: 100%;
-                    max-width: 1400px;
-                    margin: 0 auto;
-                    padding: 4rem 5vw;
-                    display: grid;
-                    grid-template-columns: 1fr 1fr;
-                    gap: 6rem;
-                    align-items: center;
-                    position: relative;
-                    z-index: 10;
-                }
+        .hero-electric-bg {
+          position: absolute;
+          inset: -10%;
+          background:
+            radial-gradient(circle at 20% 30%, rgba(0, 153, 255, 0.45), transparent 60%),
+            radial-gradient(circle at 70% 10%, rgba(0, 240, 255, 0.4), transparent 55%),
+            radial-gradient(circle at 60% 80%, rgba(0, 0, 0, 1), #000);
+          mix-blend-mode: screen;
+          filter: blur(12px);
+          opacity: 0.75;
+          pointer-events: none;
+          animation: hero-electric-pulse 16s infinite alternate ease-in-out;
+        }
 
-                /* LEFT COLUMN */
-                .hero-content {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: flex-start;
-                    z-index: 10;
-                }
+        .hero-content {
+          position: relative;
+          z-index: 1;
+          max-width: 1600px;
+          margin: 0 auto;
+          padding: 7rem 2rem 4rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          min-height: 100vh;
+        }
 
-                .status-pill {
-                    display: flex;
-                    align-items: center;
-                    gap: 8px;
-                    background: rgba(255,255,255,0.05);
-                    border: 1px solid rgba(255,255,255,0.1);
-                    padding: 0.5rem 1rem;
-                    border-radius: 50px;
-                    font-family: 'Inter', sans-serif;
-                    font-size: 0.75rem;
-                    color: #ccc;
-                    margin-bottom: 2rem;
-                    backdrop-filter: blur(5px);
-                }
+        .hero-grid {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+        }
 
-                .dot {
-                    width: 6px;
-                    height: 6px;
-                    background: #a3ff12;
-                    border-radius: 50%;
-                    box-shadow: 0 0 8px #a3ff12;
-                }
+        .hero-copy {
+          display: flex;
+          flex-direction: column;
+          gap: 1.75rem;
+        }
 
-                .hero-title {
-                    font-family: 'Playfair Display', serif;
-                    font-size: clamp(3rem, 4.5vw, 5rem);
-                    font-weight: 600;
-                    line-height: 1.1;
-                    margin-bottom: 1.5rem;
-                }
+        .hero-kicker-row {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1.5rem;
+          align-items: center;
+          font-size: 0.75rem;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          font-family: monospace;
+          color: #888;
+        }
 
-                .highlight {
-                    background: linear-gradient(90deg, #fff 0%, #aaa 100%);
-                    -webkit-background-clip: text;
-                    -webkit-text-fill-color: transparent;
-                }
+        .hero-kicker {
+          color: #a3ff12;
+        }
 
-                .hero-desc {
-                    font-family: 'Inter', sans-serif;
-                    font-size: 1.1rem;
-                    line-height: 1.6;
-                    color: #888;
-                    max-width: 500px;
-                    margin-bottom: 2.5rem;
-                }
+        .hero-location {
+          border-left: 1px solid rgba(255, 255, 255, 0.15);
+          padding-left: 1.25rem;
+        }
 
-                .hero-btns {
-                    display: flex;
-                    gap: 1.5rem;
-                    margin-bottom: 3rem;
-                }
+        .hero-heading {
+          font-family: 'Inter', system-ui, sans-serif;
+          font-size: clamp(2.8rem, 5vw, 4.5rem);
+          font-weight: 800;
+          line-height: 1;
+          letter-spacing: -0.04em;
+          color: #f3f3f3;
+        }
 
-                .btn-solid {
-                    background: #fff;
-                    color: #000;
-                    border: none;
-                    padding: 1rem 2rem;
-                    font-family: 'Inter', sans-serif;
-                    font-weight: 600;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    transition: all 0.3s;
-                }
-                .btn-solid:hover {
-                    background: #e0e0e0;
-                    transform: translateY(-2px);
-                }
+        .hero-heading-em {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          padding-inline: 0.4rem;
+          margin-inline: 0.35rem;
+          background: radial-gradient(circle at 0 0, rgba(163, 255, 18, 0.25), transparent 55%);
+          color: #ffffff;
+        }
 
-                .btn-outline {
-                    background: transparent;
-                    color: #fff;
-                    border: 1px solid rgba(255,255,255,0.3);
-                    padding: 1rem 2rem;
-                    font-family: 'Inter', sans-serif;
-                    font-weight: 500;
-                    border-radius: 4px;
-                    cursor: pointer;
-                    transition: all 0.3s;
-                }
-                .btn-outline:hover {
-                    border-color: #fff;
-                }
+        .hero-heading-em-bar {
+          position: absolute;
+          inset-inline: 0;
+          bottom: -0.1rem;
+          height: 2px;
+          background: linear-gradient(90deg, #a3ff12, transparent);
+          opacity: 0.8;
+        }
 
-                .hero-stats {
-                    display: flex;
-                    align-items: center;
-                    gap: 2rem;
-                    border-top: 1px solid rgba(255,255,255,0.1);
-                    padding-top: 1.5rem;
-                    width: 100%;
-                }
+        .hero-subcopy {
+          max-width: 34rem;
+          font-size: 1rem;
+          line-height: 1.7;
+          color: #b3b3b3;
+        }
 
-                .stat .num {
-                    display: block;
-                    font-family: 'Inter', sans-serif;
-                    font-weight: 700;
-                    font-size: 1.25rem;
-                    color: #fff;
-                }
+        .hero-ctas {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1rem;
+          margin-top: 0.5rem;
+        }
 
-                .stat .lbl {
-                    font-family: 'Inter', sans-serif;
-                    font-size: 0.75rem;
-                    color: #666;
-                    text-transform: uppercase;
-                    letter-spacing: 0.05em;
-                }
+        .hero-primary-cta,
+        .hero-secondary-cta {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0.8rem 1.8rem;
+          border-radius: 999px;
+          font-size: 0.8rem;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          text-decoration: none;
+          transition: all 0.25s ease;
+          border: 1px solid transparent;
+        }
 
-                .div-line {
-                    width: 1px;
-                    height: 30px;
-                    background: rgba(255,255,255,0.1);
-                }
+        .hero-primary-cta {
+          background: #ffffff;
+          color: #050505;
+          border-color: #ffffff;
+        }
 
-                /* RIGHT COLUMN */
-                .hero-visual {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    perspective: 1500px;
-                    height: 600px;
-                }
-                
-                .phone-container {
-                    position: relative;
-                    width: 320px;
-                    height: 640px;
-                }
+        .hero-primary-cta:hover,
+        .hero-primary-cta:focus-visible {
+          outline: none;
+          background: #a3ff12;
+          border-color: #a3ff12;
+          box-shadow: 0 0 0 1px rgba(163, 255, 18, 0.4);
+        }
 
-                .phone-mockup {
-                    width: 100%;
-                    height: 100%;
-                    background: #1a1a1a;
-                    border-radius: 40px;
-                    border: 8px solid #333;
-                    box-shadow: 
-                        0 0 0 2px #444,
-                        0 30px 60px rgba(0,0,0,0.5),
-                        inset 0 0 20px rgba(0,0,0,0.8);
-                    position: relative;
-                    overflow: hidden;
-                    transition: box-shadow 0.3s;
-                }
+        .hero-secondary-cta {
+          border-color: rgba(255, 255, 255, 0.2);
+          color: #f3f3f3;
+          background: rgba(0, 0, 0, 0.5);
+        }
 
-                .phone-screen {
-                    background: linear-gradient(135deg, #111, #222);
-                    width: 100%;
-                    height: 100%;
-                    padding: 2rem 1.5rem;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                }
+        .hero-secondary-cta:hover,
+        .hero-secondary-cta:focus-visible {
+          outline: none;
+          border-color: #a3ff12;
+          color: #ffffff;
+        }
 
-                .app-header {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin-bottom: 2rem;
-                }
+        .hero-meta-row {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, auto));
+          gap: 1.5rem;
+          margin-top: 1rem;
+          padding-top: 1.5rem;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
 
-                .time { font-family: 'Inter', sans-serif; font-size: 0.8em; font-weight: 600; }
-                .status-icons { display: flex; gap: 4px; }
-                .icon-wifi, .icon-battery { width: 14px; height: 10px; background: #fff; border-radius: 2px; opacity: 0.8; }
+        .hero-meta-block {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
 
-                .app-content {
-                    flex-grow: 1;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    gap: 1.5rem;
-                    margin-top: 1rem;
-                }
+        .hero-meta-label {
+          font-family: monospace;
+          font-size: 0.7rem;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: #777;
+        }
 
-                .album-art {
-                    width: 220px;
-                    height: 220px;
-                    background: #333;
-                    border-radius: 12px;
-                    position: relative;
-                    overflow: hidden;
-                    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
-                }
-                
-                .art-inner-gradient {
-                    width: 100%; height: 100%;
-                    background: linear-gradient(45deg, #a3ff12, #3b5bdb);
-                    opacity: 0.8;
-                }
+        .hero-meta-value {
+          font-size: 0.95rem;
+          color: #e0e0e0;
+        }
 
-                .play-btn-overlay {
-                    position: absolute;
-                    inset: 0;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-size: 2rem;
-                    color: #fff;
-                    background: rgba(0,0,0,0.2);
-                }
+        .hero-scroll-indicator {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.75rem;
+          margin-top: 3rem;
+          font-size: 0.75rem;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          color: #777;
+        }
 
-                .track-info { width: 100%; padding: 0 1rem; }
-                .track-title-bar { width: 60%; height: 12px; background: #fff; margin-bottom: 8px; border-radius: 4px; }
-                .track-artist-bar { width: 40%; height: 8px; background: #555; border-radius: 4px; }
+        .hero-scroll-line {
+          width: 40px;
+          height: 1px;
+          background: linear-gradient(90deg, #ffffff, transparent);
+        }
 
-                .waveform {
-                    display: flex;
-                    align-items: center;
-                    gap: 3px;
-                    height: 40px;
-                    width: 100%;
-                    padding: 0 1rem;
-                }
+        .hero-scroll-label {
+          font-family: monospace;
+        }
 
-                .wave-bar {
-                    flex: 1;
-                    background: #a3ff12;
-                    border-radius: 2px;
-                    animation: bounce 1s infinite ease-in-out;
-                }
-                
-                @keyframes bounce { 0%, 100% { transform: scaleY(0.5); } 50% { transform: scaleY(1); } }
+        @keyframes hero-electric-pulse {
+          0% {
+            transform: scale(1) translate3d(0, 0, 0);
+            opacity: 0.7;
+          }
+          50% {
+            transform: scale(1.05) translate3d(-1.5%, 1.5%, 0);
+            opacity: 0.9;
+          }
+          100% {
+            transform: scale(1.08) translate3d(1.5%, -1.5%, 0);
+            opacity: 0.65;
+          }
+        }
 
-                .control-row {
-                    display: flex;
-                    align-items: center;
-                    gap: 1.5rem;
-                    margin-top: 1rem;
-                }
-                
-                .c-btn { width: 30px; height: 30px; border-radius: 50%; background: #333; }
-                .c-btn.big { width: 50px; height: 50px; background: #fff; }
+        @media (max-width: 1024px) {
+          .hero-content {
+            padding-top: 6rem;
+          }
 
-                .app-nav {
-                    display: flex;
-                    justify-content: space-around;
-                    padding-top: 1.5rem;
-                    border-top: 1px solid #333;
-                }
+          .hero-grid {
+            justify-content: center;
+          }
+        }
 
-                .nav-item { width: 24px; height: 24px; background: #333; border-radius: 4px; }
-                .nav-item.active { background: #fff; }
+        @media (max-width: 640px) {
+          .hero-content {
+            padding-inline: 1.25rem;
+            padding-top: 5rem;
+          }
 
-                /* NOTIFICATION */
-                .floating-notif {
-                    position: absolute;
-                    top: 100px;
-                    right: -40px;
-                    background: rgba(255,255,255,0.95);
-                    color: #000;
-                    padding: 0.8rem 1rem;
-                    border-radius: 12px;
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-                    display: flex;
-                    gap: 12px;
-                    align-items: center;
-                    width: 200px;
-                    z-index: 20;
-                }
+          .hero-kicker-row {
+            flex-direction: column;
+            align-items: flex-start;
+          }
 
-                .notif-icon {
-                    width: 30px; height: 30px;
-                    background: #a3ff12;
-                    border-radius: 50%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-weight: bold;
-                    font-size: 0.8rem;
-                }
+          .hero-heading {
+            font-size: clamp(2.2rem, 8vw, 3rem);
+          }
 
-                .notif-text { display: flex; flex-direction: column; }
-                .n-title { font-weight: 700; font-size: 0.8rem; font-family: 'Inter', sans-serif; }
-                .n-desc { font-size: 0.7rem; color: #555; }
+          .hero-meta-row {
+            grid-template-columns: 1fr;
+          }
 
-                @media (max-width: 1024px) {
-                    .hero-container { grid-template-columns: 1fr; padding-top: 6rem; gap: 3rem; }
-                    .hero-visual { display: none; }
-                    .hero-title { font-size: 3rem; }
-                }
-
-            `}</style>
+          .hero-panel {
+            max-width: 100%;
+          }
+        }
+      `}</style>
         </section>
     );
 }

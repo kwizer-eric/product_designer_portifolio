@@ -77,7 +77,7 @@ export default function Services() {
     const [selectedServiceDetail, setSelectedServiceDetail] = useState(null);
 
     return (
-        <section className="services-section-new">
+        <section id="services" className="services-section-new">
             <div className="container services-container-new">
 
                 {/* LEFT COLUMN: SCROLLABLE CONTENT */}

@@ -57,7 +57,7 @@ export default function Navbar() {
         <div className="navbar-center">
           <a href="#hero" className="navbar-brand">
             <span className="navbar-brand-main">AHIRWE</span>
-            <span className="navbar-brand-sub">Portfolio 2026</span>
+            <span className="navbar-brand-sub">Faustin (Stinnoo)</span>
           </a>
         </div>
 

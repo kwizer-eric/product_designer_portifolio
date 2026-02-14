@@ -6,7 +6,7 @@ export default function Story() {
       <div className="container">
         {/* Kicker */}
         <div className="story-kicker-row">
-          <span className="story-kicker-label">Erick Ahirwe</span>
+          <span className="story-kicker-label">Faustin Ahirwe</span>
           <span className="story-kicker-role">
             Product & Visual Designer · Digital / Physical systems
           </span>
@@ -26,8 +26,8 @@ export default function Story() {
               <div className="story-photo-glow" />
               <div className="story-photo-inner">
                 <img
-                  src="/erick-portrait.jpg"
-                  alt="Portrait of Erick Ahirwe"
+                  src="/src/images/ahirwe.jpg"
+                  alt="Portrait of Faustin Ahirwe"
                   className="story-photo-img"
                 />
               </div>

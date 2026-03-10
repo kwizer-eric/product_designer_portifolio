@@ -37,22 +37,8 @@ export default function Navbar() {
         }}
       >
         <div className="navbar-v2-container">
-          {/* LEFT: BRAND */}
-          <a href="#hero" className="navbar-v2-brand">
-            <span className="navbar-v2-brand-main">AHIRWE</span>
-            <span className="navbar-v2-brand-dot" aria-hidden="true">•</span>
-            <span className="navbar-v2-brand-sub">Designer</span>
-          </a>
-
-          {/* CENTER: NAV LINKS (Desktop) */}
-          <div className="navbar-v2-links" style={{ display: 'none' }}>
-          </div>
-
-          {/* RIGHT: ACTIONS */}
-          <div className="navbar-v2-actions">
-            <a href="#contact" className="navbar-v2-contact">
-              Get in touch
-            </a>
+          {/* LEFT: ACTIONS (Menu Trigger) */}
+          <div className="navbar-v2-actions" style={{ justifyContent: 'flex-start' }}>
             <button
               type="button"
               onClick={() => setIsOpen(true)}
@@ -60,22 +46,38 @@ export default function Navbar() {
               aria-label="Open menu"
               aria-expanded={isOpen}
             >
-              <span className="navbar-v2-menu-text">Menu</span>
-              <div className="navbar-v2-menu-icon">
+              <div className="navbar-v2-menu-icon" style={{ alignItems: 'flex-start' }}>
                 <motion.span
-                  animate={isOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
+                  animate={isOpen ? { rotate: 45, y: 6, width: '100%' } : { rotate: 0, y: 0, width: '100%' }}
                   transition={{ duration: 0.3 }}
                 />
                 <motion.span
-                  animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
+                  animate={isOpen ? { opacity: 0, width: '100%' } : { opacity: 1, width: '60%' }}
                   transition={{ duration: 0.2 }}
                 />
                 <motion.span
-                  animate={isOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
+                  animate={isOpen ? { rotate: -45, y: -6, width: '100%' } : { rotate: 0, y: 0, width: '80%' }}
                   transition={{ duration: 0.3 }}
                 />
               </div>
+              <span className="navbar-v2-menu-text">Menu</span>
             </button>
+          </div>
+
+          {/* CENTER: BRAND */}
+          <a href="#hero" className="navbar-v2-brand" style={{ justifyContent: 'center' }}>
+            <span className="navbar-v2-brand-main">AHIRWE</span>
+            <span className="navbar-v2-brand-dot" aria-hidden="true">•</span>
+            <span className="navbar-v2-brand-sub">Designer</span>
+          </a>
+
+          {/* RIGHT: NAV LINKS (Hidden) & Contact */}
+          <div className="navbar-v2-right-section" style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '1rem' }}>
+            <div className="navbar-v2-links" style={{ display: 'none' }}>
+            </div>
+            <a href="#contact" className="navbar-v2-contact">
+              Get in touch
+            </a>
           </div>
         </div>
 

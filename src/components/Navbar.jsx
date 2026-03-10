@@ -45,16 +45,7 @@ export default function Navbar() {
           </a>
 
           {/* CENTER: NAV LINKS (Desktop) */}
-          <div className="navbar-v2-links">
-            {menuLinks.slice(0, -1).map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="navbar-v2-link"
-              >
-                {link.title}
-              </a>
-            ))}
+          <div className="navbar-v2-links" style={{ display: 'none' }}>
           </div>
 
           {/* RIGHT: ACTIONS */}

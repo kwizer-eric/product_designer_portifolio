@@ -33,8 +33,8 @@ export default function Story() {
               </div>
 
               <div className="story-photo-meta">
-                <span className="story-photo-tag">Designer</span>
-                <span className="story-photo-year">Portfolio 2026</span>
+                <span className="story-photo-tag">AHIRWE Faustin</span>
+
               </div>
             </div>
           </motion.div>
@@ -47,20 +47,10 @@ export default function Story() {
             transition={{ duration: 0.9, ease: 'easeOut', delay: 0.1 }}
             className="story-copy-col"
           >
-            <h2 className="story-title">A designer obsessed with how things feel.</h2>
+            <h1 className="story-title">Simple ideas. Thoughtful design.</h1>
 
-            <p className="story-body">
-              I design at the intersection of industrial design and digital product—where
-              objects, interfaces, and motion all have to agree on the same story. I care
-              about tactility: how a surface catches light, how a button eases into place,
-              how a system feels when you live with it every day.
-            </p>
 
-            <p className="story-body">
-              My process is concept-first and detail-obsessed. I sketch, prototype, and
-              simulate until the product feels inevitable—whether it ends up as a 3D
-              object on a desk, a UI on a screen, or a brand living across both.
-            </p>
+
 
             <div className="story-concept-grid">
               <div className="story-concept-block">

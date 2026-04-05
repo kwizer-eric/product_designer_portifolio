@@ -8,34 +8,34 @@ import ServiceDetailOverlay from './ServiceDetailOverlay';
 const services = [
     {
         id: "s1",
-        title: "Branding",
+        title: "Brand",
         number: "01",
-        description: "Building cohesive visual identities that scale across physical and digital touchpoints. A rigorous approach to typography, color, and layout.",
-        features: ["Visual Identity", "Art Direction", "Brand Strategy", "Guidelines"],
+        description: "Identity systems.",
+        features: ["ID", "Type"],
         visualType: "brand"
     },
     {
         id: "s2",
-        title: "Product Design",
+        title: "Product",
         number: "02",
-        description: "From initial sketch to manufacturing-ready 3D models. We blend aesthetics with ergonomics to create physical objects that feel inevitable.",
-        features: ["Industrial Design", "Ergonomics", "CMF Strategy", "Prototyping"],
+        description: "Physical + CMF.",
+        features: ["Form", "Proto"],
         visualType: "product"
     },
     {
         id: "s3",
-        title: "Development",
+        title: "Build",
         number: "03",
-        description: "Crafting immersive digital interfaces. High-performance web and mobile applications with a focus on interaction and motion.",
-        features: ["UI/UX Design", "Frontend Dev", "Motion Design", "Creative Coding"],
+        description: "UI · front · motion.",
+        features: ["UI", "Code"],
         visualType: "digital"
     },
     {
         id: "s4",
-        title: "Visual Creation",
+        title: "Visual",
         number: "04",
-        description: "Guiding the visual narrative through lens and light. We oversee the entire aesthetic output to ensure a singular, uncompromising vision.",
-        features: ["Photography", "Videography", "3D Visualization", "Art Direction"],
+        description: "Lens + 3D.",
+        features: ["Photo", "3D"],
         visualType: "creative"
     }
 ];
@@ -54,7 +54,7 @@ const ServiceItem = ({ service, setFocusedService, onOpenDetail }) => {
         <div ref={ref} className="service-list-item">
             <div className="service-item-header">
                 <span className="service-number">{service.number}</span>
-                <span className="service-label">SERVICE // {service.id.toUpperCase()}</span>
+                <span className="service-label">{service.id}</span>
             </div>
             <h2 className="service-item-title">{service.title}</h2>
             <p className="service-item-desc">{service.description}</p>
@@ -65,8 +65,8 @@ const ServiceItem = ({ service, setFocusedService, onOpenDetail }) => {
                     </li>
                 ))}
             </ul>
-            <button className="service-view-work-btn" onClick={() => onOpenDetail(service)}>
-                VIEW SELECTED WORK <span className="arrow">→</span>
+            <button type="button" className="service-view-work-btn" onClick={() => onOpenDetail(service)}>
+                Open <span className="arrow">→</span>
             </button>
         </div>
     );
@@ -83,7 +83,7 @@ export default function Services() {
                 {/* LEFT COLUMN: SCROLLABLE CONTENT */}
                 <div className="services-list">
                     <div className="list-header">
-                        <span>CAPABILITIES_INDEX</span>
+                        <span>03</span>
                         <div className="list-line" />
                     </div>
                     {services.map((service) => (
@@ -95,7 +95,7 @@ export default function Services() {
                         />
                     ))}
                     <div className="list-footer">
-                        <span>// END OF LIST</span>
+                        <span>—</span>
                     </div>
                 </div>
 
@@ -124,8 +124,8 @@ export default function Services() {
                             </div>
 
                             <div className="visual-hud">
-                                <span className="hud-id">ID: {focusedService.id.toUpperCase()}</span>
-                                <span className="hud-type">TYPE: {focusedService.visualType.toUpperCase()}</span>
+                                <span className="hud-id">{focusedService.id}</span>
+                                <span className="hud-type">{focusedService.visualType}</span>
                                 <div className="hud-status-light" />
                             </div>
                         </div>
@@ -182,12 +182,8 @@ const DigitalVisual = () => (
                     animate={{ opacity: 1 }}
                     transition={{ staggerChildren: 0.1 }}
                 >
-                    <div className="code-row c-blue">import <span className="c-white">Future</span> from <span className="c-green">'./design'</span>;</div>
-                    <div className="code-row c-purple">export default <span className="c-blue">function</span> <span className="c-yellow">Interface()</span> {'{'}</div>
-                    <div className="code-row indent c-blue">return (</div>
-                    <div className="code-row indent-2 c-white">&lt;<span className="c-red">Experience</span> /&gt;</div>
-                    <div className="code-row indent c-blue">);</div>
-                    <div className="code-row c-purple">{'}'}</div>
+                    <div className="code-row c-blue">export <span className="c-yellow">default</span> <span className="c-white">UI</span></div>
+                    <div className="code-row indent c-white">→ <span className="c-red">ship</span>()</div>
                 </motion.div>
                 <motion.div className="cursor-block" animate={{ opacity: [0, 1, 0] }} transition={{ duration: 0.8, repeat: Infinity }} />
             </div>

@@ -17,11 +17,11 @@ export default function Navbar() {
   }, []);
 
   const menuLinks = [
-    { title: 'Home', href: '#hero', tag: '01' },
-    { title: 'Story', href: '#story', tag: '02' },
-    { title: 'Services', href: '#services', tag: '03' },
-    { title: 'Projects', href: '#work', tag: '04' },
-    { title: 'Connect', href: '#contact', tag: '05' },
+    { title: 'Intro', href: '#hero', tag: '01' },
+    { title: 'Bio', href: '#story', tag: '02' },
+    { title: 'Svc', href: '#services', tag: '03' },
+    { title: 'Work', href: '#work', tag: '04' },
+    { title: '@', href: '#contact', tag: '05' },
   ];
 
   return (
@@ -60,7 +60,7 @@ export default function Navbar() {
                   transition={{ duration: 0.3 }}
                 />
               </div>
-              <span className="navbar-v2-menu-text">Menu</span>
+              <span className="navbar-v2-menu-text">≡</span>
             </button>
           </div>
 
@@ -68,7 +68,7 @@ export default function Navbar() {
           <a href="#hero" className="navbar-v2-brand" style={{ justifyContent: 'center' }}>
             <span className="navbar-v2-brand-main">AHIRWE</span>
             <span className="navbar-v2-brand-dot" aria-hidden="true">•</span>
-            <span className="navbar-v2-brand-sub">Designer</span>
+            <span className="navbar-v2-brand-sub">—</span>
           </a>
 
           {/* RIGHT: NAV LINKS (Hidden) & Contact */}
@@ -76,7 +76,7 @@ export default function Navbar() {
             <div className="navbar-v2-links" style={{ display: 'none' }}>
             </div>
             <a href="#contact" className="navbar-v2-contact">
-              Get in touch
+              Hi
             </a>
           </div>
         </div>
@@ -112,7 +112,7 @@ export default function Navbar() {
               aria-modal="true"
             >
               <div className="navbar-v2-drawer-header">
-                <span className="navbar-v2-drawer-label">Navigation</span>
+                <span className="navbar-v2-drawer-label">—</span>
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}

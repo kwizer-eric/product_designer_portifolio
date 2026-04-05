@@ -121,13 +121,13 @@ const styles = `
 /* --- BENTO GRID LAYOUT --- */
 .bento-section {
     padding: 10vh 5vw;
-    background: #050505;
+    background: var(--color-bg);
     min-height: 100vh;
 }
 
 .bento-header {
     margin-bottom: 5vh;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid var(--color-border);
     padding-bottom: 20px;
 }
 
@@ -135,12 +135,12 @@ const styles = `
     font-size: 3rem;
     font-weight: 300;
     letter-spacing: -0.05em;
-    color: #fff;
+    color: var(--color-text);
 }
 
 .bento-header p {
     font-family: monospace;
-    color: #555;
+    color: var(--color-text-muted);
     letter-spacing: 0.2em;
     text-transform: uppercase;
 }
@@ -169,7 +169,7 @@ const styles = `
     border-radius: 20px;
     overflow: hidden;
     cursor: pointer;
-    background: #111;
+    background: var(--color-panel);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;

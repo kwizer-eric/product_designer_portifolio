@@ -176,8 +176,8 @@ const ServiceCard = ({ number, title, description, features, visualType }) => {
                     left: 1rem;
                     font-family: monospace;
                     font-size: 0.6rem;
-                    color: #a3ff12;
-                    border: 1px solid #a3ff12;
+                    color: var(--color-accent);
+                    border: 1px solid var(--color-accent);
                     padding: 2px 4px;
                 }
                 .add-blink {

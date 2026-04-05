@@ -16,7 +16,7 @@ export default function Footer() {
         {/* MASSIVE CTA AREA */}
         <div className="footer-cta">
           <div className="cta-header">
-            <span className="cta-label">INITIATE_PROTOCOL</span>
+            <span className="cta-label">05</span>
             <div className="cta-line" />
           </div>
           <motion.h2
@@ -25,21 +25,22 @@ export default function Footer() {
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
           >
-            LET'S BUILD<br />
-            <span className="accent-text">THE FUTURE</span>
+            Hi.<br />
+            <span className="accent-text">—</span>
           </motion.h2>
 
-          <motion.button
+          <motion.a
+            href="mailto:hello@example.com"
             className="contact-trigger"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
             <div className="btn-content">
-              <span>START PROJECT</span>
+              <span>Mail</span>
               <span className="btn-icon">→</span>
             </div>
             <div className="btn-bg" />
-          </motion.button>
+          </motion.a>
         </div>
 
         {/* SYSTEM GRID */}
@@ -47,42 +48,38 @@ export default function Footer() {
           <div className="col brand-col">
             <div className="sys-status">
               <span className="status-dot pulsed" />
-              <span>SYSTEM ONLINE</span>
+              <span>On</span>
             </div>
             <p className="footer-desc">
-              Advanced digital product design<br />
-              and manufacturing interface.
+              Design · build
             </p>
           </div>
 
           <div className="col">
-            <h4 className="col-header">[ NAVIGATION ]</h4>
+            <h4 className="col-header">—</h4>
             <ul className="footer-links">
-              <li><a href="#">Services</a></li>
-              <li><a href="#">Work</a></li>
-              <li><a href="#">About</a></li>
-              <li><a href="#">Contact</a></li>
+              <li><a href="#services">Svc</a></li>
+              <li><a href="#work">Work</a></li>
+              <li><a href="#story">Bio</a></li>
             </ul>
           </div>
 
           <div className="col">
-            <h4 className="col-header">[ SOCIALS ]</h4>
+            <h4 className="col-header">—</h4>
             <ul className="footer-links">
-              <li><a href="#">LinkedIn</a></li>
-              <li><a href="#">Twitter</a></li>
-              <li><a href="#">Instagram</a></li>
-              <li><a href="#">Dribbble</a></li>
+              <li><a href="#">in</a></li>
+              <li><a href="#">x</a></li>
+              <li><a href="#">ig</a></li>
             </ul>
           </div>
 
           <div className="col">
-            <h4 className="col-header">[ LOCATION ]</h4>
+            <h4 className="col-header">—</h4>
             <p className="footer-desc">
-              San Francisco, CA<br />
-              37.7749° N, 122.4194° W
+              KGL
             </p>
             <div className="time-display">
-              {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })} <span className="scrolling-text">UTC-7</span>
+              {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}
             </div>
           </div>
         </div>
@@ -90,15 +87,15 @@ export default function Footer() {
         {/* BOTTOM BAR */}
         <div className="footer-bottom">
           <div className="copyright">
-            © {new Date().getFullYear()} ERICK DESIGN SYSTEMS.
+            © {new Date().getFullYear()}
           </div>
           <div className="ticker-container">
             <div className="ticker-text">
-              DESIGNING FOR HUMANITY // BUILDING FOR ETERNITY // DESIGNING FOR HUMANITY // BUILDING FOR ETERNITY
+              — ship — cut — ship — cut —
             </div>
           </div>
           <div className="back-top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            TOP [↑]
+            ↑
           </div>
         </div>
 
@@ -106,10 +103,10 @@ export default function Footer() {
 
       <style>{`
         .footer-section {
-            background-color: #050505;
-            color: #fff;
+            background-color: var(--color-bg);
+            color: var(--color-text);
             padding: 6rem 0 2rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid var(--color-border);
             position: relative;
             overflow: hidden;
         }
@@ -137,17 +134,17 @@ export default function Footer() {
             font-family: monospace;
             font-size: 0.7rem;
             letter-spacing: 0.2em;
-            color: #a3ff12;
+            color: var(--color-accent);
         }
 
         .cta-line {
             height: 1px;
-            background: #a3ff12;
+            background: var(--color-accent);
             width: 100px;
         }
 
         .huge-text {
-            font-family: 'Inter', sans-serif;
+            font-family: var(--font-main);
             font-size: clamp(3rem, 7vw, 9rem);
             line-height: 0.9;
             font-weight: 700;
@@ -156,18 +153,18 @@ export default function Footer() {
         }
 
         .accent-text {
-            color: #444;
+            color: var(--color-text-muted);
             transition: color 0.3s;
         }
         
         .huge-text:hover .accent-text {
-            color: #fff;
+            color: var(--color-text);
         }
 
         .contact-trigger {
             position: relative;
             background: none;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid var(--color-border);
             padding: 0;
             cursor: pointer;
             overflow: hidden;
@@ -183,18 +180,18 @@ export default function Footer() {
             font-family: monospace;
             font-size: 1rem;
             letter-spacing: 0.1em;
-            color: #fff;
+            color: var(--color-text);
             transition: color 0.3s;
         }
 
         .contact-trigger:hover .btn-content {
-            color: #000;
+            color: var(--color-ink);
         }
 
         .btn-bg {
             position: absolute;
             inset: 0;
-            background: #a3ff12;
+            background: var(--color-accent);
             transform: translateX(-101%);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 1;
@@ -210,7 +207,7 @@ export default function Footer() {
             grid-template-columns: 1.5fr 1fr 1fr 1fr;
             gap: 4rem;
             margin-bottom: 6rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid var(--color-border);
             padding-top: 4rem;
         }
 
@@ -220,16 +217,16 @@ export default function Footer() {
             gap: 10px;
             font-family: monospace;
             font-size: 0.7rem;
-            color: #a3ff12;
+            color: var(--color-accent);
             margin-bottom: 1.5rem;
         }
 
         .status-dot {
             width: 6px;
             height: 6px;
-            background: #a3ff12;
+            background: var(--color-accent);
             border-radius: 50%;
-            box-shadow: 0 0 5px #a3ff12;
+            box-shadow: 0 0 5px var(--color-accent);
         }
 
         .pulsed {
@@ -243,16 +240,16 @@ export default function Footer() {
         }
 
         .footer-desc {
-            font-family: 'Inter', sans-serif;
+            font-family: var(--font-main);
             font-size: 0.9rem;
             line-height: 1.6;
-            color: #777;
+            color: var(--color-text-dim);
         }
 
         .col-header {
             font-family: monospace;
             font-size: 0.7rem;
-            color: #555;
+            color: var(--color-text-muted);
             margin-bottom: 1.5rem;
             letter-spacing: 0.1em;
         }
@@ -266,7 +263,7 @@ export default function Footer() {
         }
 
         .footer-links a {
-            color: #ccc;
+            color: var(--color-text-dim);
             text-decoration: none;
             font-size: 0.9rem;
             transition: all 0.3s;
@@ -275,7 +272,7 @@ export default function Footer() {
         }
 
         .footer-links a:hover {
-            color: #a3ff12;
+            color: var(--color-accent);
             padding-left: 10px;
         }
         
@@ -285,7 +282,7 @@ export default function Footer() {
             left: 0;
             opacity: 0;
             transition: opacity 0.3s;
-            color: #a3ff12;
+            color: var(--color-accent);
         }
 
         .footer-links a:hover::before {
@@ -295,10 +292,10 @@ export default function Footer() {
         .time-display {
             font-family: monospace;
             font-size: 1.5rem;
-            color: #fff;
+            color: var(--color-text);
             margin-top: 1.5rem;
             padding-top: 1.5rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid var(--color-border);
         }
 
         /* --- BOTTOM --- */
@@ -307,10 +304,10 @@ export default function Footer() {
             justify-content: space-between;
             align-items: center;
             padding-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid var(--color-border);
             font-family: monospace;
             font-size: 0.7rem;
-            color: #555;
+            color: var(--color-text-muted);
         }
 
         .ticker-container {
@@ -335,7 +332,7 @@ export default function Footer() {
             transition: color 0.3s;
         }
         .back-top:hover {
-            color: #a3ff12;
+            color: var(--color-accent);
         }
 
         @media (max-width: 900px) {

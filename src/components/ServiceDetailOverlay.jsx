@@ -29,8 +29,8 @@ export default function ServiceDetailOverlay({ service, onClose }) {
             transition={{ duration: 0.5 }}
         >
             <div className="overlay-content">
-                <button className="close-btn" onClick={onClose}>
-                    CLOSE ×
+                <button type="button" className="close-btn" onClick={onClose}>
+                    ×
                 </button>
 
                 <header className="overlay-header">
@@ -74,7 +74,7 @@ export default function ServiceDetailOverlay({ service, onClose }) {
                         ))
                     ) : (
                         <div className="no-projects">
-                            <p>More projects loading soon...</p>
+                            <p>—</p>
                         </div>
                     )}
                 </div>
@@ -87,7 +87,7 @@ export default function ServiceDetailOverlay({ service, onClose }) {
           left: 0;
           width: 100vw;
           height: 100vh;
-          background: #050505;
+          background: var(--color-bg);
           z-index: 999; /* Above everything */
           overflow-y: auto;
           display: flex;
@@ -104,8 +104,8 @@ export default function ServiceDetailOverlay({ service, onClose }) {
           position: fixed;
           top: 2rem;
           right: 2rem;
-          background: #a3ff12;
-          color: #000;
+          background: var(--color-accent);
+          color: var(--color-text);
           border: none;
           padding: 0.5rem 1.5rem;
           font-family: monospace;
@@ -121,17 +121,17 @@ export default function ServiceDetailOverlay({ service, onClose }) {
         }
 
         .overlay-header h1 {
-          font-family: 'Playfair Display', serif;
+          font-family: var(--font-display);
           font-size: 5rem;
-          color: #fff;
+          color: var(--color-text);
           margin-bottom: 1.5rem;
           line-height: 0.9;
         }
 
         .overlay-header p {
-          font-family: 'Inter', sans-serif;
+          font-family: var(--font-main);
           font-size: 1.25rem;
-          color: #888;
+          color: var(--color-text-dim);
           line-height: 1.6;
         }
 
@@ -152,7 +152,7 @@ export default function ServiceDetailOverlay({ service, onClose }) {
             overflow: hidden;
             margin-bottom: 1.5rem;
             position: relative;
-            background: #111;
+            background: var(--color-bg-deep);
         }
 
         .card-img-container img {
@@ -167,7 +167,7 @@ export default function ServiceDetailOverlay({ service, onClose }) {
         }
 
         .card-info h3 {
-            font-family: 'Playfair Display', serif;
+            font-family: var(--font-display);
             font-size: 2rem;
             color: #fff;
             margin-bottom: 0.5rem;
@@ -175,7 +175,7 @@ export default function ServiceDetailOverlay({ service, onClose }) {
 
         .card-info span {
             font-family: monospace;
-            color: #a3ff12;
+            color: var(--color-accent);
             text-transform: uppercase;
             font-size: 0.8rem;
         }
@@ -184,9 +184,9 @@ export default function ServiceDetailOverlay({ service, onClose }) {
             grid-column: span 2;
             text-align: center;
             padding: 4rem;
-            color: #444;
+            color: var(--color-text-muted);
             font-family: monospace;
-            border: 1px dashed #222;
+            border: 1px dashed var(--color-border);
         }
 
         @media (max-width: 900px) {

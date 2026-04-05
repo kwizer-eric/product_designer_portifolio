@@ -7,26 +7,26 @@ export default function Testimonials() {
   const testimonials = [
     {
       id: "01",
-      quote: "The design system allows for infinite scalability without losing the brand's core soul.",
-      author: "SARAH JENKINGS",
-      role: "CTO @ AURA",
-      location: "SAN FRANCISCO, CA",
+      quote: "Scales. Stays human.",
+      author: "S. J.",
+      role: "CTO",
+      location: "SF",
       image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1000&auto=format&fit=crop"
     },
     {
       id: "02",
-      quote: "A masterclass in reduction. Every pixel serves a purpose, creating a silent but powerful impact.",
-      author: "DAVID CHEN",
-      role: "VP DESIGN @ NEXUS",
-      location: "TOKYO, JP",
+      quote: "Less. Sharper.",
+      author: "D. C.",
+      role: "Design",
+      location: "TYO",
       image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1000&auto=format&fit=crop"
     },
     {
       id: "03",
-      quote: "We needed an interface that felt like a physical tool. This exceeded all our engineering requirements.",
-      author: "ELENA ROSSI",
-      role: "PRODUCT LEAD @ VELOCITY",
-      location: "BERLIN, DE",
+      quote: "Feels like a tool.",
+      author: "E. R.",
+      role: "Product",
+      location: "BER",
       image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?q=80&w=1000&auto=format&fit=crop"
     }
   ];
@@ -45,7 +45,7 @@ export default function Testimonials() {
 
         {/* Header / Technical Indicators */}
         <div className="section-header">
-          <span className="section-label">CLIENT_VOICE // 004</span>
+          <span className="section-label">06</span>
           <div className="header-line" />
         </div>
 
@@ -77,14 +77,14 @@ export default function Testimonials() {
               </div>
 
               <div className="image-meta">
-                <span>IMG_ID: {testimonials[activeIndex].id}</span>
-                <span>RES: 4K</span>
+                <span>{testimonials[activeIndex].id}</span>
+                <span>4K</span>
               </div>
             </div>
 
             <div className="controls">
               <button onClick={prevTestimonial} className="control-btn prev-btn">
-                <span>← PREV</span>
+                <span>←</span>
               </button>
               <div className="progress-bar">
                 <motion.div
@@ -93,7 +93,7 @@ export default function Testimonials() {
                 />
               </div>
               <button onClick={nextTestimonial} className="control-btn next-btn">
-                <span>NEXT →</span>
+                <span>→</span>
               </button>
             </div>
           </div>
@@ -114,15 +114,15 @@ export default function Testimonials() {
 
                 <div className="author-details">
                   <div className="detail-row">
-                    <span className="label">IDENTITY</span>
+                    <span className="label">Who</span>
                     <span className="value">{testimonials[activeIndex].author}</span>
                   </div>
                   <div className="detail-row">
-                    <span className="label">ROLE</span>
+                    <span className="label">Role</span>
                     <span className="value active-color">{testimonials[activeIndex].role}</span>
                   </div>
                   <div className="detail-row">
-                    <span className="label">LOC</span>
+                    <span className="label">Where</span>
                     <span className="value">{testimonials[activeIndex].location}</span>
                   </div>
                 </div>
@@ -135,8 +135,8 @@ export default function Testimonials() {
 
       <style>{`
         .testimonials-section {
-            background-color: #050505;
-            color: #fff;
+            background-color: var(--color-bg);
+            color: var(--color-text);
             padding: 2rem 0;
             display: flex;
             overflow: hidden;
@@ -151,15 +151,15 @@ export default function Testimonials() {
         }
 
         .section-label {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.75rem;
+            font-family: var(--font-main);
+            font-size: var(--text-xs);
             letter-spacing: 0.2em;
-            color: #a3ff12;
+            color: var(--color-accent);
         }
 
         .header-line {
             height: 1px;
-            background: #fff;
+            background: var(--color-bg);
             flex: 1;
             opacity: 0.2;
         }
@@ -183,9 +183,9 @@ export default function Testimonials() {
             position: relative;
             width: 100%;
             aspect-ratio: 3/4; /* Reverted to portrait */
-            background: #111;
+            background: var(--color-bg-deep);
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid var(--color-border);
         }
 
         .testimonial-image {
@@ -201,8 +201,8 @@ export default function Testimonials() {
             left: 0;
             width: 100%;
             height: 2px;
-            background: rgba(163, 255, 18, 0.5);
-            box-shadow: 0 0 10px #a3ff12;
+            background: rgba(201, 168, 76, 0.4);
+            box-shadow: 0 0 10px var(--color-accent);
             animation: scan 4s linear infinite;
             pointer-events: none;
             z-index: 10;
@@ -218,7 +218,7 @@ export default function Testimonials() {
             position: absolute;
             width: 20px;
             height: 20px;
-            border: 2px solid #a3ff12;
+            border: 2px solid var(--color-accent);
             z-index: 20;
             opacity: 0.8;
         }
@@ -236,7 +236,7 @@ export default function Testimonials() {
             gap: 15px;
             font-family: monospace;
             font-size: 0.6rem;
-            color: #a3ff12;
+            color: var(--color-accent);
             letter-spacing: 0.1em;
             z-index: 20;
         }
@@ -250,8 +250,8 @@ export default function Testimonials() {
 
         .control-btn {
             background: none;
-            border: 1px solid rgba(255,255,255,0.2);
-            color: #fff;
+            border: 1px solid var(--color-border);
+            color: var(--color-text);
             padding: 0.75rem 1.25rem;
             cursor: pointer;
             font-family: inherit;
@@ -261,15 +261,15 @@ export default function Testimonials() {
         }
 
         .control-btn:hover {
-            border-color: #a3ff12;
-            color: #a3ff12;
-            background: rgba(163, 255, 18, 0.05);
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+            background: var(--color-accent-soft);
         }
 
         .progress-bar {
             flex: 1;
             height: 1px;
-            background: rgba(255,255,255,0.1);
+            background: var(--color-border);
             position: relative;
         }
 
@@ -278,8 +278,8 @@ export default function Testimonials() {
             top: 0;
             left: 0;
             height: 100%;
-            background: #a3ff12;
-            box-shadow: 0 0 10px rgba(163, 255, 18, 0.5);
+            background: var(--color-accent);
+            box-shadow: 0 0 10px rgba(201, 168, 76, 0.35);
         }
 
 
@@ -291,15 +291,15 @@ export default function Testimonials() {
         .quote-icon {
             font-family: serif;
             font-size: 6rem;
-            color: #222;
+            color: var(--color-bg-deep);
             line-height: 0.5;
             margin-bottom: 1rem;
             margin-left: -0.5rem;
         }
 
         .quote-text {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
+            font-family: var(--font-display);
+            font-size: clamp(1.75rem, 4vw, 2.75rem);
             line-height: 1.2;
             margin-bottom: 2rem;
             font-weight: 500;
@@ -309,7 +309,7 @@ export default function Testimonials() {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid var(--color-border);
             padding-top: 1.5rem;
         }
 
@@ -321,7 +321,7 @@ export default function Testimonials() {
 
         .label {
             font-size: 0.7rem;
-            color: #555;
+            color: var(--color-text-muted);
             letter-spacing: 0.15em;
         }
 
@@ -332,7 +332,7 @@ export default function Testimonials() {
         }
 
         .active-color {
-            color: #a3ff12;
+            color: var(--color-accent);
         }
 
         @media (max-width: 1024px) {

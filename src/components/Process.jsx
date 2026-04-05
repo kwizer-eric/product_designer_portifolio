@@ -4,26 +4,26 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 const steps = [
     {
         id: "01",
-        title: "Discovery",
-        description: "We dive deep into your vision, understanding user needs and market gaps.",
+        title: "Discover",
+        description: "Listen.",
         image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800&auto=format&fit=crop" // Abstract Tech/Globe
     },
     {
         id: "02",
-        title: "Strategy",
-        description: "Crafting a roadmap that aligns business goals with user-centric design.",
+        title: "Plan",
+        description: "Frame.",
         image: "https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=800&auto=format&fit=crop" // Abstract Nodes
     },
     {
         id: "03",
         title: "Design",
-        description: "Visualizing the solution with high-fidelity prototypes and systems.",
+        description: "Shape.",
         image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800&auto=format&fit=crop" // Abstract Fluid/Neon
     },
     {
         id: "04",
-        title: "Development",
-        description: "Building robust, scalable solutions with pixel-perfect precision.",
+        title: "Ship",
+        description: "Build.",
         image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop" // Code
     }
 ];
@@ -80,8 +80,8 @@ export default function Process() {
         <section ref={containerRef} className="process-section">
             <div className="sticky-wrapper">
                 <div className="header-content">
-                    <span className="label">THE JOURNEY</span>
-                    <h2 className="title">Process</h2>
+                    <span className="label">04</span>
+                    <h2 className="title">Flow</h2>
                 </div>
 
                 <div className="cards-container">
@@ -138,8 +138,8 @@ export default function Process() {
                 }
 
                 .title {
-                    font-family: var(--font-main);
-                    font-size: clamp(3rem, 5vw, 6rem);
+                    font-family: var(--font-display);
+                    font-size: clamp(3.25rem, 6vw, 6.5rem);
                     font-weight: 700;
                     text-transform: uppercase;
                     line-height: 1;
@@ -168,7 +168,7 @@ export default function Process() {
                     overflow: hidden;
                     position: relative;
                     box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-                    border: 1px solid rgba(255,255,255,0.1);
+                    border: 1px solid var(--color-border);
                     transform-origin: bottom center;
                 }
 
@@ -236,14 +236,14 @@ export default function Process() {
                     font-size: 1.8rem;
                     font-weight: 700;
                     margin-bottom: 0.5rem;
-                    color: #fff;
+                    color: var(--color-on-dark);
                     text-shadow: 0 2px 10px rgba(0,0,0,0.8);
                 }
 
                 .card-desc {
                     font-size: 1rem;
                     line-height: 1.5;
-                    color: #ccc;
+                    color: rgba(245, 240, 232, 0.82);
                     text-shadow: 0 1px 5px rgba(0,0,0,0.8);
                 }
 

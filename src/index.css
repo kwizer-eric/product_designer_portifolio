@@ -1,26 +1,39 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Syne:wght@400;500;600;700;800&display=swap');
 
 :root {
-    --color-bg: #050505;
-    /* Deepest matte black */
-    --color-text: #e0e0e0;
-    /* Soft off-white */
-    --color-text-dim: #555555;
-    /* Dark gray for subtle details */
-    --color-accent: #3b5bdb;
-    /* Refined Electric Blue */
+    /* Bone + deep brown + muted gold */
+    --color-bg: #f5f0e8;
+    --color-bg-deep: #ebe4d9;
+    --color-surface: #f0ebe3;
+    --color-text: #1c1c1e;
+    --color-text-dim: #4a4a4e;
+    --color-text-muted: #6b6b70;
+    --color-accent: #c9a84c;
+    --color-accent-soft: rgba(201, 168, 76, 0.14);
+    --color-border: rgba(28, 28, 30, 0.12);
+    --color-panel: #1c1c1e;
+    --color-on-dark: #f5f0e8;
 
-    --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-main: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Syne', ui-sans-serif, system-ui, sans-serif;
+
+    /* Type scale (rem = 16px root) */
+    --text-xs: 0.6875rem;
+    --text-sm: 0.8125rem;
+    --text-base: 1.0625rem;
+    --text-md: 1.125rem;
+    --text-lg: 1.25rem;
+    --text-xl: clamp(1.35rem, 2.5vw, 1.75rem);
+    --text-display: clamp(2.75rem, 7vw, 5.5rem);
+    --text-display-lg: clamp(3.25rem, 9vw, 7rem);
 
     --spacing-sm: 0.75rem;
     --spacing-md: 1.5rem;
     --spacing-lg: 3rem;
     --spacing-xl: 6rem;
     --spacing-xxl: 14rem;
-    /* Massive vertical rhythm */
 
     --container-width: 1600px;
-    /* Ultra wide container */
 }
 
 * {
@@ -33,10 +46,20 @@ body {
     background-color: var(--color-bg);
     color: var(--color-text);
     font-family: var(--font-main);
+    font-size: var(--text-base);
+    line-height: 1.55;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.04em;
 }
 
 a {
@@ -68,7 +91,7 @@ html.lenis {
     pointer-events: none;
 }
 
-/* NAVBAR V2 - REDESIGNED */
+/* NAVBAR V2 */
 
 .navbar-v2 {
     position: fixed;
@@ -76,12 +99,13 @@ html.lenis {
     left: 0;
     width: 100%;
     z-index: 9999;
-    background: rgba(5, 5, 5, 0.85);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(245, 240, 232, 0.9);
+    border-bottom: 1px solid var(--color-border);
+    backdrop-filter: blur(14px);
 }
 
 .navbar-v2-container {
-    max-width: 1600px;
+    max-width: var(--container-width);
     margin: 0 auto;
     padding: 1.5rem 2.5rem;
     display: grid;
@@ -95,7 +119,7 @@ html.lenis {
     align-items: center;
     gap: 0.75rem;
     text-decoration: none;
-    color: #fff;
+    color: var(--color-text);
     transition: opacity 0.2s ease;
 }
 
@@ -104,22 +128,23 @@ html.lenis {
 }
 
 .navbar-v2-brand-main {
+    font-family: var(--font-display);
     font-weight: 700;
-    font-size: 1.1rem;
-    letter-spacing: 0.2em;
+    font-size: var(--text-md);
+    letter-spacing: 0.12em;
     text-transform: uppercase;
 }
 
 .navbar-v2-brand-dot {
-    color: #a3ff12;
+    color: var(--color-accent);
     font-size: 1.2rem;
     line-height: 1;
 }
 
 .navbar-v2-brand-sub {
-    font-size: 0.75rem;
-    color: #888;
-    letter-spacing: 0.1em;
+    font-size: var(--text-xs);
+    color: var(--color-text-dim);
+    letter-spacing: 0.12em;
     text-transform: uppercase;
 }
 
@@ -131,11 +156,11 @@ html.lenis {
 }
 
 .navbar-v2-link {
-    font-size: 0.85rem;
+    font-size: var(--text-sm);
     color: #bbb;
     text-decoration: none;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     font-weight: 500;
     position: relative;
     transition: color 0.25s ease;
@@ -148,12 +173,12 @@ html.lenis {
     left: 0;
     width: 0;
     height: 1px;
-    background: #a3ff12;
+    background: var(--color-accent);
     transition: width 0.3s ease;
 }
 
 .navbar-v2-link:hover {
-    color: #fff;
+    color: var(--color-text);
 }
 
 .navbar-v2-link:hover::after {
@@ -169,13 +194,13 @@ html.lenis {
 .navbar-v2-contact {
     padding: 0.65rem 1.5rem;
     border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.03);
-    color: #fff;
-    font-size: 0.8rem;
+    border: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.45);
+    color: var(--color-text);
+    font-size: var(--text-sm);
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    font-weight: 500;
+    letter-spacing: 0.1em;
+    font-weight: 600;
     text-decoration: none;
     transition: all 0.25s ease;
     white-space: nowrap;
@@ -184,10 +209,10 @@ html.lenis {
 .navbar-v2-contact:hover,
 .navbar-v2-contact:focus-visible {
     outline: none;
-    border-color: #a3ff12;
-    background: rgba(163, 255, 18, 0.1);
-    color: #a3ff12;
-    box-shadow: 0 0 20px rgba(163, 255, 18, 0.2);
+    border-color: var(--color-accent);
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+    box-shadow: 0 0 24px rgba(201, 168, 76, 0.25);
 }
 
 .navbar-v2-menu-trigger {
@@ -196,13 +221,13 @@ html.lenis {
     gap: 0.75rem;
     padding: 0.65rem 1.25rem;
     border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(250, 250, 250, 0.18);
+    background: rgba(255, 255, 255, 0.04);
     color: #fff;
-    font-size: 0.8rem;
+    font-size: var(--text-sm);
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    font-weight: 500;
+    letter-spacing: 0.1em;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.25s ease;
 }
@@ -210,13 +235,13 @@ html.lenis {
 .navbar-v2-menu-trigger:hover,
 .navbar-v2-menu-trigger:focus-visible {
     outline: none;
-    border-color: #a3ff12;
-    background: rgba(163, 255, 18, 0.1);
-    color: #a3ff12;
+    border-color: var(--color-accent);
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
 }
 
 .navbar-v2-menu-text {
-    font-size: 0.8rem;
+    font-size: var(--text-sm);
 }
 
 .navbar-v2-menu-icon {
@@ -243,18 +268,18 @@ html.lenis {
     left: 0;
     width: 100%;
     height: 1px;
-    background: linear-gradient(90deg, transparent, #a3ff12 50%, transparent);
+    background: linear-gradient(90deg, transparent, var(--color-accent) 50%, transparent);
     transform-origin: left;
 }
 
-/* NAVBAR DRAWER (SIDE MENU) */
+/* NAVBAR DRAWER */
 
 .navbar-v2-backdrop {
     position: fixed;
     inset: 0;
     z-index: 9998;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(4px);
+    background: rgba(28, 28, 30, 0.35);
+    backdrop-filter: blur(6px);
 }
 
 .navbar-v2-drawer {
@@ -265,11 +290,11 @@ html.lenis {
     max-width: 480px;
     height: 100vh;
     z-index: 9999;
-    background: #0a0a0a;
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--color-bg);
+    border-left: 1px solid var(--color-border);
     display: flex;
     flex-direction: column;
-    box-shadow: -20px 0 60px rgba(0, 0, 0, 0.5);
+    box-shadow: -20px 0 60px rgba(0, 0, 0, 0.55);
 }
 
 .navbar-v2-drawer-header {
@@ -277,24 +302,24 @@ html.lenis {
     align-items: center;
     justify-content: space-between;
     padding: 2rem 2.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid var(--color-border);
 }
 
 .navbar-v2-drawer-label {
-    font-family: monospace;
-    font-size: 0.75rem;
-    color: #666;
+    font-family: var(--font-main);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.18em;
 }
 
 .navbar-v2-drawer-close {
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    background: transparent;
-    color: #fff;
+    border: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.5);
+    color: var(--color-text);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -305,9 +330,9 @@ html.lenis {
 .navbar-v2-drawer-close:hover,
 .navbar-v2-drawer-close:focus-visible {
     outline: none;
-    border-color: #a3ff12;
-    background: rgba(163, 255, 18, 0.1);
-    color: #a3ff12;
+    border-color: var(--color-accent);
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
 }
 
 .navbar-v2-drawer-nav {
@@ -325,7 +350,7 @@ html.lenis {
     gap: 1.5rem;
     padding: 1.25rem 2.5rem;
     text-decoration: none;
-    color: #ccc;
+    color: var(--color-text-dim);
     transition: all 0.25s ease;
     border-left: 2px solid transparent;
 }
@@ -333,25 +358,27 @@ html.lenis {
 .navbar-v2-drawer-link:hover,
 .navbar-v2-drawer-link:focus-visible {
     outline: none;
-    background: rgba(255, 255, 255, 0.03);
-    border-left-color: #a3ff12;
-    color: #fff;
+    background: rgba(201, 168, 76, 0.08);
+    border-left-color: var(--color-accent);
+    color: var(--color-text);
     padding-left: 3rem;
 }
 
 .navbar-v2-drawer-link-number {
-    font-family: monospace;
-    font-size: 0.75rem;
-    color: #a3ff12;
+    font-family: var(--font-main);
+    font-size: var(--text-xs);
+    color: var(--color-accent);
     min-width: 2rem;
+    font-weight: 600;
 }
 
 .navbar-v2-drawer-link-text {
     flex: 1;
-    font-size: 1.1rem;
-    font-weight: 500;
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.06em;
 }
 
 .navbar-v2-drawer-link-arrow {
@@ -365,12 +392,12 @@ html.lenis {
 .navbar-v2-drawer-link:focus-visible .navbar-v2-drawer-link-arrow {
     opacity: 1;
     transform: translateX(0);
-    color: #a3ff12;
+    color: var(--color-accent);
 }
 
 .navbar-v2-drawer-footer {
     padding: 2rem 2.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid var(--color-border);
 }
 
 .navbar-v2-drawer-socials {
@@ -380,21 +407,19 @@ html.lenis {
 }
 
 .navbar-v2-drawer-social {
-    font-size: 0.85rem;
-    color: #888;
+    font-size: var(--text-sm);
+    color: var(--color-text-dim);
     text-decoration: none;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     transition: color 0.25s ease;
 }
 
 .navbar-v2-drawer-social:hover,
 .navbar-v2-drawer-social:focus-visible {
     outline: none;
-    color: #a3ff12;
+    color: var(--color-accent);
 }
-
-/* RESPONSIVE */
 
 @media (max-width: 1024px) {
     .navbar-v2-links {
@@ -414,7 +439,7 @@ html.lenis {
     }
 
     .navbar-v2-brand-main {
-        font-size: 1rem;
+        font-size: var(--text-sm);
     }
 
     .navbar-v2-brand-sub {

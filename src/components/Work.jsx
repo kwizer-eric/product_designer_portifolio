@@ -91,7 +91,7 @@ export default function Work() {
                                             width: i === activeIndex ? 60 : 30,
                                             height: i === activeIndex ? 4 : 2,
                                             opacity: i === activeIndex ? 1 : 0.2,
-                                            backgroundColor: i === activeIndex ? '#fff' : '#444'
+                                            backgroundColor: i === activeIndex ? '#c9a84c' : 'rgba(28, 28, 30, 0.22)'
                                         }}
                                         transition={{ duration: 0.3 }}
                                     />
@@ -144,7 +144,7 @@ export default function Work() {
                                         layoutId={`btn-${projects[activeIndex].id}`} // Shared layout ID for transition?
                                     >
                                         <span className="arrow-icon">→</span>
-                                        VIEW PROJECT
+                                        Open
                                     </motion.button>
                                 </motion.div>
                             </AnimatePresence>
@@ -171,7 +171,7 @@ export default function Work() {
                             transition={{ type: "spring", stiffness: 100, damping: 20 }}
                         >
                             <button className="modal-close-btn" onClick={() => setSelectedProject(null)}>
-                                CLOSE ×
+                                ×
                             </button>
 
                             <div className="modal-scroll-area" data-lenis-prevent>
@@ -201,11 +201,11 @@ export default function Work() {
 
                                     <div className="context-col">
                                         <div className="text-block">
-                                            <h3>The Challenge</h3>
+                                            <h3>Why</h3>
                                             <p>{selectedProject.challenge}</p>
                                         </div>
                                         <div className="text-block">
-                                            <h3>The Solution</h3>
+                                            <h3>How</h3>
                                             <p>{selectedProject.solution}</p>
                                         </div>
                                     </div>
@@ -214,7 +214,7 @@ export default function Work() {
                                 {/* Gallery */}
                                 {selectedProject.gallery && (
                                     <div className="modal-gallery">
-                                        <h3>Artifacts</h3>
+                                        <h3>More</h3>
                                         <div className="modal-gallery-grid">
                                             {selectedProject.gallery.map((img, i) => (
                                                 <div key={i} className="gallery-img-item">
@@ -234,14 +234,14 @@ export default function Work() {
         .work-sticky-wrapper {
             height: 500vh;
             position: relative;
-            background-color: #050505;
+            background-color: var(--color-bg);
         }
 
         .work-reel-section {
             position: sticky;
             top: 0;
             height: 100vh;
-            color: #fff;
+            color: var(--color-text);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -271,7 +271,7 @@ export default function Work() {
             flex-direction: column;
             gap: 12px;
             padding-left: 20px;
-            border-left: 1px solid rgba(255,255,255,0.1);
+            border-left: 1px solid var(--color-border);
         }
 
         .bar {
@@ -310,7 +310,7 @@ export default function Work() {
         }
 
         .project-title {
-            font-family: "Playfair Display", "Georgia", "Times New Roman", serif;
+            font-family: var(--font-display);
             font-size: 3.5rem; 
             margin: 0;
             line-height: .9;
@@ -321,7 +321,7 @@ export default function Work() {
         }
         
         .work-item.active .project-title {
-            color: #fff;
+            color: var(--color-text);
             text-shadow: 0 0 30px rgba(255,255,255,0.2);
         }
 
@@ -343,11 +343,11 @@ export default function Work() {
         .img-wrapper {
             width: 100%;
             aspect-ratio: 4/5; 
-            background: #111;
+            background: var(--color-bg-deep);
             overflow: hidden;
             margin-bottom: 2rem;
             border-radius: 4px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 40px rgba(28, 28, 30, 0.12);
         }
 
         .img-wrapper img {
@@ -359,7 +359,7 @@ export default function Work() {
         .view-btn {
             background: none;
             border: none;
-            color: #fff;
+            color: var(--color-text);
             font-family: inherit;
             font-size: 1rem;
             cursor: pointer;
@@ -380,7 +380,7 @@ export default function Work() {
             left: 0;
             width: 100%;
             height: 1px;
-            background: #fff;
+            background: var(--color-accent);
             transform: scaleX(0);
             transform-origin: right;
             transition: transform 0.3s ease;
@@ -408,21 +408,22 @@ export default function Work() {
         .project-modal-content {
             width: 100%;
             height: 95vh;
-            background: #0a0a0a;
+            background: var(--color-panel);
+            color: var(--color-on-dark);
             border-top-left-radius: 20px;
             border-top-right-radius: 20px;
             position: relative;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 -20px 50px rgba(0,0,0,0.5);
-            border-top: 1px solid #333;
+            box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.35);
+            border-top: 1px solid rgba(245, 240, 232, 0.12);
         }
 
         .modal-close-btn {
             position: absolute;
             top: 2rem;
             right: 2rem;
-            background: #a3ff12;
+            background: var(--color-accent);
             color: #000;
             border: none;
             padding: 0.5rem 1.5rem;
@@ -467,16 +468,16 @@ export default function Work() {
 
         .modal-subtitle {
             font-family: monospace;
-            color: #a3ff12;
+            color: var(--color-accent);
             margin-bottom: 1rem;
             display: block;
         }
 
         .modal-title {
-            font-family: 'Playfair Display', serif;
+            font-family: var(--font-display);
             font-size: 4rem;
             line-height: 0.9;
-            color: #fff;
+            color: var(--color-on-dark);
             margin: 0;
         }
 
@@ -493,15 +494,15 @@ export default function Work() {
 
         .info-block h3 {
             font-family: monospace;
-            color: #666;
+            color: rgba(245, 240, 232, 0.45);
             font-size: 0.8rem;
             margin-bottom: 0.5rem;
             text-transform: uppercase;
         }
 
         .info-block p {
-            font-family: 'Inter', sans-serif;
-            color: #fff;
+            font-family: var(--font-main);
+            color: var(--color-text);
             font-size: 1.1rem;
         }
 
@@ -511,14 +512,14 @@ export default function Work() {
 
         .text-block h3 {
             font-family: monospace;
-            color: #a3ff12;
+            color: var(--color-accent);
             font-size: 1rem;
             margin-bottom: 1rem;
         }
 
         .text-block p {
-            font-family: 'Inter', sans-serif;
-            color: #ccc;
+            font-family: var(--font-main);
+            color: rgba(245, 240, 232, 0.78);
             font-size: 1.25rem;
             line-height: 1.6;
             max-width: 800px;
@@ -543,7 +544,7 @@ export default function Work() {
 
         .gallery-img-item {
             width: 100%;
-            background: #111;
+            background: rgba(0, 0, 0, 0.25);
         }
 
         .gallery-img-item img {

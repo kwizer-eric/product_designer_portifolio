@@ -5,16 +5,16 @@ const galleryItems = [
     {
         id: 'wearable',
         title: "WEARABLE",
-        category: "PERSONAL AUDIO",
+        category: "AUDIO",
         material: "aluminum",
         image: "https://images.unsplash.com/photo-1558002038-1055907df827?q=80&w=1000&auto=format&fit=crop",
-        size: "large", // spans 2 cols
-        description: "Next-generation personal audio with adaptive noise cancellation and biometric sensing.",
-        client: "SONIC_LABS",
-        role: "Industrial Design, CMF",
+        size: "large",
+        description: "Audio. Body-fit.",
+        client: "SL",
+        role: "ID",
         year: "2024",
-        challenge: "Create a wearable audio device that feels like a natural extension of the body while delivering audiophile-grade sound isolation in a crowded urban environment. The thermal management of the active processing unit was a significant constraint.",
-        solution: "We utilized a unibody aluminum chassis that acts as a heatsink, coupled with memory foam ear cushions that adapt to user physiology. The aesthetic is stripped back to expose the functional elegance of the materials.",
+        challenge: "Heat + isolation.",
+        solution: "Alu shell. Foam fit.",
         galleryImages: [
             "https://images.unsplash.com/photo-1618413346543-c7827e4466b5?q=80&w=800&auto=format&fit=crop",
             "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=800&auto=format&fit=crop",
@@ -28,12 +28,12 @@ const galleryItems = [
         material: "clay",
         image: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?q=80&w=1000&auto=format&fit=crop",
         size: "small",
-        description: "Precision input device designed for e-sports performance with tactile feedback.",
-        client: "NEXUS_PERIPHERALS",
-        role: "Ergonomics, Prototyping",
+        description: "Pro input.",
+        client: "NX",
+        role: "Erg",
         year: "2023",
-        challenge: "Professional gamers require zero-latency input and a grip that remains comfortable after 12+ hours of use. Standard controllers cause fatigue and hand strain over long sessions.",
-        solution: "Through iteration with pro players, we developed a 'sculpted' clay-like form factor that fits 95% of hand sizes. The textured surface ensures grip even when hands are sweaty during intense competition.",
+        challenge: "Fatigue. Latency.",
+        solution: "Sculpted grip. Texture.",
         galleryImages: [
             "https://images.unsplash.com/photo-1600080972464-8cb002c91960?q=80&w=800&auto=format&fit=crop",
             "https://images.unsplash.com/photo-1592840496073-f66e754d9c77?q=80&w=800&auto=format&fit=crop"
@@ -46,12 +46,12 @@ const galleryItems = [
         material: "chrome",
         image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?q=80&w=1000&auto=format&fit=crop",
         size: "tall", // spans 2 rows
-        description: "360-degree high-fidelity sound architecture in a seamless aluminum enclosure.",
-        client: "AURA_HOME",
-        role: "Product Design",
+        description: "360 sound.",
+        client: "AH",
+        role: "PD",
         year: "2025",
-        challenge: "Integrating a high-output subwoofer and tweeter array into a compact, monolithic form without vibration coloring the sound.",
-        solution: "An internal decoupled skeleton isolates the drivers from the outer chrome shell. The result is pure sound and a visual object that disappears into the modern home aesthetic.",
+        challenge: "Vibration. Size.",
+        solution: "Decoupled frame. Chrome shell.",
         galleryImages: [
             "https://images.unsplash.com/photo-1589003077984-894e133dabab?q=80&w=800&auto=format&fit=crop",
             "https://images.unsplash.com/photo-1615563821037-cc5432c668b5?q=80&w=800&auto=format&fit=crop",
@@ -65,12 +65,12 @@ const galleryItems = [
         material: "aluminum",
         image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?q=80&w=1000&auto=format&fit=crop",
         size: "small",
-        description: "Minimalist timekeeping with integrated health monitoring and sapphire crystal glass.",
-        client: "CHRONOS_TECH",
-        role: "Industrial Design",
+        description: "Time + health.",
+        client: "CT",
+        role: "ID",
         year: "2024",
-        challenge: "Balancing the tradition of horology with modern health sensors. Users want the data but not the 'gadget' look of typical smartwatches.",
-        solution: "We hid the sensors within the case back and strap lugs. The face is a high-contrast OLED that mimics analog hands, activated only when the wrist turns.",
+        challenge: "Classic vs gadget.",
+        solution: "Hidden sensors. OLED face.",
         galleryImages: [
             "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?q=80&w=800&auto=format&fit=crop",
             "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=800&auto=format&fit=crop"
@@ -83,12 +83,12 @@ const galleryItems = [
         material: "clay",
         image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=1000&auto=format&fit=crop",
         size: "small",
-        description: "Ultra-compact wireless audio with pro-grade drivers and ergonomic fit.",
-        client: "SONIC_LABS",
+        description: "Wireless. Tight.",
+        client: "SL",
         role: "CMF",
         year: "2023",
-        challenge: "Making earbuds that stay in during vigorous movement without using uncomfortable 'wing' tips.",
-        solution: "A weighted balance distribution keeps the center of gravity inside the ear canal. The 'clay' matte finish provides just enough friction to stay secure without irritation.",
+        challenge: "Stay in. Move.",
+        solution: "Balance. Matte clay.",
         galleryImages: [
             "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=800&auto=format&fit=crop"
         ]
@@ -100,12 +100,12 @@ const galleryItems = [
         material: "chrome",
         image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1000&auto=format&fit=crop",
         size: "large",
-        description: "Studio-reference over-ear headphones constructed from premium leather and steel.",
-        client: "PRO_AUDIO",
-        role: "Lead Designer",
+        description: "Over-ear ref.",
+        client: "PA",
+        role: "Lead",
         year: "2022",
-        challenge: "Creating a timeless aesthetic that appeals to both audiophiles and fashion-conscious consumers.",
-        solution: "Exposed structural elements in polished chrome contrast with soft, hand-stitched leather. Every touchpoint feels mechanical and precise.",
+        challenge: "Audio + fashion.",
+        solution: "Chrome + leather.",
         galleryImages: [
             "https://images.unsplash.com/photo-1484704849700-f032a568e944?q=80&w=800&auto=format&fit=crop",
             "https://images.unsplash.com/photo-1546435770-a3e426bf472b?q=80&w=800&auto=format&fit=crop"
@@ -118,12 +118,12 @@ const galleryItems = [
         material: "aluminum",
         image: "https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?q=80&w=1000&auto=format&fit=crop",
         size: "small",
-        description: "Immersive virtual reality system with high-resolution displays and inside-out tracking.",
-        client: "VIRTUAL_X",
-        role: "Industrial Design",
+        description: "VR. Inside-out.",
+        client: "VX",
+        role: "ID",
         year: "2025",
-        challenge: "Reducing the front-heavy weight that causes neck strain in typical VR headsets.",
-        solution: "We moved the battery and compute unit to the back of the strap, creating a perfect 50/50 weight balance. The front visor is merely the display and sensors.",
+        challenge: "Neck strain.",
+        solution: "Battery back. 50/50.",
         galleryImages: [
             "https://images.unsplash.com/photo-1535905557558-afc4877a26fc?q=80&w=800&auto=format&fit=crop"
         ]
@@ -135,12 +135,12 @@ const galleryItems = [
         material: "clay",
         image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=1000&auto=format&fit=crop",
         size: "tall",
-        description: "Unibody machined performance workstation for creative professionals.",
-        client: "COMPUTE_CORP",
-        role: "Industrial Design",
+        description: "Thin pro book.",
+        client: "CC",
+        role: "ID",
         year: "2024",
-        challenge: "Cooling a high-performance GPU in a chassis less than 18mm thick.",
-        solution: "A vapor chamber cooling system spreads heat across the entire bottom surface, which is micro-textured to increase surface area without looking like a heatsink.",
+        challenge: "GPU heat. 18mm.",
+        solution: "Vapor chamber. Micro base.",
         galleryImages: [
             "https://images.unsplash.com/photo-1517336714731-489689fd1ca4?q=80&w=800&auto=format&fit=crop",
             "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?q=80&w=800&auto=format&fit=crop"
@@ -179,9 +179,9 @@ export default function Gallery() {
                 {/* INDUSTRIAL HEADER */}
                 <div className="gallery-header">
                     <div className="header-meta">
-                        <span className="meta-label">ARCHIVE // 001</span>
+                        <span className="meta-label">07</span>
                         <div className="meta-line" />
-                        <span className="meta-label">SYS.READY</span>
+                        <span className="meta-label">—</span>
                     </div>
 
                     <div className="header-main">
@@ -191,7 +191,7 @@ export default function Gallery() {
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
                         >
-                            SELECTED<br />ARTIFACTS
+                            Objects
                         </motion.h2>
                         <motion.p
                             className="gallery-desc"
@@ -199,8 +199,7 @@ export default function Gallery() {
                             whileInView={{ opacity: 1 }}
                             transition={{ delay: 0.2 }}
                         >
-                            INDEX OF INDUSTRIAL DESIGN WORKS.<br />
-                            CLASSIFIED BY FORM FACTOR AND MATERIAL COMPOSITION.
+                            Form · material
                         </motion.p>
                     </div>
                 </div>
@@ -314,7 +313,7 @@ export default function Gallery() {
                                                     />
                                                     <div className="viewer-overlay-grid" />
                                                     <div className="viewer-tech-ui">
-                                                        <span>IMG_sequence_001.raw</span>
+                                                        <span>001</span>
                                                     </div>
                                                 </div>
 
@@ -324,7 +323,7 @@ export default function Gallery() {
                                                         animate={{ opacity: 1, y: 0 }}
                                                         transition={{ delay: 0.2 }}
                                                     >
-                                                        <span className="viewer-category">// {item.category}</span>
+                                                        <span className="viewer-category">{item.category}</span>
                                                         <h1 className="viewer-title">{item.title}</h1>
                                                         <p className="viewer-description">{item.description}</p>
                                                     </motion.div>
@@ -336,7 +335,7 @@ export default function Gallery() {
                                                         transition={{ delay: 0.3 }}
                                                     >
                                                         <div className="meta-item">
-                                                            <span className="meta-label">CLIENT</span>
+                                                            <span className="meta-label">C</span>
                                                             <span className="meta-value">{item.client}</span>
                                                         </div>
                                                         <div className="meta-item">
@@ -344,11 +343,11 @@ export default function Gallery() {
                                                             <span className="meta-value">{item.role}</span>
                                                         </div>
                                                         <div className="meta-item">
-                                                            <span className="meta-label">YEAR</span>
+                                                            <span className="meta-label">Y</span>
                                                             <span className="meta-value">{item.year}</span>
                                                         </div>
                                                         <div className="meta-item">
-                                                            <span className="meta-label">MATERIAL</span>
+                                                            <span className="meta-label">M</span>
                                                             <span className="meta-value">{item.material.toUpperCase()}</span>
                                                         </div>
                                                     </motion.div>
@@ -358,7 +357,7 @@ export default function Gallery() {
                                             {/* RICH CONTENT SECTIONS */}
                                             <div className="viewer-body">
                                                 <div className="viewer-section">
-                                                    <div className="section-label">01 // THE CHALLENGE</div>
+                                                    <div className="section-label">Why</div>
                                                     <motion.p
                                                         className="section-text"
                                                         initial={{ opacity: 0, y: 20 }}
@@ -370,7 +369,7 @@ export default function Gallery() {
                                                 </div>
 
                                                 <div className="viewer-section">
-                                                    <div className="section-label">02 // THE SOLUTION</div>
+                                                    <div className="section-label">How</div>
                                                     <motion.p
                                                         className="section-text"
                                                         initial={{ opacity: 0, y: 20 }}
@@ -405,7 +404,7 @@ export default function Gallery() {
 
                                             <div className="viewer-footer">
                                                 <div className="footer-line" />
-                                                <span className="footer-end">END OF FILE</span>
+                                                <span className="footer-end">—</span>
                                             </div>
                                         </div>
                                     </>
@@ -419,7 +418,7 @@ export default function Gallery() {
             <style>{`
                 .gallery-section {
                     padding: 2rem 0;
-                    background-color: #050505;
+                    background-color: var(--color-bg);
                     color: #fff;
                     position: relative;
                 }
@@ -435,7 +434,7 @@ export default function Gallery() {
                     align-items: center;
                     gap: 1rem;
                     margin-bottom: 2rem;
-                    color: #a3ff12;
+                    color: var(--color-accent);
                     font-family: monospace;
                     font-size: 0.7rem;
                     letter-spacing: 0.2em;
@@ -443,7 +442,7 @@ export default function Gallery() {
 
                 .meta-line {
                     height: 1px;
-                    background: rgba(163, 255, 18, 0.3);
+                    background: rgba(201, 168, 76, 0.4);
                     width: 50px;
                 }
 
@@ -456,7 +455,7 @@ export default function Gallery() {
                 }
 
                 .gallery-title {
-                    font-family: 'Inter', sans-serif;
+                    font-family: var(--font-main);
                     font-size: 5rem;
                     font-weight: 700;
                     line-height: 0.9;
@@ -486,9 +485,9 @@ export default function Gallery() {
                 .gallery-item {
                     position: relative;
                     cursor: pointer;
-                    background: #111;
+                    background: var(--color-bg-deep);
                     overflow: hidden;
-                    border: 1px solid rgba(255,255,255,0.05);
+                    border: 1px solid var(--color-border);
                 }
 
                 .size-small { grid-column: span 1; grid-row: span 1; }
@@ -525,13 +524,13 @@ export default function Gallery() {
                 .hud-overlay {
                     position: absolute;
                     inset: 10px;
-                    border: 1px solid rgba(255,255,255,0.1);
+                    border: 1px solid var(--color-border);
                     z-index: 5;
                     pointer-events: none;
                 }
                 
                 .gallery-item:hover .hud-overlay {
-                    border-color: rgba(163, 255, 18, 0.3);
+                    border-color: rgba(201, 168, 76, 0.45);
                 }
 
                 .hud-corner {
@@ -543,7 +542,7 @@ export default function Gallery() {
                 }
 
                 .gallery-item:hover .hud-corner {
-                    border-color: #a3ff12;
+                    border-color: var(--color-accent);
                 }
 
                 .tl { top: -1px; left: -1px; border-top: 2px solid transparent; border-left: 2px solid transparent; }
@@ -563,7 +562,7 @@ export default function Gallery() {
                 .hud-crosshair::before, .hud-crosshair::after {
                     content: '';
                     position: absolute;
-                    background: #a3ff12;
+                    background: var(--color-accent);
                 }
                 .hud-crosshair::before { top: 9px; left: 0; width: 100%; height: 2px; }
                 .hud-crosshair::after { left: 9px; top: 0; height: 100%; width: 2px; }
@@ -572,7 +571,7 @@ export default function Gallery() {
                     position: absolute;
                     font-family: monospace;
                     font-size: 0.6rem;
-                    color: #a3ff12;
+                    color: var(--color-accent);
                     letter-spacing: 0.1em;
                     opacity: 0;
                     transition: opacity 0.3s;
@@ -587,8 +586,8 @@ export default function Gallery() {
                     left: 0;
                     width: 100%;
                     height: 2px;
-                    background: rgba(163, 255, 18, 0.5);
-                    box-shadow: 0 0 10px #a3ff12;
+                    background: rgba(245, 158, 11, 0.5);
+                    box-shadow: 0 0 10px var(--color-accent);
                     z-index: 10;
                     pointer-events: none;
                 }
@@ -601,18 +600,18 @@ export default function Gallery() {
                 }
 
                 .item-title {
-                    font-family: 'Inter', sans-serif;
+                    font-family: var(--font-main);
                     font-size: 1.5rem;
                     font-weight: 500;
                     margin: 0;
-                    color: #fff;
+                    color: var(--color-on-dark);
                     letter-spacing: -0.02em;
                 }
 
                 .item-category {
                     font-family: monospace;
                     font-size: 0.7rem;
-                    color: #888;
+                    color: rgba(245, 240, 232, 0.65);
                     margin-top: 5px;
                 }
 
@@ -652,7 +651,7 @@ export default function Gallery() {
                     top: 2rem;
                     right: 4vw;
                     z-index: 100;
-                    background: #a3ff12;
+                    background: var(--color-accent);
                     color: #000;
                     border: none;
                     padding: 0.5rem 1rem;
@@ -682,13 +681,13 @@ export default function Gallery() {
                 .viewer-hero {
                     display: grid;
                     grid-template-columns: 1.2fr 1fr;
-                    border-bottom: 1px solid #222;
+                    border-bottom: 1px solid rgba(245, 240, 232, 0.1);
                     min-height: 80vh;
                 }
 
                 .viewer-hero-image-wrapper {
                     position: relative;
-                    border-right: 1px solid #222;
+                    border-right: 1px solid rgba(245, 240, 232, 0.1);
                     overflow: hidden;
                 }
 
@@ -703,8 +702,8 @@ export default function Gallery() {
                 .viewer-overlay-grid {
                     position: absolute;
                     inset: 0;
-                    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                                    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+                    background-image: linear-gradient(rgba(245, 240, 232, 0.04) 1px, transparent 1px),
+                                    linear-gradient(90deg, rgba(245, 240, 232, 0.04) 1px, transparent 1px);
                     background-size: 40px 40px;
                     pointer-events: none;
                 }
@@ -714,11 +713,11 @@ export default function Gallery() {
                     bottom: 2rem;
                     left: 2rem;
                     font-family: monospace;
-                    background: rgba(0,0,0,0.8);
-                    color: #fff;
+                    background: rgba(0, 0, 0, 0.55);
+                    color: var(--color-on-dark);
                     padding: 4px 8px;
                     font-size: 0.7rem;
-                    border: 1px solid rgba(255,255,255,0.2);
+                    border: 1px solid rgba(245, 240, 232, 0.2);
                 }
 
                 .viewer-hero-content {
@@ -726,18 +725,18 @@ export default function Gallery() {
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
-                    background: linear-gradient(to bottom, #0e0e0e, #050505);
+                    background: linear-gradient(to bottom, #242426, var(--color-panel));
                 }
 
                 .viewer-category {
                     display: block;
                     font-family: monospace;
-                    color: #a3ff12;
+                    color: var(--color-accent);
                     margin-bottom: 1rem;
                 }
 
                 .viewer-title {
-                    font-family: 'Playfair Display', serif;
+                    font-family: var(--font-display);
                     font-size: 5rem;
                     font-weight: 400;
                     line-height: 0.95;
@@ -746,7 +745,7 @@ export default function Gallery() {
                 }
 
                 .viewer-description {
-                    font-family: 'Inter', sans-serif;
+                    font-family: var(--font-main);
                     font-size: 1.1rem;
                     line-height: 1.6;
                     color: #aaa;
@@ -758,7 +757,7 @@ export default function Gallery() {
                     display: grid;
                     grid-template-columns: 1fr 1fr;
                     gap: 2rem;
-                    border-top: 1px solid #222;
+                    border-top: 1px solid rgba(245, 240, 232, 0.1);
                     padding-top: 2rem;
                 }
 
@@ -770,14 +769,14 @@ export default function Gallery() {
                 .meta-label {
                     font-family: monospace;
                     font-size: 0.6rem;
-                    color: #555;
+                    color: rgba(245, 240, 232, 0.45);
                     margin-bottom: 0.5rem;
                 }
 
                 .meta-value {
-                    font-family: 'Inter', sans-serif;
+                    font-family: var(--font-main);
                     font-size: 1rem;
-                    color: #fff;
+                    color: var(--color-on-dark);
                 }
 
                 /* Viewer Body (Challenge/Solution) */
@@ -787,7 +786,7 @@ export default function Gallery() {
 
                 .viewer-section {
                     padding: 6rem 4rem;
-                    border-bottom: 1px solid #222;
+                    border-bottom: 1px solid rgba(245, 240, 232, 0.1);
                     display: grid;
                     grid-template-columns: 300px 1fr;
                     gap: 2rem;
@@ -796,15 +795,15 @@ export default function Gallery() {
                 .section-label {
                     font-family: monospace;
                     font-size: 0.8rem;
-                    color: #a3ff12;
+                    color: var(--color-accent);
                     letter-spacing: 0.1em;
                 }
 
                 .section-text {
-                    font-family: 'Inter', sans-serif;
+                    font-family: var(--font-main);
                     font-size: 1.5rem;
                     line-height: 1.5;
-                    color: #ddd;
+                    color: rgba(245, 240, 232, 0.88);
                     max-width: 800px;
                 }
 
@@ -850,13 +849,13 @@ export default function Gallery() {
                 .footer-line {
                     width: 2px;
                     height: 50px;
-                    background: #333;
+                    background: rgba(201, 168, 76, 0.45);
                     margin-bottom: 1rem;
                 }
                 
                 .footer-end {
                     font-family: monospace;
-                    color: #333;
+                    color: rgba(245, 240, 232, 0.45);
                     font-size: 0.8rem;
                 }
 
@@ -872,7 +871,7 @@ export default function Gallery() {
                     
                     /* Viewer Mobile */
                     .viewer-hero { grid-template-columns: 1fr; }
-                    .viewer-hero-image-wrapper { height: 50vh; border-right: none; border-bottom: 1px solid #222; }
+                    .viewer-hero-image-wrapper { height: 50vh; border-right: none; border-bottom: 1px solid rgba(245, 240, 232, 0.1); }
                     .viewer-hero-content { padding: 2rem; }
                     .viewer-title { font-size: 3rem; }
                     .viewer-section { grid-template-columns: 1fr; padding: 3rem 2rem; gap: 1rem; }

@@ -1,291 +1,273 @@
+import { useRef } from 'react';
 import { motion } from 'framer-motion';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Story() {
-  return (
-    <section id="story" className="story-section">
-      <div className="container">
-        {/* Kicker */}
-        <div className="story-kicker-row">
-          <span className="story-kicker-label">Faustin Ahirwe</span>
-          <span className="story-kicker-role">
-            Product & Visual Designer · Digital / Physical systems
-          </span>
-        </div>
+    const sectionRef = useRef(null);
 
-        {/* Main grid: portrait + story */}
-        <div className="story-grid">
-          {/* Left: Portrait / image */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-            className="story-photo-col"
-          >
-            <div className="story-photo-frame">
-              <div className="story-photo-glow" />
-              <div className="story-photo-inner">
-                <img
-                  src="/src/images/ahirwe.jpg"
-                  alt="Portrait of Faustin Ahirwe"
-                  className="story-photo-img"
-                />
-              </div>
+    useGSAP(
+        () => {
+            gsap.from('.story-v2-marquee-inner', {
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 1,
+                },
+                xPercent: -8,
+                ease: 'none',
+            });
 
-              <div className="story-photo-meta">
-                <span className="story-photo-tag">AHIRWE Faustin</span>
+            gsap.from('.story-v2-bento-cell', {
+                scrollTrigger: {
+                    trigger: '.story-v2-bento',
+                    start: 'top 82%',
+                },
+                y: 40,
+                opacity: 0,
+                duration: 0.85,
+                ease: 'power3.out',
+                stagger: 0.1,
+            });
+        },
+        { scope: sectionRef },
+    );
 
-              </div>
+    return (
+        <section id="story" className="story-v2" ref={sectionRef}>
+            <div className="story-v2-marquee" aria-hidden="true">
+                <div className="story-v2-marquee-inner">
+                    <span>— clarity · motion —</span>
+                </div>
             </div>
-          </motion.div>
 
-          {/* Right: Copy */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.9, ease: 'easeOut', delay: 0.1 }}
-            className="story-copy-col"
-          >
-            <h1 className="story-title">Simple ideas. Thoughtful design.</h1>
+            <div className="story-v2-inner container">
+                <div className="story-v2-header">
+                    <span className="story-v2-eyebrow">02</span>
+                    <h2 className="story-v2-title">
+                        Ideas.
+                        <br />
+                        <span className="story-v2-title-dim">Cut.</span>
+                    </h2>
+                </div>
 
+                <div className="story-v2-layout">
+                    <motion.figure
+                        className="story-v2-photo"
+                        initial={{ opacity: 0, rotate: -2, y: 24 }}
+                        whileInView={{ opacity: 1, rotate: -1.5, y: 0 }}
+                        viewport={{ once: true, amount: 0.35 }}
+                        transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                        <div className="story-v2-photo-frame">
+                            <img
+                                src="/src/images/ahirwe.jpg"
+                                alt="Faustin Ahirwe"
+                                className="story-v2-photo-img"
+                            />
+                        </div>
+                        <figcaption className="story-v2-caption">FA</figcaption>
+                    </motion.figure>
 
-
-
-            <div className="story-concept-grid">
-              <div className="story-concept-block">
-                <span className="story-concept-label">Design pillars</span>
-                <ul>
-                  <li>Clarity over decoration</li>
-                  <li>Systems, not screens</li>
-                  <li>Motion with purpose</li>
-                </ul>
-              </div>
-              <div className="story-concept-block">
-                <span className="story-concept-label">Modes I work in</span>
-                <ul>
-                  <li>Product & UX strategy</li>
-                  <li>Visual & brand direction</li>
-                  <li>3D / CMF exploration</li>
-                </ul>
-              </div>
+                    <div className="story-v2-bento">
+                        <div className="story-v2-bento-cell story-v2-bento-wide">
+                            <p className="story-v2-lead">Strategy → UI → ship.</p>
+                        </div>
+                        <div className="story-v2-bento-cell">
+                            <span className="story-v2-cell-label">—</span>
+                            <ul className="story-v2-list">
+                                <li>Clarity</li>
+                                <li>Systems</li>
+                                <li>Motion</li>
+                            </ul>
+                        </div>
+                        <div className="story-v2-bento-cell">
+                            <span className="story-v2-cell-label">—</span>
+                            <ul className="story-v2-list">
+                                <li>Product</li>
+                                <li>Brand</li>
+                                <li>3D</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </motion.div>
-        </div>
-      </div>
 
-      <style>{`
-        .story-section {
-          background-color: #050505;
-          color: #ffffff;
-          padding: 8rem 2rem;
+            <style>{`
+        .story-v2 {
           position: relative;
-          z-index: 5;
+          background: var(--color-bg);
+          color: var(--color-text);
+          padding: 0 0 clamp(5rem, 12vw, 8rem);
+          overflow: hidden;
         }
 
-        .container {
+        .story-v2-marquee {
+          border-block: 1px solid var(--color-border);
+          padding: 1.25rem 0;
+          margin-bottom: clamp(3rem, 8vw, 5rem);
+          overflow: hidden;
+        }
+
+        .story-v2-marquee-inner {
+          display: flex;
+          white-space: nowrap;
+          font-family: ui-monospace, monospace;
+          font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+          letter-spacing: 0.35em;
+          text-transform: uppercase;
+          color: var(--color-text-muted);
+          gap: 3rem;
+        }
+
+        .story-v2-marquee-inner span {
+          flex-shrink: 0;
+        }
+
+        .story-v2-inner.container {
           max-width: 1400px;
           margin: 0 auto;
+          padding: 0 clamp(1.25rem, 4vw, 2.5rem);
         }
 
-        .story-kicker-row {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 1.5rem;
-          align-items: center;
-          margin-bottom: 3rem;
-          font-size: 0.8rem;
-          letter-spacing: 0.18em;
+        .story-v2-header {
+          margin-bottom: clamp(2.5rem, 6vw, 4rem);
+        }
+
+        .story-v2-eyebrow {
+          display: inline-block;
+          font-family: ui-monospace, monospace;
+          font-size: 0.72rem;
+          letter-spacing: 0.2em;
           text-transform: uppercase;
-          font-family: monospace;
-          color: #777;
+          color: var(--color-accent);
+          margin-bottom: 1.25rem;
         }
 
-        .story-kicker-label {
-          padding: 0.4rem 1rem;
-          border-radius: 999px;
-          border: 1px solid rgba(255, 255, 255, 0.18);
-          background: rgba(255, 255, 255, 0.02);
-          color: #e0e0e0;
+        .story-v2-title {
+          font-family: var(--font-display);
+          font-size: clamp(2.1rem, 5.5vw, 4rem);
+          font-weight: 800;
+          line-height: 1.05;
+          letter-spacing: -0.04em;
+          margin: 0;
         }
 
-        .story-kicker-role {
-          opacity: 0.9;
+        .story-v2-title-dim {
+          color: var(--color-text-muted);
         }
 
-        .story-grid {
+        .story-v2-layout {
           display: grid;
-          grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.6fr);
-          gap: 4rem;
-          align-items: center;
+          grid-template-columns: minmax(0, 0.42fr) minmax(0, 1fr);
+          gap: clamp(2rem, 5vw, 4rem);
+          align-items: start;
         }
 
-        .story-photo-col {
-          display: flex;
-          justify-content: flex-start;
+        .story-v2-photo {
+          margin: 0;
+          position: sticky;
+          top: 8rem;
         }
 
-        .story-photo-frame {
-          position: relative;
-          max-width: 420px;
-          width: 100%;
-          border-radius: 1.75rem;
-          padding: 1.2rem;
-          background: radial-gradient(circle at 0 0, rgba(163, 255, 18, 0.2), transparent 60%),
-            linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.9));
-          border: 1px solid rgba(255, 255, 255, 0.18);
-          box-shadow:
-            0 22px 50px rgba(0, 0, 0, 0.85),
-            0 0 40px rgba(163, 255, 18, 0.08);
-          overflow: hidden;
-        }
-
-        .story-photo-glow {
-          position: absolute;
-          inset: -40%;
-          background:
-            radial-gradient(circle at 20% 0%, rgba(163, 255, 18, 0.25), transparent 60%),
-            radial-gradient(circle at 90% 80%, rgba(77, 166, 255, 0.18), transparent 60%);
-          mix-blend-mode: screen;
-          opacity: 0.7;
-          pointer-events: none;
-        }
-
-        .story-photo-inner {
-          position: relative;
+        .story-v2-photo-frame {
           border-radius: 1.25rem;
           overflow: hidden;
-          background: radial-gradient(circle at 50% 0%, #1a1a1a, #050505);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: var(--color-bg-deep);
+          box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
         }
 
-        .story-photo-img {
+        .story-v2-photo-img {
           display: block;
           width: 100%;
-          height: 100%;
+          height: auto;
+          aspect-ratio: 3 / 4;
           object-fit: cover;
-          transform: scale(1.02);
         }
 
-        .story-photo-meta {
-          position: absolute;
-          bottom: 1.4rem;
-          left: 1.6rem;
-          right: 1.6rem;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          font-size: 0.7rem;
-          letter-spacing: 0.16em;
+        .story-v2-caption {
+          margin-top: 1rem;
+          font-family: ui-monospace, monospace;
+          font-size: 0.68rem;
+          letter-spacing: 0.12em;
           text-transform: uppercase;
-          font-family: monospace;
-          color: #f5f5f5;
+          color: var(--color-text-muted);
         }
 
-        .story-photo-tag {
-          padding: 0.2rem 0.8rem;
-          border-radius: 999px;
-          background: rgba(0, 0, 0, 0.75);
-          border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .story-photo-year {
-          color: #a3ff12;
-        }
-
-        .story-copy-col {
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-        }
-
-        .story-title {
-          font-size: clamp(2.4rem, 4vw, 3.2rem);
-          font-weight: 700;
-          letter-spacing: -0.04em;
-          color: #f3f3f3;
-          margin: 0;
-        }
-
-        .story-body {
-          font-size: 1.05rem;
-          line-height: 1.8;
-          color: #c7c7c7;
-          max-width: 36rem;
-        }
-
-        .story-concept-grid {
+        .story-v2-bento {
           display: grid;
           grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 2rem;
-          margin-top: 1rem;
-          padding-top: 1.5rem;
-          border-top: 1px solid rgba(255, 255, 255, 0.12);
+          gap: 1rem;
         }
 
-        .story-concept-block {
-          font-size: 0.9rem;
-          color: #b8b8b8;
+        .story-v2-bento-wide {
+          grid-column: 1 / -1;
         }
 
-        .story-concept-label {
-          display: block;
-          font-family: monospace;
-          font-size: 0.7rem;
-          text-transform: uppercase;
-          letter-spacing: 0.18em;
-          color: #7a7a7a;
-          margin-bottom: 0.6rem;
+        .story-v2-bento-cell {
+          padding: 1.5rem 1.75rem;
+          border-radius: 1rem;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: rgba(255, 255, 255, 0.02);
         }
 
-        .story-concept-block ul {
-          list-style: none;
-          padding: 0;
+        .story-v2-lead {
           margin: 0;
+          font-size: clamp(1.05rem, 1.35vw, 1.2rem);
+          line-height: 1.65;
+          color: var(--color-text-dim);
+          max-width: 42rem;
+        }
+
+        .story-v2-cell-label {
+          display: block;
+          font-family: ui-monospace, monospace;
+          font-size: 0.65rem;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: var(--color-text-muted);
+          margin-bottom: 1rem;
+        }
+
+        .story-v2-list {
+          list-style: none;
+          margin: 0;
+          padding: 0;
           display: flex;
           flex-direction: column;
-          gap: 0.25rem;
+          gap: 0.5rem;
+          font-size: 0.95rem;
+          color: var(--color-text-dim);
         }
 
-        .story-concept-block li::before {
+        .story-v2-list li::before {
           content: '—';
-          margin-right: 0.4rem;
-          color: #a3ff12;
+          margin-right: 0.5rem;
+          color: var(--color-accent);
         }
 
-        @media (max-width: 1024px) {
-          .story-section {
-            padding-inline: 1.5rem;
+        @media (max-width: 960px) {
+          .story-v2-layout {
+            grid-template-columns: 1fr;
           }
-
-          .story-grid {
-            grid-template-columns: minmax(0, 1fr);
+          .story-v2-photo {
+            position: relative;
+            top: auto;
+            max-width: 360px;
           }
-
-          .story-photo-col {
-            justify-content: center;
+          .story-v2-bento {
+            grid-template-columns: 1fr;
           }
-
-          .story-copy-col {
-            margin-top: 2rem;
-          }
-        }
-
-        @media (max-width: 640px) {
-          .story-section {
-            padding-top: 6rem;
-            padding-bottom: 6rem;
-          }
-
-          .story-kicker-row {
-            flex-direction: column;
-            align-items: flex-start;
-          }
-
-          .story-concept-grid {
-            grid-template-columns: minmax(0, 1fr);
+          .story-v2-bento-wide {
+            grid-column: auto;
           }
         }
       `}</style>
-    </section>
-  );
+        </section>
+    );
 }
